@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization - only create client when needed
+let openai: OpenAI | null = null;
+
+function getOpenAI() {
+  if (!openai) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("OPENAI_API_KEY environment variable is not set");
+    }
+    openai = new OpenAI({ apiKey });
+  }
+  return openai;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -74,7 +84,7 @@ Return ONLY valid JSON in this exact format:
 
 Sort tasks by ROI (highest first). Be realistic with time estimates. Return only the JSON, no markdown or explanation.`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
