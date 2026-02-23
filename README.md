@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BlakeMcGinn.com
+
+AI Consulting landing page with animated mesh gradient background, service tools grid, and AI readiness quiz.
+
+## Features
+
+- **Animated Mesh Gradient Background** — Subtle, professional animation using CSS
+- **Responsive Navigation** — Fixed header with blur effect on scroll
+- **Hero Section** — Value proposition with CTAs and social proof stats
+- **Tools Grid** — 6 service cards with hover effects
+- **AI Readiness Quiz** — 5-question assessment with personalized results
+- **About Section** — Bio and credibility markers
+- **Footer** — Newsletter signup and navigation links
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Animation:** Framer Motion
+- **Icons:** Lucide React
+- **Font:** Inter (via Next.js)
 
 ## Getting Started
 
-First, run the development server:
+### Development
 
 ```bash
+cd blakemcginn-com
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Static files output to `dist/` directory.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Option 1: Vercel (Recommended)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push to GitHub
+2. Import to [Vercel](https://vercel.com)
+3. Connect custom domain `blakemcginn.com`
 
-## Deploy on Vercel
+### Option 2: Static Hosting
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Upload contents of `dist/` folder to:
+- Netlify
+- Cloudflare Pages
+- AWS S3 + CloudFront
+- Any static host
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Customization
+
+### Colors
+Edit `src/app/globals.css`:
+- `--background`: Main background (#0a0a0f)
+- `--accent-cyan`: Primary accent (#00d4ff)
+- `--accent-purple`: Secondary accent (#7b2cbf)
+
+### Content
+- **Hero:** Edit `src/app/components/Hero.tsx`
+- **Tools:** Edit `src/app/components/ToolsGrid.tsx`
+- **Quiz:** Edit `src/app/components/Quiz.tsx`
+- **About:** Edit `src/app/components/About.tsx`
+
+### Add Your Photo
+Replace the placeholder in `src/app/components/About.tsx`:
+
+```tsx
+<div className="aspect-square rounded-3xl overflow-hidden">
+  <img 
+    src="/your-photo.jpg" 
+    alt="Blake McGinn"
+    className="w-full h-full object-cover"
+  />
+</div>
+```
+
+### Connect Calendly
+Update the Calendly link in `src/app/components/Quiz.tsx`:
+
+```tsx
+<a href="https://calendly.com/YOUR_LINK" ...>
+```
+
+## Quiz Scoring
+
+The quiz calculates a score from 0-20 based on answers:
+- **0-6:** Explorer — Start with basics
+- **7-12:** Builder — Ready for automation
+- **13-20:** Transformer — Full AI transformation
+
+## Project Structure
+
+```
+blakemcginn-com/
+├── src/
+│   └── app/
+│       ├── components/
+│       │   ├── Navigation.tsx    # Fixed header
+│       │   ├── Hero.tsx          # Hero section
+│       │   ├── ToolsGrid.tsx     # 6 service cards
+│       │   ├── Quiz.tsx          # AI readiness quiz
+│       │   ├── About.tsx         # Bio section
+│       │   └── Footer.tsx        # Footer with newsletter
+│       ├── globals.css           # Global styles + animations
+│       ├── layout.tsx            # Root layout
+│       └── page.tsx              # Main page
+├── dist/                         # Build output
+└── next.config.ts                # Next.js config
+```
+
+## License
+
+MIT

@@ -17,9 +17,11 @@ export default function Navigation() {
   }, []);
 
   const navLinks = [
+    { name: "How It Works", href: "#workflows" },
+    { name: "Skills", href: "#skills" },
+    { name: "Pricing", href: "#pricing" },
+    { name: "Security", href: "#security" },
     { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Quiz", href: "#quiz" },
   ];
 
   return (
@@ -36,12 +38,12 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="text-xl font-semibold text-white tracking-tight">
+          <a href="/" className="text-xl font-semibold text-white tracking-tight">
             Blake McGinn
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -52,16 +54,16 @@ export default function Navigation() {
               </a>
             ))}
             <a
-              href="#quiz"
+              href="/assessment"
               className="px-5 py-2.5 text-sm font-medium text-white rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] hover:opacity-90 transition-opacity duration-200"
             >
-              Book a Call
+              Analyze Your Tasks
             </a>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-white p-2"
+            className="lg:hidden text-white p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -74,7 +76,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden pb-6"
+            className="lg:hidden pb-6"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -88,11 +90,11 @@ export default function Navigation() {
                 </a>
               ))}
               <a
-                href="#quiz"
+                href="/assessment"
                 className="mt-2 px-5 py-2.5 text-center text-sm font-medium text-white rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Book a Call
+                Analyze Your Tasks
               </a>
             </div>
           </motion.div>

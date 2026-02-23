@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, Bot, Clock, Shield } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -14,7 +14,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-sm font-medium text-[#00d4ff] tracking-wider uppercase mb-6"
         >
-          AI Marketing Consultant
+          AI Agent Consultant
         </motion.p>
 
         {/* Headline */}
@@ -24,8 +24,8 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-6"
         >
-          AI Marketing That{" "}
-          <span className="gradient-text">Actually Works</span>
+          Hire AI Employees{" "}
+          <span className="gradient-text">Starting at $300</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -35,29 +35,50 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-lg sm:text-xl text-[#9ca3af] max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          I help businesses implement AI that drives real results — not hype, 
-          not experiments, but systems that scale.
+          Build a team of AI agents that work 24/7, never call in sick, 
+          and handle the repetitive tasks eating your time.
         </motion.p>
+
+        {/* Value Props */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-wrap justify-center gap-6 mb-10"
+        >
+          <div className="flex items-center gap-2 text-[#9ca3af]">
+            <Bot className="w-5 h-5 text-[#00d4ff]" />
+            <span>Custom AI Agents</span>
+          </div>
+          <div className="flex items-center gap-2 text-[#9ca3af]">
+            <Clock className="w-5 h-5 text-[#00d4ff]" />
+            <span>24/7 Operation</span>
+          </div>
+          <div className="flex items-center gap-2 text-[#9ca3af]">
+            <Shield className="w-5 h-5 text-[#00d4ff]" />
+            <span>Secure & Private</span>
+          </div>
+        </motion.div>
 
         {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <a
-            href="#quiz"
+            href="/assessment"
             className="group px-8 py-4 text-base font-semibold text-white rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] hover:opacity-90 transition-all duration-200 flex items-center gap-2"
           >
-            Take the AI Readiness Quiz
+            Analyze Your Tasks
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
           </a>
           <a
-            href="#services"
+            href="#pricing"
             className="px-8 py-4 text-base font-semibold text-white rounded-full border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-200"
           >
-            View Services
+            View Pricing
           </a>
         </motion.div>
 
@@ -65,20 +86,20 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto"
         >
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold gradient-text">50+</div>
-            <div className="text-sm text-[#9ca3af] mt-1">Clients Served</div>
+            <div className="text-3xl sm:text-4xl font-bold gradient-text">$0.50</div>
+            <div className="text-sm text-[#9ca3af] mt-1">Per Hour of Work</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold gradient-text">3x</div>
-            <div className="text-sm text-[#9ca3af] mt-1">Avg Efficiency Gain</div>
+            <div className="text-3xl sm:text-4xl font-bold gradient-text">24/7</div>
+            <div className="text-sm text-[#9ca3af] mt-1">Always On</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold gradient-text">5+</div>
-            <div className="text-sm text-[#9ca3af] mt-1">Years Experience</div>
+            <div className="text-3xl sm:text-4xl font-bold gradient-text">10x</div>
+            <div className="text-sm text-[#9ca3af] mt-1">Faster Response</div>
           </div>
         </motion.div>
       </div>
