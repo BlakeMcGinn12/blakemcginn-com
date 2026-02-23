@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0f;
+  --background-secondary: #12121a;
+  --foreground: #f5f5f5;
+  --foreground-secondary: #9ca3af;
+  --accent-cyan: #00d4ff;
+  --accent-purple: #7b2cbf;
+  --accent-pink: #ff006e;
+  --border: #27272a;
+  --success: #22c55e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-background-secondary: var(--background-secondary);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-pink: var(--accent-pink);
+  --color-border: var(--border);
+  --color-success: var(--success);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Animated mesh gradient background */
+.mesh-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  animation: float 30s ease-in-out infinite;
+}
+
+.mesh-blob-1 {
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+  top: -200px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.mesh-blob-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #7b2cbf, #ff006e);
+  top: 40%;
+  right: -150px;
+  animation-delay: -10s;
+}
+
+.mesh-blob-3 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #00d4ff, #ff006e);
+  bottom: -100px;
+  left: 30%;
+  animation-delay: -20s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.05);
+  }
+  50% {
+    transform: translate(-30px, 50px) scale(0.95);
+  }
+  75% {
+    transform: translate(-50px, -20px) scale(1.02);
+  }
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #00d4ff, #7b2cbf, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient border utility */
+.gradient-border {
+  position: relative;
+  background: #12121a;
+  border-radius: 16px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }
