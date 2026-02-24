@@ -6,13 +6,8 @@ export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    console.log("InteractiveBackground mounted");
     const canvas = canvasRef.current;
-    if (!canvas) {
-      console.error("Canvas ref is null");
-      return;
-    }
-    console.log("Canvas found:", canvas);
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -21,14 +16,14 @@ export default function InteractiveBackground() {
     let mouseX = -1000;
     let mouseY = -1000;
 
-    // Configuration - INCREASED VISIBILITY
+    // Configuration - SUBTLE & SMOOTH
     const config = {
-      dotSize: 3,
-      dotSpacing: 30,
-      mouseRadius: 250,
-      moveStrength: 50,
-      returnSpeed: 0.15,
-      opacity: 0.25,
+      dotSize: 2,
+      dotSpacing: 40,
+      mouseRadius: 120,
+      moveStrength: 15,
+      returnSpeed: 0.05,
+      opacity: 0.08,
     };
 
     // Calculate grid
@@ -73,26 +68,26 @@ export default function InteractiveBackground() {
         const dy = mouseY - dot.originY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
+        // Calculate target position
+        let targetX = dot.originX;
+        let targetY = dot.originY;
+        
         // Move dot away from mouse if within radius
         if (distance < config.mouseRadius && distance > 0) {
           const force = (1 - distance / config.mouseRadius) * config.moveStrength;
           const angle = Math.atan2(dy, dx);
-          const targetX = dot.originX - Math.cos(angle) * force;
-          const targetY = dot.originY - Math.sin(angle) * force;
-          
-          dot.x += (targetX - dot.x) * 0.2;
-          dot.y += (targetY - dot.y) * 0.2;
-        } else {
-          // Return to original position
-          dot.x += (dot.originX - dot.x) * config.returnSpeed;
-          dot.y += (dot.originY - dot.y) * config.returnSpeed;
+          targetX = dot.originX - Math.cos(angle) * force;
+          targetY = dot.originY - Math.sin(angle) * force;
         }
+        
+        // Smooth easing toward target (same speed for move and return)
+        dot.x += (targetX - dot.x) * config.returnSpeed;
+        dot.y += (targetY - dot.y) * config.returnSpeed;
 
-        // Draw dot with higher visibility
+        // Draw dot - subtle
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, config.dotSize, 0, Math.PI * 2);
-        // Use a slightly blue-tinted dark color for better visibility
-        ctx.fillStyle = `rgba(30, 58, 138, ${config.opacity})`; // blue-900 with opacity
+        ctx.fillStyle = `rgba(0, 0, 0, ${config.opacity})`;
         ctx.fill();
       });
 
