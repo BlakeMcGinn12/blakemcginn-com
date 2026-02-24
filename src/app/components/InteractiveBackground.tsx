@@ -16,27 +16,35 @@ export default function InteractiveBackground() {
     let mouseX = -1000;
     let mouseY = -1000;
 
-    // Configuration - SUBTLE & SMOOTH
+    // Configuration - VERY SUBTLE
     const config = {
       dotSize: 2,
       dotSpacing: 40,
-      mouseRadius: 120,
-      moveStrength: 15,
-      returnSpeed: 0.05,
-      opacity: 0.08,
+      mouseRadius: 80,        // Smaller radius
+      moveStrength: 8,        // Much less displacement
+      easing: 0.02,           // Slower, smoother
+      opacity: 0.04,          // 50% more transparent (was 0.08)
     };
 
-    // Calculate grid
-    let cols: number;
-    let rows: number;
     let dots: { x: number; y: number; originX: number; originY: number }[] = [];
 
     const initDots = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      // Set canvas to actual pixel size
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
       
-      cols = Math.ceil(canvas.width / config.dotSpacing) + 1;
-      rows = Math.ceil(canvas.height / config.dotSpacing) + 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      // Scale context for retina displays
+      ctx.scale(dpr, dpr);
+      
+      // Reset scale for calculations
+      const width = rect.width;
+      const height = rect.height;
+      
+      const cols = Math.ceil(width / config.dotSpacing) + 1;
+      const rows = Math.ceil(height / config.dotSpacing) + 1;
       
       dots = [];
       for (let i = 0; i < cols; i++) {
@@ -50,6 +58,7 @@ export default function InteractiveBackground() {
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
+      // Get mouse position relative to canvas
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
     };
@@ -60,31 +69,38 @@ export default function InteractiveBackground() {
     };
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
 
       dots.forEach((dot) => {
-        // Calculate distance from mouse
+        // Calculate distance from mouse to dot's ORIGIN position
         const dx = mouseX - dot.originX;
         const dy = mouseY - dot.originY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Calculate target position
+        // Calculate target position (where dot wants to be)
         let targetX = dot.originX;
         let targetY = dot.originY;
         
-        // Move dot away from mouse if within radius
+        // If mouse is close, push dot away from mouse
         if (distance < config.mouseRadius && distance > 0) {
-          const force = (1 - distance / config.mouseRadius) * config.moveStrength;
+          // Push away from mouse (not toward)
+          const pushFactor = (1 - distance / config.mouseRadius);
+          const force = pushFactor * config.moveStrength;
+          
+          // Calculate angle from mouse to dot
           const angle = Math.atan2(dy, dx);
+          
+          // Push in opposite direction (away from mouse)
           targetX = dot.originX - Math.cos(angle) * force;
           targetY = dot.originY - Math.sin(angle) * force;
         }
         
-        // Smooth easing toward target (same speed for move and return)
-        dot.x += (targetX - dot.x) * config.returnSpeed;
-        dot.y += (targetY - dot.y) * config.returnSpeed;
+        // Smooth easing - always move toward target
+        dot.x += (targetX - dot.x) * config.easing;
+        dot.y += (targetY - dot.y) * config.easing;
 
-        // Draw dot - subtle
+        // Draw dot
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, config.dotSize, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(0, 0, 0, ${config.opacity})`;
@@ -117,7 +133,6 @@ export default function InteractiveBackground() {
       className="absolute inset-0 pointer-events-auto"
       style={{ 
         zIndex: 0,
-        opacity: 1,
         width: '100%',
         height: '100%',
       }}
