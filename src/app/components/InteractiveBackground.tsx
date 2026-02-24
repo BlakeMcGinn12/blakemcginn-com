@@ -23,7 +23,7 @@ export default function InteractiveBackground() {
       mouseRadius: 80,        // Smaller radius
       moveStrength: 8,        // Much less displacement
       easing: 0.02,           // Slower, smoother
-      opacity: 0.04,          // 50% more transparent (was 0.08)
+      opacity: 0.06,          // Slightly more visible
     };
 
     let dots: { x: number; y: number; originX: number; originY: number }[] = [];
@@ -101,7 +101,7 @@ export default function InteractiveBackground() {
         // Draw dot
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, config.dotSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 0, 0, ${config.opacity})`;
+        ctx.fillStyle = `rgba(51, 65, 85, ${config.opacity})`; // slate-700 for better visibility
         ctx.fill();
       });
 
