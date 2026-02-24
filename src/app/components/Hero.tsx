@@ -161,6 +161,7 @@ export default function Hero() {
           animation: marquee 30s linear infinite;
         }
       `}</style>
+    </div>
     </section>
   );
 }
