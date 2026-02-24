@@ -36,7 +36,6 @@ export default function InteractiveBackground() {
       const rect = parent.getBoundingClientRect();
       const width = rect.width;
       const height = rect.height;
-      
       // Set canvas internal size to match display size (no DPR scaling for simpler math)
       canvas.width = width;
       canvas.height = height;
