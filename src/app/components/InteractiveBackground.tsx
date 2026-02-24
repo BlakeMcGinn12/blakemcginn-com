@@ -21,14 +21,14 @@ export default function InteractiveBackground() {
     let mouseX = -1000;
     let mouseY = -1000;
 
-    // Configuration
+    // Configuration - INCREASED VISIBILITY
     const config = {
-      dotSize: 2.5,
-      dotSpacing: 35,
-      mouseRadius: 200,
-      moveStrength: 40,
-      returnSpeed: 0.1,
-      opacity: 0.15,
+      dotSize: 3,
+      dotSpacing: 30,
+      mouseRadius: 250,
+      moveStrength: 50,
+      returnSpeed: 0.15,
+      opacity: 0.25,
     };
 
     // Calculate grid
@@ -88,10 +88,11 @@ export default function InteractiveBackground() {
           dot.y += (dot.originY - dot.y) * config.returnSpeed;
         }
 
-        // Draw dot
+        // Draw dot with higher visibility
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, config.dotSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 0, 0, ${config.opacity})`;
+        // Use a slightly blue-tinted dark color for better visibility
+        ctx.fillStyle = `rgba(30, 58, 138, ${config.opacity})`; // blue-900 with opacity
         ctx.fill();
       });
 
@@ -122,6 +123,8 @@ export default function InteractiveBackground() {
       style={{ 
         zIndex: 0,
         opacity: 1,
+        width: '100%',
+        height: '100%',
       }}
     />
   );
