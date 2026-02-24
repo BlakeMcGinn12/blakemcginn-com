@@ -2,92 +2,98 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { 
-  Mail, 
-  MessageSquare, 
-  Calendar, 
-  FileText, 
-  Search, 
-  BarChart3,
-  Database,
-  Globe,
-  Image,
-  Video,
-  Phone,
-  Clipboard,
-  TrendingUp,
-  Users,
-  Share2,
-  Code,
-  Lock,
-  Zap,
-  Cpu
-} from "lucide-react";
+import { Check, Plus, Send, X, Mail, ArrowRight } from "lucide-react";
 
 const categories = [
-  { id: "all", label: "All Skills" },
   { id: "communication", label: "Communication" },
   { id: "research", label: "Research" },
   { id: "content", label: "Content" },
-  { id: "data", label: "Data" },
-  { id: "sales", label: "Sales" }
+  { id: "data", label: "Data & Reports" },
+  { id: "sales", label: "Sales & CRM" },
+  { id: "operations", label: "Operations" },
 ];
 
 const skills = [
   // Communication
-  { name: "Email Drafting", icon: Mail, category: "communication", popular: true },
-  { name: "Slack Messaging", icon: MessageSquare, category: "communication" },
-  { name: "Calendar Scheduling", icon: Calendar, category: "communication", popular: true },
-  { name: "Meeting Transcription", icon: FileText, category: "communication" },
-  { name: "Follow-up Reminders", icon: Zap, category: "communication" },
-  { name: "SMS Automation", icon: Phone, category: "communication" },
+  { name: "Email Management", category: "communication", icon: "📧", popular: true },
+  { name: "Calendar Scheduling", category: "communication", icon: "📅", popular: true },
+  { name: "Meeting Notes", category: "communication", icon: "📝" },
+  { name: "Slack Responses", category: "communication", icon: "💬" },
+  { name: "SMS Automation", category: "communication", icon: "📱" },
+  { name: "Voice Transcription", category: "communication", icon: "🎤" },
   
   // Research
-  { name: "Web Scraping", icon: Globe, category: "research", popular: true },
-  { name: "Competitor Monitoring", icon: Search, category: "research", popular: true },
-  { name: "Price Tracking", icon: TrendingUp, category: "research" },
-  { name: "News Aggregation", icon: FileText, category: "research" },
-  { name: "Trend Analysis", icon: BarChart3, category: "research" },
-  { name: "Report Generation", icon: Clipboard, category: "research" },
+  { name: "Market Research", category: "research", icon: "🔍", popular: true },
+  { name: "Competitor Analysis", category: "research", icon: "📊", popular: true },
+  { name: "News Monitoring", category: "research", icon: "📰" },
+  { name: "Trend Tracking", category: "research", icon: "📈" },
+  { name: "Price Monitoring", category: "research", icon: "💰" },
+  { name: "Report Generation", category: "research", icon: "📑" },
   
   // Content
-  { name: "Blog Writing", icon: FileText, category: "content", popular: true },
-  { name: "Social Posts", icon: Share2, category: "content", popular: true },
-  { name: "Image Generation", icon: Image, category: "content" },
-  { name: "Video Scripts", icon: Video, category: "content" },
-  { name: "Email Sequences", icon: Mail, category: "content" },
-  { name: "Ad Copy", icon: Zap, category: "content" },
+  { name: "Blog Writing", category: "content", icon: "✍️", popular: true },
+  { name: "Social Media Posts", category: "content", icon: "📱", popular: true },
+  { name: "Email Newsletters", category: "content", icon: "📧" },
+  { name: "Ad Copy", category: "content", icon: "🎯" },
+  { name: "Video Scripts", category: "content", icon: "🎬" },
+  { name: "Proposal Drafting", category: "content", icon: "📄" },
   
   // Data
-  { name: "Spreadsheet Management", icon: Database, category: "data" },
-  { name: "Data Cleaning", icon: Code, category: "data" },
-  { name: "Report Building", icon: BarChart3, category: "data" },
-  { name: "CRM Updates", icon: Users, category: "data", popular: true },
-  { name: "Analytics Summaries", icon: TrendingUp, category: "data" },
-  { name: "Database Queries", icon: Lock, category: "data" },
+  { name: "Spreadsheet Automation", category: "data", icon: "📊" },
+  { name: "Data Entry", category: "data", icon: "⌨️" },
+  { name: "Report Building", category: "data", icon: "📈" },
+  { name: "CRM Updates", category: "data", icon: "🗄️", popular: true },
+  { name: "Analytics Summaries", category: "data", icon: "📉" },
+  { name: "Invoice Processing", category: "data", icon: "🧾" },
   
   // Sales
-  { name: "Lead Qualification", icon: Users, category: "sales", popular: true },
-  { name: "Proposal Generation", icon: FileText, category: "sales" },
-  { name: "Contract Drafting", icon: Clipboard, category: "sales" },
-  { name: "Pipeline Updates", icon: TrendingUp, category: "sales" },
-  { name: "Follow-up Sequences", icon: Mail, category: "sales", popular: true },
-  { name: "Demo Scheduling", icon: Calendar, category: "sales" }
+  { name: "Lead Qualification", category: "sales", icon: "🎯", popular: true },
+  { name: "Proposal Generation", category: "sales", icon: "📋" },
+  { name: "Follow-up Sequences", category: "sales", icon: "🔄", popular: true },
+  { name: "Demo Scheduling", category: "sales", icon: "🤝" },
+  { name: "Contract Drafting", category: "sales", icon: "⚖️" },
+  { name: "Pipeline Updates", category: "sales", icon: "🔄" },
+  
+  // Operations
+  { name: "Task Management", category: "operations", icon: "✅" },
+  { name: "Document Processing", category: "operations", icon: "📁" },
+  { name: "Onboarding Flows", category: "operations", icon: "👋" },
+  { name: "Inventory Tracking", category: "operations", icon: "📦" },
+  { name: "Approval Workflows", category: "operations", icon: "✓" },
+  { name: "Compliance Checks", category: "operations", icon: "🛡️" },
 ];
 
 export default function SkillsGrid() {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const [interestedSkills, setInterestedSkills] = useState<string[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const filteredSkills = activeCategory === "all" 
     ? skills 
     : skills.filter(s => s.category === activeCategory);
 
-  const popularCount = skills.filter(s => s.popular).length;
+  const toggleSkill = (skillName: string) => {
+    setInterestedSkills(prev => 
+      prev.includes(skillName) 
+        ? prev.filter(s => s !== skillName)
+        : [...prev, skillName]
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email && interestedSkills.length > 0) {
+      // TODO: Send to your backend/email service
+      console.log({ email, interestedSkills });
+      setSubmitted(true);
+    }
+  };
 
   return (
-    <section id="skills" className="py-24 lg:py-32 px-6 lg:px-8 bg-gradient-to-b from-[#0a0a0f] to-[#12121a]">
-      <div className="max-w-7xl mx-auto">
+    <section id="skills" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -96,14 +102,15 @@ export default function SkillsGrid() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="text-sm font-medium text-[#00d4ff] tracking-wider uppercase mb-4">
-            Capabilities
+          <p className="text-sm font-medium text-blue-700 tracking-wider uppercase mb-4">
+            What We Can Build
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            100+ Skills Your AI Agents Can Learn
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            36+ Skills Your AI Assistant Can Learn
           </h2>
-          <p className="text-lg text-[#9ca3af] max-w-2xl mx-auto">
-            From email management to complex research — your agents can handle it all
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Click the skills you&apos;re interested in. We&apos;ll build a custom solution 
+            for exactly what you need.
           </p>
         </motion.div>
 
@@ -112,17 +119,27 @@ export default function SkillsGrid() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex flex-wrap justify-center gap-2 mb-10"
         >
+          <button
+            onClick={() => setActiveCategory("all")}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeCategory === "all"
+                ? "bg-blue-700 text-white"
+                : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+            }`}
+          >
+            All Skills
+          </button>
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === cat.id
-                  ? "bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white"
-                  : "bg-[#12121a] text-[#9ca3af] hover:text-white border border-[#27272a]"
+                  ? "bg-blue-700 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
               {cat.label}
@@ -135,98 +152,140 @@ export default function SkillsGrid() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12"
         >
-          {filteredSkills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.02 }}
-              onMouseEnter={() => setHoveredSkill(skill.name)}
-              onMouseLeave={() => setHoveredSkill(null)}
-              className={`relative p-4 rounded-xl border transition-all duration-200 cursor-default ${
-                hoveredSkill === skill.name
-                  ? "bg-[#1a1a24] border-[#00d4ff]/50"
-                  : "bg-[#12121a] border-[#27272a]"
-              }`}
-            >
-              {skill.popular && (
-                <span className="absolute -top-2 -right-2 bg-[#00d4ff] text-[#0a0a0f] text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  POPULAR
-                </span>
-              )}
-              <div className="flex flex-col items-center text-center">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${
-                  skill.popular 
-                    ? "bg-gradient-to-br from-[#00d4ff]/20 to-[#7b2cbf]/20"
-                    : "bg-[#0a0a0f]"
-                }`}>
-                  <skill.icon className={`w-5 h-5 ${
-                    skill.popular ? "text-[#00d4ff]" : "text-[#9ca3af]"
-                  }`} />
-                </div>
-                <span className="text-sm text-white font-medium">{skill.name}</span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 flex flex-wrap justify-center gap-8"
-        >
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white">{skills.length}+</div>
-            <div className="text-sm text-[#9ca3af]">Available Skills</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-[#00d4ff]">{popularCount}</div>
-            <div className="text-sm text-[#9ca3af]">Most Popular</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white">∞</div>
-            <div className="text-sm text-[#9ca3af]">Custom Possible</div>
-          </div>
-        </motion.div>
-
-        {/* Custom Agent CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16 bg-gradient-to-r from-[#00d4ff]/10 to-[#7b2cbf]/10 rounded-3xl p-8 md:p-12 border border-[#00d4ff]/20"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-3">
-                <Cpu className="w-6 h-6 text-[#00d4ff]" />
-                <span className="text-[#00d4ff] font-medium">Custom Agents</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-3">
-                Need Something Unique?
-              </h3>
-              <p className="text-[#9ca3af]">
-                Your AI agent can literally do anything on a computer — browse websites, 
-                fill forms, process files, send messages. If you can describe it, we can build it.
-              </p>
-            </div>
-            <div className="flex-shrink-0">
-              <a
-                href="#pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity duration-200"
+          {filteredSkills.map((skill, index) => {
+            const isSelected = interestedSkills.includes(skill.name);
+            return (
+              <motion.button
+                key={skill.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, delay: index * 0.02 }}
+                onClick={() => toggleSkill(skill.name)}
+                className={`relative p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                  isSelected
+                    ? "bg-blue-50 border-blue-500 shadow-md"
+                    : "bg-white border-slate-200 hover:border-blue-300 hover:shadow-sm"
+                }`}
               >
-                View Scale Package
-              </a>
-            </div>
-          </div>
+                <div className="text-2xl mb-2">{skill.icon}</div>
+                <div className="text-sm font-medium text-slate-900">{skill.name}</div>
+                
+                {skill.popular && (
+                  <span className="absolute top-2 right-2 text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-medium">
+                    Popular
+                  </span>
+                )}
+                
+                {isSelected && (
+                  <div className="absolute bottom-2 right-2 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                )}
+              </motion.button>
+            );
+          })}
         </motion.div>
+
+        {/* Interested List */}
+        {interestedSkills.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-slate-50 rounded-2xl p-6 border border-slate-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-slate-900">
+                Your Selection ({interestedSkills.length})
+              </h3>
+              <button
+                onClick={() => setInterestedSkills([])}
+                className="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1"
+              >
+                <X className="w-4 h-4" />
+                Clear all
+              </button>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mb-6">
+              {interestedSkills.map((skill) => (
+                <span
+                  key={skill}
+                  className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-medium"
+                >
+                  {skill}
+                  <button
+                    onClick={() => toggleSkill(skill)}
+                    className="hover:bg-blue-200 rounded-full p-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            {!showForm && !submitted && (
+              <button
+                onClick={() => setShowForm(true)}
+                className="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors flex items-center justify-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+                Get Quote for These Skills
+              </button>
+            )}
+
+            {showForm && !submitted && (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Your Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@company.com"
+                      className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="flex-1 bg-slate-200 text-slate-700 py-3 rounded-lg font-medium hover:bg-slate-300 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 bg-blue-700 text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors flex items-center justify-center gap-2"
+                  >
+                    Send Request
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {submitted && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Check className="w-6 h-6 text-green-600" />
+                </div>
+                <h4 className="font-semibold text-green-900 mb-1">Request Sent!</h4>
+                <p className="text-green-700 text-sm">
+                  We&apos;ll review your requirements and get back to you within 24 hours.
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
       </div>
     </section>
   );

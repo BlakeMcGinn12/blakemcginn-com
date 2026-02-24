@@ -1,99 +1,59 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Lock, Eye, Server, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { Shield, Lock, Server, Eye, CheckCircle } from "lucide-react";
 
-const pillars = [
+const securityFeatures = [
   {
     icon: Server,
-    title: "Local-First Architecture",
-    subtitle: "Your Data Stays Yours",
-    description: "Unlike cloud-only solutions, your OpenClaw agents run on infrastructure you control. Sensitive customer data, proprietary workflows, and business intelligence never leave your environment unless you explicitly choose to connect external services.",
-    points: [
-      "Agents run locally or on your AWS account",
-      "No data mining or training on your information",
-      "Complete data sovereignty"
+    title: "Your Data Stays With You",
+    description: "Unlike most AI services, your data never leaves your environment. Your personal assistant (OpenClaw) runs on your local machine or your own AWS account—not on my servers.",
+    benefits: [
+      "Complete data sovereignty",
+      "No third-party data mining",
+      "You control all access permissions",
+      "Easy to audit and monitor"
     ]
   },
   {
     icon: Lock,
-    title: "End-to-End Encryption",
-    subtitle: "Encrypted at Rest and In Transit",
-    description: "All data is protected with industry-standard encryption protocols used by banks and financial institutions.",
-    points: [
-      "TLS 1.3 for all data in transit",
-      "AES-256 encryption for data at rest",
-      "Secure credential storage via AWS Secrets Manager",
-      "No plaintext passwords ever stored or logged"
+    title: "Bank-Level Encryption",
+    description: "All data is protected with the same encryption standards used by banks and financial institutions.",
+    benefits: [
+      "TLS 1.3 for data in transit",
+      "AES-256 encryption at rest",
+      "Secure credential storage",
+      "No plaintext passwords ever stored"
     ]
   },
   {
     icon: Eye,
     title: "Principle of Least Privilege",
-    subtitle: "Minimal Access, Maximum Security",
-    description: "Every AI agent operates with the minimum permissions necessary. No broad account access by default.",
-    points: [
-      "Granular scope controls per agent",
+    description: "Every AI agent operates with the minimum permissions necessary. They can only access what you explicitly allow.",
+    benefits: [
+      "Granular permission controls",
       "Approval workflows for sensitive actions",
-      "Detailed audit logs of all activities",
-      "One-click permission revocation"
+      "Detailed audit logs",
+      "One-click access revocation"
     ]
   },
   {
     icon: Shield,
-    title: "SOC 2 & Compliance Ready",
-    subtitle: "Built for Business Requirements",
-    description: "OpenClaw's architecture supports enterprise compliance needs and audit requirements.",
-    points: [
-      "SOC 2 Type II aligned controls",
-      "GDPR-ready data handling",
-      "HIPAA-compatible deployment options",
-      "Full audit trails available"
+    title: "Compliance Ready",
+    description: "The architecture supports SOC 2, GDPR, and HIPAA requirements. Perfect for businesses with strict compliance needs.",
+    benefits: [
+      "Full audit trails",
+      "Custom data retention policies",
+      "PII detection and masking",
+      "Documentation for compliance audits"
     ]
   }
 ];
 
-type ComparisonValue = true | false | "partial";
-
-const comparisons: { feature: string; us: ComparisonValue; saas: ComparisonValue; va: ComparisonValue }[] = [
-  { feature: "Data stays in your environment", us: true, saas: false, va: false },
-  { feature: "No training on your data", us: true, saas: false, va: true },
-  { feature: "Full audit logs", us: true, saas: "partial", va: false },
-  { feature: "Instant access revocation", us: true, saas: "partial", va: false },
-  { feature: "Encryption at rest", us: true, saas: true, va: false },
-  { feature: "Local legal jurisdiction", us: true, saas: false, va: false }
-];
-
-const faqs = [
-  {
-    question: "Where does my data actually go?",
-    answer: "Your OpenClaw agents run on your local machine or your own AWS infrastructure. Data processed by AI models (OpenAI, Claude, etc.) is subject to their privacy policies, but we configure connections to minimize data retention and never use your data for model training."
-  },
-  {
-    question: "Can you see my business data?",
-    answer: "No. When agents run locally, only you have access. For managed deployments, we use zero-trust architecture and encrypted channels, but we never access your data without explicit permission for support purposes."
-  },
-  {
-    question: "What happens if an agent makes a mistake?",
-    answer: "Agents operate within scoped permissions. They can't delete data, transfer funds, or take irreversible actions without human approval. All actions are logged and can be rolled back."
-  },
-  {
-    question: "Is this compliant with my industry regulations?",
-    answer: "The underlying infrastructure (OpenClaw + AWS) supports most major compliance frameworks. Specific compliance (HIPAA, SOC 2, etc.) depends on your deployment configuration. We provide documentation to support your compliance audits."
-  },
-  {
-    question: "How do you handle API keys and credentials?",
-    answer: "All credentials are stored in encrypted vaults (AWS Secrets Manager or local keychain). They're never hardcoded, never logged, and rotated automatically when possible."
-  }
-];
-
 export default function Security() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
   return (
-    <section id="security" className="py-24 lg:py-32 px-6 lg:px-8 bg-gradient-to-b from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
-      <div className="max-w-7xl mx-auto">
+    <section id="security" className="py-24 bg-slate-900 text-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -102,40 +62,119 @@ export default function Security() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-medium text-[#00d4ff] tracking-wider uppercase mb-4">
-            Security
+          <p className="text-sm font-medium text-blue-400 tracking-wider uppercase mb-4">
+            Security & Privacy
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Bank-Level Security for Your AI Operations
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Your Data Never Leaves Your Control
           </h2>
-          <p className="text-lg text-[#9ca3af] max-w-2xl mx-auto">
-            Your data never touches our servers. Your AI agents run in isolated, 
-            encrypted environments. And you maintain full control.
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            Most AI tools require you to send your data to their servers. 
+            I don&apos;t. Your AI assistant runs entirely in your environment.
           </p>
         </motion.div>
 
-        {/* Security Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          {pillars.map((pillar, index) => (
+        {/* Comparison */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="bg-slate-800 rounded-2xl p-8 mb-16"
+        >
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Server className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">My Service</h3>
+              <ul className="text-sm text-slate-400 space-y-2">
+                <li className="flex items-center gap-2 justify-center">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  Data stays in your environment
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  You own everything
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  Full audit control
+                </li>
+              </ul>
+            </div>
+            <div className="text-center md:border-x md:border-slate-700 px-8">
+              <div className="w-16 h-16 bg-slate-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Generic AI Tools</h3>
+              <ul className="text-sm text-slate-400 space-y-2">
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Data sent to their servers
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Used for model training
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Limited audit visibility
+                </li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-slate-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Virtual Assistants</h3>
+              <ul className="text-sm text-slate-400 space-y-2">
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Human sees your data
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Limited by work hours
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-red-400">✗</span>
+                  Turnover & training issues
+                </li>
+              </ul>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Security Features */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {securityFeatures.map((feature, index) => (
             <motion.div
-              key={pillar.title}
+              key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-[#12121a] rounded-2xl p-8 border border-[#27272a] hover:border-[#00d4ff]/30 transition-colors duration-300"
+              className="bg-slate-800 rounded-2xl p-8"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#00d4ff]/20 to-[#7b2cbf]/20 flex items-center justify-center mb-6">
-                <pillar.icon className="w-6 h-6 text-[#00d4ff]" />
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <feature.icon className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-slate-400">{feature.description}</p>
+                </div>
               </div>
-              <p className="text-sm text-[#00d4ff] font-medium mb-2">{pillar.subtitle}</p>
-              <h3 className="text-xl font-semibold text-white mb-3">{pillar.title}</h3>
-              <p className="text-[#9ca3af] mb-4">{pillar.description}</p>
-              <ul className="space-y-2">
-                {pillar.points.map((point, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-[#9ca3af]">
-                    <CheckCircle className="w-4 h-4 text-[#22c55e] flex-shrink-0" />
-                    {point}
+              <ul className="space-y-2 ml-16">
+                {feature.benefits.map((benefit, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    {benefit}
                   </li>
                 ))}
               </ul>
@@ -143,114 +182,20 @@ export default function Security() {
           ))}
         </div>
 
-        {/* Comparison Table */}
+        {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-[#12121a] rounded-3xl p-8 border border-[#27272a] mb-16 overflow-x-auto"
-        >
-          <h3 className="text-xl font-semibold text-white mb-6">Security Comparison</h3>
-          <table className="w-full min-w-[600px]">
-            <thead>
-              <tr className="border-b border-[#27272a]">
-                <th className="text-left py-4 text-[#9ca3af] font-medium">Feature</th>
-                <th className="text-center py-4 text-[#00d4ff] font-medium">Our Service</th>
-                <th className="text-center py-4 text-[#9ca3af] font-medium">Generic SaaS</th>
-                <th className="text-center py-4 text-[#9ca3af] font-medium">Offshore VA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisons.map((row, index) => (
-                <tr key={index} className="border-b border-[#27272a] last:border-0">
-                  <td className="py-4 text-white">{row.feature}</td>
-                  <td className="py-4 text-center">
-                    {row.us === true ? (
-                      <CheckCircle className="w-5 h-5 text-[#22c55e] mx-auto" />
-                    ) : row.us === "partial" ? (
-                      <span className="text-yellow-500 text-sm">Partial</span>
-                    ) : (
-                      <span className="text-red-500 text-sm">No</span>
-                    )}
-                  </td>
-                  <td className="py-4 text-center">
-                    {row.saas === true ? (
-                      <CheckCircle className="w-5 h-5 text-[#22c55e] mx-auto" />
-                    ) : row.saas === "partial" ? (
-                      <span className="text-yellow-500 text-sm">Partial</span>
-                    ) : (
-                      <span className="text-red-500 text-sm">No</span>
-                    )}
-                  </td>
-                  <td className="py-4 text-center">
-                    {row.va === true ? (
-                      <CheckCircle className="w-5 h-5 text-[#22c55e] mx-auto" />
-                    ) : row.va === "partial" ? (
-                      <span className="text-yellow-500 text-sm">Partial</span>
-                    ) : (
-                      <span className="text-red-500 text-sm">No</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </motion.div>
-
-        {/* FAQ */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="max-w-3xl mx-auto"
-        >
-          <h3 className="text-xl font-semibold text-white mb-6 text-center">Common Security Questions</h3>
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="bg-[#12121a] rounded-xl border border-[#27272a] overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between p-6 text-left"
-                >
-                  <span className="text-white font-medium">{faq.question}</span>
-                  {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-[#9ca3af]" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-[#9ca3af]" />
-                  )}
-                </button>
-                {openFaq === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="px-6 pb-6"
-                  >
-                    <p className="text-[#9ca3af]">{faq.answer}</p>
-                  </motion.div>
-                )}
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6 }}
           className="mt-16 text-center"
         >
-          <p className="text-white font-medium mb-4">Have specific security requirements?</p>
+          <p className="text-slate-400 mb-6">
+            Have specific security requirements? Let&apos;s discuss your needs.
+          </p>
           <a
-            href="mailto:blake@blakemcginn.com?subject=Security Review Request"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity duration-200"
+            href="mailto:blake@blakemcginn.com"
+            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Schedule a Security Review
           </a>
