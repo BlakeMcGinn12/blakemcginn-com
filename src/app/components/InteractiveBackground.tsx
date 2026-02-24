@@ -6,8 +6,13 @@ export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    console.log("InteractiveBackground mounted");
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      console.error("Canvas ref is null");
+      return;
+    }
+    console.log("Canvas found:", canvas);
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -18,12 +23,12 @@ export default function InteractiveBackground() {
 
     // Configuration
     const config = {
-      dotSize: 2,
-      dotSpacing: 40,
-      mouseRadius: 150,
-      moveStrength: 30,
-      returnSpeed: 0.08,
-      opacity: 0.08,
+      dotSize: 2.5,
+      dotSpacing: 35,
+      mouseRadius: 200,
+      moveStrength: 40,
+      returnSpeed: 0.1,
+      opacity: 0.15,
     };
 
     // Calculate grid
