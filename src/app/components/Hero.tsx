@@ -18,8 +18,8 @@ const recognizedApps = [
 export default function Hero() {
   return (
     <section className="relative min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
-      {/* Interactive Background Container - Full size */}
-      <div className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
+      {/* Interactive Background Container - Full size with explicit height */}
+      <div className="absolute inset-0" style={{ zIndex: 0, width: '100%', height: '100%', minHeight: '100vh' }}>
         <InteractiveBackground />
       </div>
       
