@@ -31,8 +31,19 @@ export default function InteractiveBackground() {
       const parent = canvas.parentElement;
       if (!parent) return;
       
+      // Force layout recalculation
+      parent.getBoundingClientRect();
+      
       const width = parent.offsetWidth;
       const height = parent.offsetHeight;
+      
+      console.log(`Canvas init: ${width}x${height}`);
+      
+      if (width === 0 || height === 0) {
+        console.warn('Canvas container has zero dimensions, retrying...');
+        setTimeout(initDots, 100);
+        return;
+      }
       
       canvas.width = width;
       canvas.height = height;
