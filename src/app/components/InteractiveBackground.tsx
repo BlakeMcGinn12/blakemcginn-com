@@ -29,19 +29,17 @@ export default function InteractiveBackground() {
     let dots: { x: number; y: number; originX: number; originY: number }[] = [];
 
     const initDots = () => {
-      // Set canvas to actual pixel size
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
+      // Get parent container dimensions
+      const parent = canvas.parentElement;
+      if (!parent) return;
       
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      
-      // Scale context for retina displays
-      ctx.scale(dpr, dpr);
-      
-      // Reset scale for calculations
+      const rect = parent.getBoundingClientRect();
       const width = rect.width;
       const height = rect.height;
+      
+      // Set canvas internal size to match display size (no DPR scaling for simpler math)
+      canvas.width = width;
+      canvas.height = height;
       
       const cols = Math.ceil(width / config.dotSpacing) + 1;
       const rows = Math.ceil(height / config.dotSpacing) + 1;
@@ -69,8 +67,8 @@ export default function InteractiveBackground() {
     };
 
     const animate = () => {
-      const rect = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      if (!canvas.parentElement) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       dots.forEach((dot) => {
         // Calculate distance from mouse to dot's ORIGIN position
@@ -130,9 +128,11 @@ export default function InteractiveBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-auto"
+      className="block w-full h-full"
       style={{ 
-        zIndex: 0,
+        position: 'absolute',
+        top: 0,
+        left: 0,
         width: '100%',
         height: '100%',
       }}
