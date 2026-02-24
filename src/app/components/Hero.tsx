@@ -26,7 +26,8 @@ export default function Hero() {
       {/* Subtle gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-50/50 pointer-events-none" style={{ zIndex: 1 }} />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20" style={{ zIndex: 2 }}>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20" style={{ zIndex: 2, pointerEvents: 'none' }}>
+        <div style={{ pointerEvents: 'auto' }}>
         {/* Trust Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
