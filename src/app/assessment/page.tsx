@@ -103,7 +103,8 @@ export default function AssessmentPage() {
 
   // Chart colors based on quadrant - automation potential is 0-100, equal quadrants at 50%
   const getDotColor = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
-    const midTime = maxHours * 0.5;
+    const yScaleMax = Math.ceil(maxHours * 1.2);
+    const midTime = yScaleMax * 0.5;
     if (automationPotential >= 50 && hoursPerWeek >= midTime) return "#22c55e"; // Green - Priority
     if (automationPotential >= 50 && hoursPerWeek < midTime) return "#3b82f6"; // Blue - Easy wins
     if (automationPotential < 50 && hoursPerWeek >= midTime) return "#f59e0b"; // Yellow - Consider
@@ -111,7 +112,8 @@ export default function AssessmentPage() {
   };
 
   const getQuadrantLabel = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
-    const midTime = maxHours * 0.5;
+    const yScaleMax = Math.ceil(maxHours * 1.2);
+    const midTime = yScaleMax * 0.5;
     if (automationPotential >= 50 && hoursPerWeek >= midTime) return "Priority";
     if (automationPotential >= 50 && hoursPerWeek < midTime) return "Easy Win";
     if (automationPotential < 50 && hoursPerWeek >= midTime) return "Consider";
@@ -514,10 +516,14 @@ export default function AssessmentPage() {
                             type="number"
                             dataKey="y"
                             name="Hours/Week"
-                            domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.2)]}
+                            domain={[0, (dataMax: number) => {
+                              const scaleMax = Math.ceil(dataMax * 1.2);
+                              return scaleMax;
+                            }]}
                             stroke="#27272a"
                             tick={{ fill: '#9ca3af', fontSize: 11 }}
                             width={40}
+                            allowDecimals={false}
                           />
                           <Tooltip 
                             cursor={{ strokeDasharray: '3 3' }}
@@ -538,17 +544,22 @@ export default function AssessmentPage() {
                               return null;
                             }}
                           />
-                          {/* Quadrant lines - equal quadrants at 50% for automation potential, 50% of max time */}
+                          {/* Quadrant lines - equal quadrants at 50% for automation potential, 50% of scale max */}
                           <ReferenceLine x={50} stroke="#3f3f46" strokeDasharray="5 5" />
-                          <ReferenceLine y={Math.max(...result.chartData.map(d => d.y)) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
+                          <ReferenceLine y={Math.ceil(Math.max(...result.chartData.map(d => d.y)) * 1.2) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
                           
                           <Scatter data={result.chartData}>
                             {result.chartData.map((entry, index) => {
                               const maxHours = Math.max(...result.chartData.map(d => d.y));
+                              const yScaleMax = Math.ceil(maxHours * 1.2);
+                              const midTime = yScaleMax * 0.5;
+                              const color = entry.x >= 50 && entry.y >= midTime ? "#22c55e" :
+                                           entry.x >= 50 && entry.y < midTime ? "#3b82f6" :
+                                           entry.x < 50 && entry.y >= midTime ? "#f59e0b" : "#ef4444";
                               return (
-                                <Cell 
-                                  key={`cell-${index}`} 
-                                  fill={getDotColor(entry.x, entry.y, maxHours)}
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={color}
                                 />
                               );
                             })}
