@@ -100,18 +100,20 @@ export default function AssessmentPage() {
     setError("");
   };
 
-  // Chart colors based on quadrant
-  const getDotColor = (automationPotential: number, hoursPerWeek: number) => {
-    if (automationPotential >= 7 && hoursPerWeek >= 5) return "#22c55e"; // Green - Priority
-    if (automationPotential >= 7 && hoursPerWeek < 5) return "#3b82f6"; // Blue - Easy wins
-    if (automationPotential < 7 && hoursPerWeek >= 5) return "#f59e0b"; // Yellow - Consider
+  // Chart colors based on quadrant - automation potential is 0-100
+  const getDotColor = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
+    const midTime = maxHours * 0.5;
+    if (automationPotential >= 70 && hoursPerWeek >= midTime) return "#22c55e"; // Green - Priority
+    if (automationPotential >= 70 && hoursPerWeek < midTime) return "#3b82f6"; // Blue - Easy wins
+    if (automationPotential < 70 && hoursPerWeek >= midTime) return "#f59e0b"; // Yellow - Consider
     return "#ef4444"; // Red - Skip
   };
 
-  const getQuadrantLabel = (automationPotential: number, hoursPerWeek: number) => {
-    if (automationPotential >= 7 && hoursPerWeek >= 5) return "Priority";
-    if (automationPotential >= 7 && hoursPerWeek < 5) return "Easy Win";
-    if (automationPotential < 7 && hoursPerWeek >= 5) return "Consider";
+  const getQuadrantLabel = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
+    const midTime = maxHours * 0.5;
+    if (automationPotential >= 70 && hoursPerWeek >= midTime) return "Priority";
+    if (automationPotential >= 70 && hoursPerWeek < midTime) return "Easy Win";
+    if (automationPotential < 70 && hoursPerWeek >= midTime) return "Consider";
     return "Skip";
   };
 
@@ -295,8 +297,9 @@ export default function AssessmentPage() {
 
                   <div className="space-y-3">
                     {result.tasks.map((task, index) => {
-                      const color = getDotColor(task.automationPotential, task.hoursPerWeek);
-                      const label = getQuadrantLabel(task.automationPotential, task.hoursPerWeek);
+                      const maxHours = Math.max(...result.chartData.map(d => d.y));
+                      const color = getDotColor(task.automationPotential, task.hoursPerWeek, maxHours);
+                      const label = getQuadrantLabel(task.automationPotential, task.hoursPerWeek, maxHours);
                       
                       return (
                         <motion.div
@@ -367,18 +370,20 @@ export default function AssessmentPage() {
                             type="number" 
                             dataKey="x" 
                             name="Automation Potential" 
-                            domain={[0, 10]}
+                            domain={[0, 100]}
                             tick={{ fill: '#9ca3af', fontSize: 11 }}
                             stroke="#27272a"
                             tickCount={6}
+                            tickFormatter={(value) => `${value}%`}
                           />
                           <YAxis 
                             type="number" 
                             dataKey="y" 
-                            name="Hours/Week" 
+                            name="Hours/Week"
+                            domain={[0, 'auto']}
                             stroke="#27272a"
                             tick={{ fill: '#9ca3af', fontSize: 11 }}
-                            width={35}
+                            width={40}
                           />
                           <Tooltip 
                             cursor={{ strokeDasharray: '3 3' }}
@@ -391,7 +396,7 @@ export default function AssessmentPage() {
                                     <p className="text-xs text-[#9ca3af] mb-2 line-clamp-3">{data.reasoning}</p>
                                     <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs">
                                       <span className="text-[#00d4ff]">Time: {data.y}h/week</span>
-                                      <span className="text-purple-400">Potential: {data.x}/10</span>
+                                      <span className="text-purple-400">Potential: {data.x}%</span>
                                     </div>
                                   </div>
                                 );
@@ -399,17 +404,20 @@ export default function AssessmentPage() {
                               return null;
                             }}
                           />
-                          {/* Quadrant lines */}
-                          <ReferenceLine x={7} stroke="#3f3f46" strokeDasharray="5 5" />
-                          <ReferenceLine y={5} stroke="#3f3f46" strokeDasharray="5 5" />
+                          {/* Quadrant lines - always at 70% for automation potential, 50% of max time */}
+                          <ReferenceLine x={70} stroke="#3f3f46" strokeDasharray="5 5" />
+                          <ReferenceLine y={result.chartData.reduce((max, d) => Math.max(max, d.y), 0) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
                           
                           <Scatter data={result.chartData}>
-                            {result.chartData.map((entry, index) => (
-                              <Cell 
-                                key={`cell-${index}`} 
-                                fill={getDotColor(entry.x, entry.y)}
-                              />
-                            ))}
+                            {result.chartData.map((entry, index) => {
+                              const maxHours = Math.max(...result.chartData.map(d => d.y));
+                              return (
+                                <Cell 
+                                  key={`cell-${index}`} 
+                                  fill={getDotColor(entry.x, entry.y, maxHours)}
+                                />
+                              );
+                            })}
                             <LabelList 
                               dataKey="name" 
                               position="top" 

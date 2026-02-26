@@ -39,83 +39,105 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const prompt = `You are an expert AI automation consultant. Your job is to score tasks on their PRACTICAL automation potential using current AI tools and APIs.
+    const prompt = `You are an expert AI automation consultant specializing in CLI-based AI agents like OpenClaw, Claude Code, and Perplexity Computer. Your job is to score tasks on their PRACTICAL automation potential using these modern AI tools.
 
-IMPORTANT: Score conservatively. When in doubt, score LOWER. Theoretical possibility does NOT equal practical automation.
+IMPORTANT CONTEXT - What These CLI Agents Can Do:
+- OpenClaw: Multi-agent orchestration, skill execution, tool integrations, background task management
+- Claude Code: Direct codebase manipulation, file operations, terminal commands, API integrations
+- Perplexity Computer: Live web research, data gathering, competitive analysis, fact-checking
 
-## SCORING RUBRIC (0-10 scale)
+Together, these tools can:
+✓ Monitor and respond to emails, Slack, calendars in real-time
+✓ Read/write files, update CRMs, generate reports automatically
+✓ Research any topic live on the web and compile findings
+✓ Execute terminal commands and scripts
+✓ Coordinate multiple agents working in parallel
+✓ Handle complex multi-step workflows with memory
+✓ Integrate with 500+ tools via APIs
+
+## SCORING RUBRIC (0-100 scale)
 
 Base your score on these criteria:
 
-- 9-10: Excellent automation candidate
-  - Uses standard integrations (Gmail, Outlook, Slack, Google Calendar, common CRMs like Salesforce/HubSpot)
-  - Simple, rule-based logic with clear inputs/outputs
-  - No complex decision-making required
-  - Data is structured and accessible
+- 90-100: Excellent automation candidate
+  - Uses standard integrations (Gmail, Outlook, Slack, Google Calendar, common CRMs)
+  - Clear inputs/outputs with explicit rules
+  - No complex human judgment required
+  - CLI agents can handle end-to-end
+  - Examples: Email triage, Slack responses, calendar scheduling, data entry, report generation
 
-- 7-8: Good automation candidate
-  - Well-documented APIs with predictable data formats
-  - Simple data transformations
-  - Minimal edge cases
+- 70-89: Good automation candidate
+  - Well-documented APIs with predictable data
+  - Some context awareness needed but rules-based
+  - May require occasional human review
+  - Examples: Content drafting, research summaries, lead qualification, meeting notes
 
-- 5-6: Moderate automation candidate
-  - Requires multiple API integrations OR
-  - Some complexity in logic OR
-  - Uses less common but documented APIs
+- 50-69: Moderate automation candidate
+  - Multiple steps or less common APIs
+  - Requires some interpretation or judgment
+  - Human-in-the-loop recommended
+  - Examples: Complex research synthesis, multi-stakeholder scheduling, compliance checking
 
-- 3-4: Poor automation candidate
-  - Obscure or rare APIs with limited documentation
-  - Complex multi-step logic requiring state management
-  - Requires some human judgment or context
+- 30-49: Poor automation candidate
+  - Obscure APIs or significant judgment required
+  - High variability in inputs/outputs
+  - Requires significant human oversight
+  - Examples: Legal contract review, creative direction, strategic decisions
 
-- 0-2: Not suitable for automation
-  - Requires physical action in the real world
-  - Requires nuanced human judgment (legal, ethical, creative decisions)
-  - APIs don't exist or data is inaccessible
+- 0-29: Not suitable for automation
+  - Physical world interaction required
+  - Deep expertise or ethics/legal judgment needed
+  - No APIs available or completely unstructured
+  - Examples: In-person meetings, hiring decisions, physical inventory
 
 ## SCORING ADJUSTMENTS
 
-Apply these adjustments to your base score:
+Apply these adjustments:
 
-PENALTIES (subtract points):
-- Task requires 2+ API integrations: -2 points
-- APIs are obscure/non-standard: -2 points
-- Requires complex decision-making or judgment: -3 points
-- Data is unstructured or scattered across sources: -1 point
+PENALTIES (subtract from base score):
+- Task requires 2+ API integrations: -15 points
+- APIs are obscure/non-standard (no CLI tool support): -20 points
+- Requires complex human judgment/context: -25 points
+- Data is unstructured/scattered: -10 points
+- Requires real-time negotiation or persuasion: -20 points
 
-BONUSES (add points):
-- Uses Gmail/Outlook/Slack/Calendar/major CRMs: +1 point
-- Highly repetitive with clear, explicit rules: +1 point
-- Data is structured and easily accessible: +1 point
+BONUSES (add to base score):
+- Uses standard email/Slack/Calendar/CRM: +10 points
+- Repetitive with explicit rules: +10 points
+- Structured data available: +10 points
+- Can be done entirely via CLI/commands: +15 points
 
-Final score must be 0-10. Round to nearest whole number.
+Final score must be 0-100. Be realistic about current capabilities.
 
 ## SCORING EXAMPLES
 
-- "Monitor Gmail inbox and flag emails from VIP clients" → 9/10
-  (Standard Gmail API, clear rules, no judgment needed, +1 bonus for Gmail)
+- "Monitor Gmail and flag urgent emails from VIP clients" → 95/100
+  (OpenClaw + Claude Code handle this natively, clear rules, Gmail API is standard)
 
-- "Post weekly updates to company Twitter and LinkedIn accounts" → 9/10
-  (Standard APIs, simple action, repetitive, +1 bonus for standard platforms)
+- "Research competitors weekly and summarize findings" → 85/100
+  (Perplexity Computer excels at live web research, Claude Code can compile reports)
 
-- "Extract data from 3 obscure government databases and cross-reference for compliance" → 3/10
-  (Obscure sources requiring 2+ integrations, -2 penalty for multiple APIs, -2 for obscure APIs)
+- "Post daily updates to Twitter and LinkedIn" → 90/100
+  (Standard APIs, rule-based, can schedule and automate entirely)
 
-- "Review legal contracts for compliance and risk assessment" → 2/10
-  (Requires expert legal judgment, -3 penalty for complex decision-making)
+- "Extract data from 3 obscure government databases and cross-reference" → 35/100
+  (Obscure sources, -30 penalty for obscure APIs and multiple integrations, may need manual verification)
 
-- "Summarize daily Slack messages and email digest to team leads" → 9/10
-  (Standard Slack/email APIs, clear inputs/outputs, structured data, +1 bonus)
+- "Review legal contracts for compliance" → 25/100
+  (Requires legal expertise, -25 penalty for judgment, high stakes for errors)
 
-- "Schedule meetings by negotiating availability across 5 executives' calendars" → 5/10
-  (Uses standard calendar APIs but requires judgment about priorities and preferences)
+- "Schedule meetings across 5 executives' calendars considering preferences" → 65/100
+  (Standard calendar APIs but requires preference interpretation, human-in-the-loop recommended)
+
+- "Generate weekly sales reports from CRM data" → 92/100
+  (Claude Code can query APIs, process data, generate files automatically)
 
 ## OUTPUT REQUIREMENTS
 
 For each task, provide:
-1. automationPotential: number (0-10, calculated using rubric above)
-2. canBeAutomated: boolean (true if score >= 6, false otherwise)
-3. reasoning: 1-2 sentences explaining the score, citing specific factors from the rubric
+1. automationPotential: number (0-100, calculated using rubric above)
+2. canBeAutomated: boolean (true if score >= 60, false otherwise)
+3. reasoning: 1-2 sentences explaining the score, citing specific CLI agent capabilities or limitations
 
 Tasks to analyze:
 ${tasks.map((t: Task, i: number) => `${i + 1}. "${t.description}" (${t.hoursPerWeek} hours/week)`).join('\n')}
@@ -127,14 +149,14 @@ Return ONLY valid JSON in this exact format:
       "id": "string (same as input)",
       "description": "string (same as input)",
       "hoursPerWeek": number (same as input),
-      "automationPotential": number (0-10),
+      "automationPotential": number (0-100),
       "canBeAutomated": boolean,
-      "reasoning": "explanation of automation potential"
+      "reasoning": "explanation referencing CLI agent capabilities"
     }
   ]
 }
 
-Remember: Be conservative. If a task seems borderline, score it lower. Focus on what can be RELIABLY automated TODAY, not what might be possible in the future. Return only the JSON, no markdown or explanation.`;
+Remember: Be conservative. Score based on what OpenClaw + Claude Code + Perplexity can do TODAY, not theoretical future capabilities. Return only the JSON, no markdown or explanation.`;
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
@@ -162,12 +184,14 @@ Remember: Be conservative. If a task seems borderline, score it lower. Focus on 
     const cleanedContent = content.replace(/```json\n?|\n?```/g, "").trim();
     const analysis = JSON.parse(cleanedContent);
 
-    // Build chart data
+    // Build chart data - automationPotential is already 0-100 from the API
+    const maxHours = Math.max(...analysis.tasks.map((t: AnalyzedTask) => t.hoursPerWeek));
     const chartData = analysis.tasks.map((task: AnalyzedTask) => ({
-      x: task.automationPotential,
+      x: task.automationPotential, // 0-100 scale
       y: task.hoursPerWeek,
-      name: task.description.length > 30 
-        ? task.description.substring(0, 30) + "..." 
+      maxHours: maxHours, // Pass max hours for quadrant calculations
+      name: task.description.length > 25
+        ? task.description.substring(0, 25) + "..."
         : task.description,
       fullName: task.description,
       reasoning: task.reasoning,
