@@ -5,14 +5,32 @@ import { ArrowRight, CheckCircle, Users, Zap, Shield, Briefcase } from "lucide-r
 import InteractiveBackground from "./InteractiveBackground";
 
 const recognizedApps = [
-  "Slack", "Microsoft Outlook", "Gmail", "Google Calendar", 
-  "Zoom", "Notion", "HubSpot", "Salesforce",
-  "Zapier", "Mailchimp", "Calendly", "Stripe",
-  "QuickBooks", "Xero", "Shopify", "WordPress",
-  "Figma", "GitHub", "Trello", "Asana",
-  "Dropbox", "Google Drive", "OneDrive", "Box",
-  "Twitter/X", "LinkedIn", "Instagram", "YouTube",
-  "Airtable", "Typeform", "Webflow", "Framer"
+  // Communication
+  "Slack", "Microsoft Teams", "Discord", "Zoom", "Google Meet",
+  // Email
+  "Gmail", "Microsoft Outlook", "SendGrid",
+  // Calendar
+  "Google Calendar", "Calendly", "Microsoft Outlook Calendar",
+  // CRM
+  "Salesforce", "HubSpot", "Pipedrive", "Zoho CRM",
+  // Project Management
+  "Asana", "Trello", "Monday.com", "Notion", "Jira", "ClickUp", "Linear",
+  // Finance
+  "Stripe", "QuickBooks", "Xero", "PayPal", "Wise",
+  // Marketing
+  "Mailchimp", "Klaviyo", "ActiveCampaign", "ConvertKit",
+  // Social Media
+  "Twitter/X", "LinkedIn", "Instagram", "Facebook", "TikTok", "Pinterest", "YouTube",
+  // Storage
+  "Google Drive", "Dropbox", "OneDrive", "Box", "iCloud",
+  // E-commerce
+  "Shopify", "WooCommerce", "BigCommerce",
+  // Analytics
+  "Google Analytics", "Mixpanel", "Amplitude",
+  // AI/ML
+  "OpenAI", "Anthropic", "Groq",
+  // Design/Dev
+  "Figma", "GitHub", "GitLab", "Webflow", "Framer", "Airtable", "Typeform"
 ];
 
 export default function Hero() {
@@ -52,14 +70,14 @@ export default function Hero() {
           className="text-center max-w-4xl mx-auto"
         >
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            Custom AI Automation
-            <span className="block text-blue-700">Built for Your Business</span>
+            The Executive's
+            <span className="block text-blue-700">AI Assistant</span>
           </h1>
           
           <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            I help CEOs and business leaders implement practical AI solutions. 
-            From automated workflows to intelligent agents that handle your repetitive tasks—
-            <span className="text-slate-900 font-medium">customized to your exact needs.</span>
+            You don't need to become an AI expert—that's my job. I handle the complexity of 
+            OpenClaw, Claude Code, and Perplexity so you can focus on what you do best.
+            <span className="text-slate-900 font-medium"> Practical AI, real results, zero overwhelm.</span>
           </p>
         </motion.div>
 
@@ -71,10 +89,10 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-4 mb-10"
         >
           {[
-            { icon: Users, text: "Personal Assistant (OpenClaw) Setup" },
+            { icon: Users, text: "OpenClaw/AI Agent Setup" },
+            { icon: Briefcase, text: "Claude Code Development" },
+            { icon: Shield, text: "Perplexity Computer Workflows" },
             { icon: Zap, text: "API Integrations" },
-            { icon: Briefcase, text: "Automation Workflows" },
-            { icon: Shield, text: "Agentic Workflows" },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-4 py-2 shadow-sm">
               <item.icon className="w-4 h-4 text-blue-600" />
@@ -94,14 +112,14 @@ export default function Hero() {
             href="/assessment"
             className="group inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-lg shadow-blue-700/20"
           >
-            Get Your Custom Setup
+            Get Your AI Assistant
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
-            href="#integrations"
+            href="#workflows"
             className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
           >
-            See What We Can Connect
+            See How It Works
           </a>
         </motion.div>
 
