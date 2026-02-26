@@ -39,20 +39,83 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const prompt = `You are an expert AI automation consultant. Analyze the following business tasks and rate each on:
+    const prompt = `You are an expert AI automation consultant. Your job is to score tasks on their PRACTICAL automation potential using current AI tools and APIs.
 
-1. AUTOMATION POTENTIAL (0-10 scale) - Consider:
-   - Technical feasibility (can current AI tools do this?)
-   - Data availability (is the necessary data accessible via APIs?)
-   - Complexity (simple rule-based vs complex decision-making)
-   - Reliability (will AI handle this consistently well?)
-   - 8-10: Highly automatable with current tools
-   - 5-7: Moderately automatable, some complexity
-   - 0-4: Difficult to automate or better done by humans
+IMPORTANT: Score conservatively. When in doubt, score LOWER. Theoretical possibility does NOT equal practical automation.
 
-2. CAN_BE_AUTOMATED (boolean) - Should this be automated?
+## SCORING RUBRIC (0-10 scale)
 
-For each task, provide a brief reasoning (1-2 sentences) explaining WHY it has that automation potential.
+Base your score on these criteria:
+
+- 9-10: Excellent automation candidate
+  - Uses standard integrations (Gmail, Outlook, Slack, Google Calendar, common CRMs like Salesforce/HubSpot)
+  - Simple, rule-based logic with clear inputs/outputs
+  - No complex decision-making required
+  - Data is structured and accessible
+
+- 7-8: Good automation candidate
+  - Well-documented APIs with predictable data formats
+  - Simple data transformations
+  - Minimal edge cases
+
+- 5-6: Moderate automation candidate
+  - Requires multiple API integrations OR
+  - Some complexity in logic OR
+  - Uses less common but documented APIs
+
+- 3-4: Poor automation candidate
+  - Obscure or rare APIs with limited documentation
+  - Complex multi-step logic requiring state management
+  - Requires some human judgment or context
+
+- 0-2: Not suitable for automation
+  - Requires physical action in the real world
+  - Requires nuanced human judgment (legal, ethical, creative decisions)
+  - APIs don't exist or data is inaccessible
+
+## SCORING ADJUSTMENTS
+
+Apply these adjustments to your base score:
+
+PENALTIES (subtract points):
+- Task requires 2+ API integrations: -2 points
+- APIs are obscure/non-standard: -2 points
+- Requires complex decision-making or judgment: -3 points
+- Data is unstructured or scattered across sources: -1 point
+
+BONUSES (add points):
+- Uses Gmail/Outlook/Slack/Calendar/major CRMs: +1 point
+- Highly repetitive with clear, explicit rules: +1 point
+- Data is structured and easily accessible: +1 point
+
+Final score must be 0-10. Round to nearest whole number.
+
+## SCORING EXAMPLES
+
+- "Monitor Gmail inbox and flag emails from VIP clients" → 9/10
+  (Standard Gmail API, clear rules, no judgment needed, +1 bonus for Gmail)
+
+- "Post weekly updates to company Twitter and LinkedIn accounts" → 9/10
+  (Standard APIs, simple action, repetitive, +1 bonus for standard platforms)
+
+- "Extract data from 3 obscure government databases and cross-reference for compliance" → 3/10
+  (Obscure sources requiring 2+ integrations, -2 penalty for multiple APIs, -2 for obscure APIs)
+
+- "Review legal contracts for compliance and risk assessment" → 2/10
+  (Requires expert legal judgment, -3 penalty for complex decision-making)
+
+- "Summarize daily Slack messages and email digest to team leads" → 9/10
+  (Standard Slack/email APIs, clear inputs/outputs, structured data, +1 bonus)
+
+- "Schedule meetings by negotiating availability across 5 executives' calendars" → 5/10
+  (Uses standard calendar APIs but requires judgment about priorities and preferences)
+
+## OUTPUT REQUIREMENTS
+
+For each task, provide:
+1. automationPotential: number (0-10, calculated using rubric above)
+2. canBeAutomated: boolean (true if score >= 6, false otherwise)
+3. reasoning: 1-2 sentences explaining the score, citing specific factors from the rubric
 
 Tasks to analyze:
 ${tasks.map((t: Task, i: number) => `${i + 1}. "${t.description}" (${t.hoursPerWeek} hours/week)`).join('\n')}
@@ -71,7 +134,7 @@ Return ONLY valid JSON in this exact format:
   ]
 }
 
-Be realistic. Some tasks are better left to humans. Focus on whether AI can do it WELL, not just whether it's technically possible. Return only the JSON, no markdown or explanation.`;
+Remember: Be conservative. If a task seems borderline, score it lower. Focus on what can be RELIABLY automated TODAY, not what might be possible in the future. Return only the JSON, no markdown or explanation.`;
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
