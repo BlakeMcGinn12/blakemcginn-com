@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight, ChevronDown, ChevronUp, CheckCircle, Users, Cog, Rocket } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, CheckCircle, Users, Cog, Rocket, Terminal, BarChart3, Brain, Zap } from "lucide-react";
 
 const processSteps = [
   {
@@ -82,9 +82,111 @@ const integrationExamples = [
   }
 ];
 
+const complexWorkflowExamples = [
+  {
+    title: "CEO Command Center",
+    description: "Multi-agent system that acts as your executive brain—delegating research, scheduling, and communications while autonomously monitoring markets and competitors 24/7.",
+    hierarchy: `┌─────────────────────────────────────────┐
+│         🎯 CEO Agent (Orchestrator)      │
+│    "Handle my day, keep me informed"    │
+└─────────────┬───────────────────────────┘
+              │
+    ┌─────────┼─────────┬──────────┐
+    ▼         ▼         ▼          ▼
+┌───────┐ ┌────────┐ ┌──────────┐ ┌──────────┐
+│Research│ │Scheduling│ │Communication│ │Monitoring│
+│ Agent  │ │  Agent   │ │   Agent     │ │  Skills  │
+└───┬───┘ └────┬─────┘ └─────┬─────┘ └────┬─────┘
+    │          │             │            │
+    ▼          ▼             ▼            ▼
+• Market intel  • Calendar mgmt  • Slack/Email  • Market alerts
+• Competitor    • Meeting prep   • DM routing   • News digests  
+• News synthesis • Travel coord  • Summaries    • Trend detect`,
+    integrations: ["Slack", "Gmail", "Google Calendar", "News APIs", "CRM", "Notion", "Alpha Vantage"],
+    timeSaved: "25 hours/week",
+    features: ["Autonomous market monitoring", "Competitor tracking alerts", "Daily executive briefings", "Smart delegation routing"]
+  },
+  {
+    title: "Autonomous Sales System",
+    description: "Self-improving sales engine with specialized sub-agents for lead scoring, qualification, and personalized outreach that learns from every interaction.",
+    hierarchy: `┌─────────────────────────────────────────────┐
+│      🚀 Sales Director Agent                 │
+│  "Find, score, and convert our ICPs"        │
+└──────────────┬────────────────────────────────┘
+               │
+    ┌──────────┼──────────┬──────────────┐
+    ▼          ▼          ▼              ▼
+┌─────────┐ ┌──────────┐ ┌──────────┐ ┌────────────┐
+│  Lead   │ │Qualification│ │ Outreach │ │Performance │
+│ Scoring │ │   Agent     │ │  Agent   │ │  Tracker   │
+│  Agent  │ │             │ │          │ │  (Learning)│
+└────┬────┘ └─────┬──────┘ └────┬─────┘ └─────┬──────┘
+     │            │             │             │
+     ▼            ▼             ▼             ▼
+• LinkedIn data  • Enrichment   • Personalized • Response tracking
+• Firmographic   • ICP matching  • Sequences   • A/B testing
+• Behavioral     • Intent scoring • Follow-ups  • Auto-optimization
+• Intent signals • Qual scoring   • Calendly    • Strategy adjust`,
+    integrations: ["HubSpot", "LinkedIn Sales Navigator", "Gmail", "Calendly", "Apollo", "Clearbit", "OpenAI"],
+    timeSaved: "30 hours/week",
+    features: ["AI-powered lead scoring", "Industry-specific personas", "Self-optimizing outreach", "Automated follow-up sequences"]
+  },
+  {
+    title: "24/7 Operations Monitor",
+    description: "Always-on monitoring suite that watches your financial health, customer sentiment, and competitive landscape—delivering daily intelligence briefings.",
+    hierarchy: `┌──────────────────────────────────────────────────┐
+│        📊 Operations Command Center               │
+│     "Watch everything, alert on anomalies"       │
+└────────────────┬─────────────────────────────────┘
+                 │
+        ┌────────┼────────┬──────────┐
+        ▼        ▼        ▼          ▼
+┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐
+│  Financial │ │  Customer  │ │ Competitor │ │   Daily    │
+│  Monitor   │ │  Sentiment │ │   Watch    │ │   Digest   │
+│   Skill    │ │   Skill    │ │   Skill    │ │  Generator │
+└─────┬──────┘ └─────┬──────┘ └─────┬──────┘ └─────┬──────┘
+      │              │              │              │
+      ▼              ▼              ▼              ▼
+• Stripe/PayPal   • Review sites   • Price tracking • Morning briefing
+• Anomaly alerts  • Support tickets • Product changes • Slack digest  
+• Cash flow       • Social mentions • News alerts    • Action items
+• Forecasting     • NPS tracking    • Hiring signals • Trend summary`,
+    integrations: ["Stripe", "QuickBooks", "Twitter/X", "Google Alerts", "Zendesk", "Trustpilot", "Slack", "Notion"],
+    timeSaved: "20 hours/week",
+    features: ["Financial anomaly detection", "Real-time sentiment tracking", "Competitor price monitoring", "Automated daily digests"]
+  },
+  {
+    title: "Content Intelligence Engine",
+    description: "End-to-end content creation pipeline that researches trending topics, writes SEO-optimized drafts, and distributes across channels—learning what resonates.",
+    hierarchy: `┌───────────────────────────────────────────────┐
+│      📝 Content Director Agent                 │
+│   "Create, optimize, and distribute content"  │
+└───────────────┬─────────────────────────────────┘
+                │
+    ┌───────────┼───────────┬──────────────┐
+    ▼           ▼           ▼              ▼
+┌─────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐
+│ Research│ │ Writing  │ │   SEO    │ │Distribution  │
+│  Agent  │ │  Agent   │ │  Agent   │ │   Agent      │
+└────┬────┘ └────┬─────┘ └────┬─────┘ └──────┬───────┘
+     │           │            │              │
+     ▼           ▼            ▼              ▼
+• Trend analysis  • Draft creation  • Keyword opt  • Social scheduling
+• Topic discovery • Tone matching   • Meta tags    • Email campaigns  
+• Competitor gaps • Multi-format    • Readability  • Cross-posting
+• Audience intel  • Voice training  • SERP analysis • Analytics sync`,
+    integrations: ["Notion", "Twitter/X", "LinkedIn", "Mailchimp", "SEMrush", "Ahrefs", "Google Analytics", "Buffer"],
+    timeSaved: "35 hours/week",
+    features: ["AI trend research", "Multi-channel distribution", "SEO auto-optimization", "Performance learning loop"]
+  }
+];
+
 export default function WorkflowShowcase() {
   const [expandedStep, setExpandedStep] = useState<string | null>("discovery");
   const [selectedExample, setSelectedExample] = useState(0);
+  const [selectedComplexExample, setSelectedComplexExample] = useState(0);
+  const [showComplexWorkflows, setShowComplexWorkflows] = useState(false);
 
   return (
     <section id="workflows" className="py-24 bg-slate-50">
@@ -226,6 +328,128 @@ export default function WorkflowShowcase() {
             </div>
           </motion.div>
         </div>
+
+        {/* Complex Workflow Examples */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-20 mb-16"
+        >
+          <div className="text-center mb-8">
+            <p className="text-sm font-medium text-purple-700 tracking-wider uppercase mb-4">
+              Enterprise Solutions
+            </p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+              Complex Multi-Agent Workflows
+            </h3>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              For businesses ready to deploy sophisticated AI systems with specialized sub-agents working in concert.
+            </p>
+          </div>
+
+          {/* Complex Example Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {complexWorkflowExamples.map((example, index) => {
+              const icons = [Brain, BarChart3, Terminal, Zap];
+              const Icon = icons[index];
+              return (
+                <button
+                  key={example.title}
+                  onClick={() => setSelectedComplexExample(index)}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
+                    selectedComplexExample === index
+                      ? "bg-purple-700 text-white shadow-lg"
+                      : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {example.title.split(" ")[0]}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Complex Example Detail Card */}
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="p-8">
+              <div className="flex items-center gap-3 mb-4">
+                {selectedComplexExample === 0 && <Brain className="w-8 h-8 text-purple-600" />}
+                {selectedComplexExample === 1 && <BarChart3 className="w-8 h-8 text-purple-600" />}
+                {selectedComplexExample === 2 && <Terminal className="w-8 h-8 text-purple-600" />}
+                {selectedComplexExample === 3 && <Zap className="w-8 h-8 text-purple-600" />}
+                <h4 className="text-2xl font-bold text-slate-900">
+                  {complexWorkflowExamples[selectedComplexExample].title}
+                </h4>
+              </div>
+              
+              <p className="text-slate-600 mb-6 text-lg">
+                {complexWorkflowExamples[selectedComplexExample].description}
+              </p>
+
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Agent Hierarchy */}
+                <div>
+                  <h5 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+                    Agent Architecture
+                  </h5>
+                  <div className="bg-slate-900 rounded-xl p-4 overflow-x-auto">
+                    <pre className="text-xs text-green-400 font-mono whitespace-pre">
+                      {complexWorkflowExamples[selectedComplexExample].hierarchy}
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Features & Integrations */}
+                <div className="space-y-6">
+                  {/* Key Features */}
+                  <div>
+                    <h5 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+                      Key Capabilities
+                    </h5>
+                    <ul className="space-y-2">
+                      {complexWorkflowExamples[selectedComplexExample].features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2 text-slate-700">
+                          <CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Integrations */}
+                  <div>
+                    <h5 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+                      Integrations
+                    </h5>
+                    <div className="flex flex-wrap gap-2">
+                      {complexWorkflowExamples[selectedComplexExample].integrations.map((integration) => (
+                        <span
+                          key={integration}
+                          className="bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full text-sm font-medium border border-purple-100"
+                        >
+                          {integration}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Time Saved */}
+                  <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                    <div className="text-sm text-slate-600 mb-1">Estimated Time Saved</div>
+                    <div className="text-3xl font-bold text-purple-700">
+                      {complexWorkflowExamples[selectedComplexExample].timeSaved}
+                    </div>
+                    <div className="text-sm text-slate-500 mt-1">
+                      per week across your team
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* CTA */}
         <motion.div
