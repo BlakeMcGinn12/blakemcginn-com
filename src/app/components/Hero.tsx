@@ -108,55 +108,28 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
         >
+          <a
+            href="/assessment"
+            className="group inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-lg shadow-blue-700/20"
+          >
+            Task Assessment
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
           <a
             href="https://calendly.com/blakemcginn/consultation"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-lg shadow-blue-700/20"
+            className="group inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
           >
             Get Your Custom Setup
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a
-            href="#workflows"
-            onClick={(e) => {
-              e.preventDefault();
-              document.querySelector('#workflows')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
-          >
-            See What We Can Connect
           </a>
         </motion.div>
 
         {/* AI Readiness Checklist */}
         <AIReadinessChecklist />
-
-        {/* Lead Magnet CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center mb-12"
-        >
-          <a
-            href="/checklist"
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#00d4ff]/10 to-[#7b2cbf]/10 border border-[#00d4ff]/30 rounded-full px-6 py-3 hover:border-[#00d4ff]/50 transition-colors"
-          >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00d4ff] to-[#7b2cbf] flex items-center justify-center">
-              <FileText className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-slate-700 font-medium">
-              Not ready yet? 
-              <span className="text-blue-700 group-hover:underline ml-1">
-                Take the AI Readiness Quiz
-              </span>
-            </span>
-            <ArrowRight className="w-4 h-4 text-[#00d4ff] group-hover:translate-x-1 transition-transform" />
-          </a>
-        </motion.div>
 
         {/* App Integrations Marquee */}
         <motion.div

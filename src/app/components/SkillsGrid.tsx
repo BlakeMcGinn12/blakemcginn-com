@@ -106,11 +106,14 @@ export default function SkillsGrid() {
             What We Can Build
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-            36+ Skills Your AI Assistant Can Learn
+            100+ Skills Your AI Assistant Can Learn
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Click the skills you&apos;re interested in. We&apos;ll build a custom solution 
             for exactly what you need.
+          </p>
+          <p className="text-sm text-slate-500 mt-2">
+            *Available within an Executive Assistant setup
           </p>
         </motion.div>
 

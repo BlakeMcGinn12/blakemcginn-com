@@ -42,23 +42,23 @@ export default function Navigation() {
   ];
 
   const getStartedOptions = [
-    { 
-      name: "Book Free Consultation", 
-      href: "https://calendly.com/blakemcginn/30min",
-      icon: Calendar,
-      description: "30-min call to discuss your needs"
-    },
-    { 
-      name: "Take 2-Min Assessment", 
+    {
+      name: "Task Assessment",
       href: "/assessment",
       icon: ClipboardCheck,
       description: "Find your automation opportunities"
     },
-    { 
-      name: "Download AI Checklist", 
+    {
+      name: "Book Free Consultation",
+      href: "https://calendly.com/blakemcginn/30min",
+      icon: Calendar,
+      description: "30-min call to discuss your needs"
+    },
+    {
+      name: "AI Readiness Checklist",
       href: "/checklist",
-      icon: Download,
-      description: "Free implementation guide"
+      icon: ClipboardCheck,
+      description: "Interactive checklist"
     },
   ];
 

@@ -59,7 +59,7 @@ const faqs = [
   },
   {
     q: "How long does implementation take?",
-    a: "Most Starter projects are live within 3-5 days. Growth projects typically take 1-2 weeks. Enterprise implementations vary based on complexity but usually 2-4 weeks."
+    a: "Most projects are completed within 1-2 weeks. Simple setups can be ready in just a few days, while more complex enterprise implementations may take 3-4 weeks depending on requirements."
   },
   {
     q: "Do I need technical knowledge?",
