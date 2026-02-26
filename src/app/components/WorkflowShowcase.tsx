@@ -436,7 +436,7 @@ export default function WorkflowShowcase() {
   );
 }
 
-// Agent Hierarchy Diagram Component
+// Agent Hierarchy Diagram Component - Visual workflow display
 function AgentHierarchyDiagram({ 
   agents 
 }: { 
