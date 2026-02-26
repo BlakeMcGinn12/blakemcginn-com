@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Linkedin, Twitter } from "lucide-react";
+import { ArrowRight, Mail, Phone, Calendar, Linkedin, Twitter, Github, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -15,21 +15,56 @@ export default function Footer() {
     }
   };
 
+  const currentYear = new Date().getFullYear();
+
+  const serviceLinks = [
+    { name: "Discovery Call", href: "#workflows" },
+    { name: "Custom Design", href: "#workflows" },
+    { name: "Build & Test", href: "#workflows" },
+    { name: "Deploy & Train", href: "#workflows" },
+    { name: "Executive Assistant Workflow", href: "#workflows" },
+    { name: "Sales Pipeline Automation", href: "#workflows" },
+    { name: "Content Marketing Engine", href: "#workflows" },
+    { name: "Finance & Operations", href: "#workflows" },
+  ];
+
+  const resourceLinks = [
+    { name: "Blog", href: "#blog" },
+    { name: "AI Checklist", href: "/checklist" },
+    { name: "Case Studies", href: "#case-studies" },
+    { name: "Assessment Tool", href: "/assessment" },
+  ];
+
+  const socialLinks = [
+    { name: "LinkedIn", href: "https://linkedin.com/in/blakemcginn", icon: Linkedin },
+    { name: "Twitter/X", href: "https://twitter.com/blakemcginn", icon: Twitter },
+    { name: "GitHub", href: "https://github.com/blakemcginn", icon: Github },
+  ];
+
   return (
     <footer className="bg-[#050508] py-16 px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Main 4-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold text-white mb-4">Blake McGinn</h3>
-            <p className="text-[#9ca3af] mb-6 max-w-md">
-              AI marketing consultant helping businesses implement systems that 
-              drive real results — not hype, not experiments, but scalable solutions.
+          {/* Column 1: Brand */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">BM</span>
+              </div>
+              <div>
+                <div className="font-semibold text-white">Blake McGinn</div>
+                <div className="text-xs text-slate-400">AI Automation Consultant</div>
+              </div>
+            </div>
+            <p className="text-[#9ca3af] text-sm mb-6">
+              Helping businesses implement AI systems that drive real results — not hype, 
+              not experiments, but scalable automation solutions that actually work.
             </p>
             
             {/* Newsletter */}
             <div>
-              <h4 className="text-white font-semibold mb-3">Stay Updated</h4>
+              <h4 className="text-white font-semibold mb-3 text-sm">Stay Updated</h4>
               {!subscribed ? (
                 <form onSubmit={handleSubmit} className="flex gap-2">
                   <input
@@ -37,105 +72,149 @@ export default function Footer() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="flex-1 px-4 py-2 rounded-lg bg-[#0a0a0f] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none transition-colors duration-200 text-sm"
+                    className="flex-1 px-3 py-2 rounded-lg bg-[#0a0a0f] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-blue-500 focus:outline-none transition-colors duration-200 text-sm"
                     required
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
+                    className="px-3 py-2 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors duration-200"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
               ) : (
-                <p className="text-[#22c55e] text-sm">Thanks for subscribing!</p>
+                <p className="text-green-400 text-sm">Thanks for subscribing!</p>
               )}
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Column 2: Services */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Navigation</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Services</h4>
+            <ul className="space-y-2">
+              {serviceLinks.slice(0, 4).map((link) => (
+                <li key={link.name}>
+                  <a 
+                    href={link.href} 
+                    className="text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <h4 className="text-white font-semibold mb-3 mt-6 text-sm uppercase tracking-wider">Workflows</h4>
+            <ul className="space-y-2">
+              {serviceLinks.slice(4).map((link) => (
+                <li key={link.name}>
+                  <a 
+                    href={link.href} 
+                    className="text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Resources */}
+          <div>
+            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Resources</h4>
+            <ul className="space-y-2">
+              {resourceLinks.map((link) => (
+                <li key={link.name}>
+                  <a 
+                    href={link.href} 
+                    className="text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            
+            <h4 className="text-white font-semibold mb-3 mt-6 text-sm uppercase tracking-wider">Solutions</h4>
+            <ul className="space-y-2">
               <li>
-                <a href="#about" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                  About
-                </a>
+                <span className="text-[#9ca3af] text-sm">Workflow Automation</span>
               </li>
               <li>
-                <a href="#services" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                  Services
-                </a>
+                <span className="text-[#9ca3af] text-sm">Content Generation</span>
               </li>
               <li>
-                <a href="#quiz" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                  AI Quiz
-                </a>
+                <span className="text-[#9ca3af] text-sm">AI Assistants</span>
               </li>
               <li>
-                <a href="mailto:hello@blakemcginn.com" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                  Contact
-                </a>
+                <span className="text-[#9ca3af] text-sm">Custom AI Models</span>
               </li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Column 4: Contact */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Services</h4>
+            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3">
               <li>
-                <span className="text-[#9ca3af]">Workflow Automation</span>
+                <a 
+                  href="mailto:blake@blakemcginn.com" 
+                  className="flex items-center gap-2 text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
+                >
+                  <Mail className="w-4 h-4" />
+                  blake@blakemcginn.com
+                </a>
               </li>
               <li>
-                <span className="text-[#9ca3af]">Content Generation</span>
+                <span className="flex items-center gap-2 text-[#9ca3af] text-sm">
+                  <Phone className="w-4 h-4" />
+                  [Phone placeholder]
+                </span>
               </li>
               <li>
-                <span className="text-[#9ca3af]">AI Assistants</span>
-              </li>
-              <li>
-                <span className="text-[#9ca3af]">Custom AI Models</span>
+                <a 
+                  href="https://calendly.com/blakemcginn/30min" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Book a Call
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </li>
             </ul>
+
+            {/* Social Links */}
+            <h4 className="text-white font-semibold mb-3 mt-6 text-sm uppercase tracking-wider">Follow</h4>
+            <div className="flex gap-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-[#0a0a0f] border border-[#27272a] rounded-lg flex items-center justify-center text-[#9ca3af] hover:text-white hover:border-blue-500 transition-colors duration-200"
+                  aria-label={social.name}
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Bottom */}
+        {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#27272a] flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#9ca3af] text-sm">
-            © {new Date().getFullYear()} Blake McGinn. All rights reserved.
+            © {currentYear} Blake McGinn. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
-              <a
-                href="https://linkedin.com/in/blakemcginn"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#9ca3af] hover:text-white transition-colors duration-200"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="https://twitter.com/blakemcginn"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#9ca3af] hover:text-white transition-colors duration-200"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-            </div>
-            <div className="w-px h-4 bg-[#27272a]" />
-            <div className="flex gap-6 text-sm">
-              <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-                Terms of Service
-              </a>
-            </div>
+          <div className="flex gap-6 text-sm">
+            <a href="#privacy" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
+              Privacy Policy
+            </a>
+            <a href="#terms" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>
