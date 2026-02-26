@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Users, Zap, Shield, Briefcase, FileText } from "lucide-react";
 import InteractiveBackground from "./InteractiveBackground";
+import AIReadinessChecklist from "./AIReadinessChecklist";
 
 const recognizedApps = [
   // Communication
@@ -129,11 +130,14 @@ export default function Hero() {
           </a>
         </motion.div>
 
+        {/* AI Readiness Checklist */}
+        <AIReadinessChecklist />
+
         {/* Lead Magnet CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           className="flex justify-center mb-12"
         >
           <a
