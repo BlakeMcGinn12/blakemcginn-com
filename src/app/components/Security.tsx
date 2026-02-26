@@ -1,51 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Lock, Server, Eye, CheckCircle } from "lucide-react";
+import { Shield, Lock, Server, Eye, CheckCircle, AlertTriangle } from "lucide-react";
 
 const securityFeatures = [
   {
     icon: Server,
-    title: "Your Data Stays With You",
-    description: "Unlike most AI services, your data never leaves your environment. Your personal assistant (OpenClaw) runs on your local machine or your own AWS account—not on my servers.",
+    title: "Local-First Architecture",
+    description: "OpenClaw runs on your local machine, keeping your data on your device. However, AI processing requires sending data to external APIs (Claude, OpenAI) which have their own security practices.",
     benefits: [
-      "Complete data sovereignty",
-      "No third-party data mining",
-      "You control all access permissions",
-      "Easy to audit and monitor"
+      "Configuration and credentials stored locally",
+      "You control the deployment environment",
+      "Choose between local or cloud AI models",
+      "Full visibility into data flows"
     ]
   },
   {
     icon: Lock,
-    title: "Bank-Level Encryption",
-    description: "All data is protected with the same encryption standards used by banks and financial institutions.",
+    title: "Standard Encryption",
+    description: "Data is encrypted in transit using industry-standard TLS. Credentials are stored securely on your local device, not on external servers.",
     benefits: [
-      "TLS 1.3 for data in transit",
-      "AES-256 encryption at rest",
-      "Secure credential storage",
-      "No plaintext passwords ever stored"
+      "TLS 1.3 for API communications",
+      "Local credential storage",
+      "No central database of client data",
+      "You manage your own encryption keys"
     ]
   },
   {
     icon: Eye,
-    title: "Principle of Least Privilege",
-    description: "Every AI agent operates with the minimum permissions necessary. They can only access what you explicitly allow.",
+    title: "Permission Controls",
+    description: "You decide exactly what each AI agent can access. Grant only the permissions needed for specific tasks, and revoke access anytime.",
     benefits: [
-      "Granular permission controls",
-      "Approval workflows for sensitive actions",
-      "Detailed audit logs",
-      "One-click access revocation"
+      "Granular API permissions",
+      "Service account isolation",
+      "Easy credential rotation",
+      "Audit trail of agent actions"
     ]
   },
   {
     icon: Shield,
-    title: "Compliance Ready",
-    description: "The architecture supports SOC 2, GDPR, and HIPAA requirements. Perfect for businesses with strict compliance needs.",
+    title: "Transparency First",
+    description: "Unlike black-box SaaS tools, you can see exactly what data flows where. This gives you control to implement compliance measures that fit your requirements.",
     benefits: [
-      "Full audit trails",
-      "Custom data retention policies",
-      "PII detection and masking",
-      "Documentation for compliance audits"
+      "Open source components",
+      "Visible data processing pipeline",
+      "No hidden data collection",
+      "You own your configuration"
     ]
   }
 ];
@@ -66,12 +66,33 @@ export default function Security() {
             Security & Privacy
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Your Data Never Leaves Your Control
+            You Control Your Data
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Most AI tools require you to send your data to their servers. 
-            I don&apos;t. Your AI assistant runs entirely in your environment.
+            OpenClaw runs locally on your machine, giving you transparency and control over your data. 
+            However, AI features require sending data to external APIs — here's what that means for your security.
           </p>
+        </motion.div>
+
+        {/* Important Notice */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="bg-amber-900/30 border border-amber-700/50 rounded-2xl p-6 mb-12"
+        >
+          <div className="flex items-start gap-4">
+            <AlertTriangle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-amber-200 mb-2">Important: AI Processing Happens Externally</h3>
+              <p className="text-amber-100/80 text-sm">
+                OpenClaw runs locally, but AI features (Claude, GPT) send data to external APIs for processing. 
+                These providers (Anthropic, OpenAI) have their own security and data handling policies. 
+                For sensitive data, consider using local models or reviewing provider terms.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Comparison */}
@@ -79,7 +100,7 @@ export default function Security() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-slate-800 rounded-2xl p-8 mb-16"
         >
           <div className="grid md:grid-cols-3 gap-8">
@@ -87,19 +108,19 @@ export default function Security() {
               <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Server className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">My Service</h3>
+              <h3 className="font-semibold text-lg mb-2">OpenClaw Setup</h3>
               <ul className="text-sm text-slate-400 space-y-2">
                 <li className="flex items-center gap-2 justify-center">
                   <CheckCircle className="w-4 h-4 text-green-400" />
-                  Data stays in your environment
+                  Runs on your machine
                 </li>
                 <li className="flex items-center gap-2 justify-center">
                   <CheckCircle className="w-4 h-4 text-green-400" />
-                  You own everything
+                  You own the configuration
                 </li>
                 <li className="flex items-center gap-2 justify-center">
                   <CheckCircle className="w-4 h-4 text-green-400" />
-                  Full audit control
+                  Transparent data flow
                 </li>
               </ul>
             </div>
@@ -109,19 +130,19 @@ export default function Security() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Generic AI Tools</h3>
+              <h3 className="font-semibold text-lg mb-2">SaaS AI Tools</h3>
               <ul className="text-sm text-slate-400 space-y-2">
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
-                  Data sent to their servers
+                  <span className="text-slate-400">•</span>
+                  Hosted on vendor servers
                 </li>
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
-                  Used for model training
+                  <span className="text-slate-400">•</span>
+                  Vendor controls your data
                 </li>
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
-                  Limited audit visibility
+                  <span className="text-slate-400">•</span>
+                  Black-box processing
                 </li>
               </ul>
             </div>
@@ -134,16 +155,16 @@ export default function Security() {
               <h3 className="font-semibold text-lg mb-2">Virtual Assistants</h3>
               <ul className="text-sm text-slate-400 space-y-2">
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
-                  Human sees your data
+                  <span className="text-slate-400">•</span>
+                  Human access to data
                 </li>
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
+                  <span className="text-slate-400">•</span>
                   Limited by work hours
                 </li>
                 <li className="flex items-center gap-2 justify-center">
-                  <span className="text-red-400">✗</span>
-                  Turnover & training issues
+                  <span className="text-slate-400">•</span>
+                  Training variability
                 </li>
               </ul>
             </div>
@@ -182,6 +203,41 @@ export default function Security() {
           ))}
         </div>
 
+        {/* Data Flow Disclosure */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 bg-slate-800 rounded-2xl p-8"
+        >
+          <h3 className="text-xl font-semibold mb-4">What Data Goes Where</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-medium text-green-400 mb-2">Stays Local</h4>
+              <ul className="text-sm text-slate-400 space-y-1">
+                <li>• Your OpenClaw configuration</li>
+                <li>• API credentials and tokens</li>
+                <li>• Workflow definitions</li>
+                <li>• Local file system access</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-amber-400 mb-2">Sent to External APIs</h4>
+              <ul className="text-sm text-slate-400 space-y-1">
+                <li>• Prompts sent to Claude/OpenAI</li>
+                <li>• Email content for processing</li>
+                <li>• Document text for analysis</li>
+                <li>• Web content for research</li>
+              </ul>
+            </div>
+          </div>
+          <p className="text-sm text-slate-500 mt-4">
+            External API providers typically do not train models on API data, but they do process and temporarily store 
+            it. Review their privacy policies for specifics.
+          </p>
+        </motion.div>
+
         {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -191,7 +247,7 @@ export default function Security() {
           className="mt-16 text-center"
         >
           <p className="text-slate-400 mb-6">
-            Have specific security requirements? Let&apos;s discuss your needs.
+            Have specific security or compliance requirements? Let&apos;s discuss what setup works for you.
           </p>
           <a
             href="mailto:blake@blakemcginn.com"
