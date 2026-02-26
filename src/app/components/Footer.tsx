@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Linkedin, Twitter } from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -105,13 +105,37 @@ export default function Footer() {
           <p className="text-[#9ca3af] text-sm">
             © {new Date().getFullYear()} Blake McGinn. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
-              Terms of Service
-            </a>
+          <div className="flex items-center gap-6">
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              <a
+                href="https://linkedin.com/in/blakemcginn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#9ca3af] hover:text-white transition-colors duration-200"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="https://twitter.com/blakemcginn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#9ca3af] hover:text-white transition-colors duration-200"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
+            <div className="w-px h-4 bg-[#27272a]" />
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-[#9ca3af] hover:text-white transition-colors duration-200">
+                Terms of Service
+              </a>
+            </div>
           </div>
         </div>
       </div>

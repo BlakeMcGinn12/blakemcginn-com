@@ -152,7 +152,9 @@ export default function Pricing() {
               </ul>
 
               <a
-                href="/assessment"
+                href="https://calendly.com/blakemcginn/consultation"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors ${
                   tier.popular
                     ? "bg-white text-blue-700 hover:bg-blue-50"
@@ -189,7 +191,9 @@ export default function Pricing() {
                 <div className="text-sm text-slate-500">/month</div>
               </div>
               <a
-                href="/assessment"
+                href="https://calendly.com/blakemcginn/consultation"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
               >
                 Add Support

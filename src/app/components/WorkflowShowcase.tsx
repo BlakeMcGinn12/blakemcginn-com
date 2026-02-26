@@ -460,7 +460,9 @@ export default function WorkflowShowcase() {
           className="text-center"
         >
           <a
-            href="/assessment"
+            href="https://calendly.com/blakemcginn/consultation"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
           >
             Start Your Custom Build

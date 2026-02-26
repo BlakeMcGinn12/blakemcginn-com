@@ -109,17 +109,23 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
         >
           <a
-            href="/assessment"
+            href="https://calendly.com/blakemcginn/consultation"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-lg shadow-blue-700/20"
           >
-            Get Your AI Assistant
+            Get Your Custom Setup
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
             href="#workflows"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#workflows')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-300 px-8 py-4 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
           >
-            See How It Works
+            See What We Can Connect
           </a>
         </motion.div>
 
