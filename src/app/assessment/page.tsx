@@ -47,6 +47,7 @@ export default function AssessmentPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
+  const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
 
   const addTask = () => {
     if (!currentTask.trim() || !currentHours.trim()) return;
@@ -100,21 +101,80 @@ export default function AssessmentPage() {
     setError("");
   };
 
-  // Chart colors based on quadrant - automation potential is 0-100
+  // Chart colors based on quadrant - automation potential is 0-100, equal quadrants at 50%
   const getDotColor = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
     const midTime = maxHours * 0.5;
-    if (automationPotential >= 70 && hoursPerWeek >= midTime) return "#22c55e"; // Green - Priority
-    if (automationPotential >= 70 && hoursPerWeek < midTime) return "#3b82f6"; // Blue - Easy wins
-    if (automationPotential < 70 && hoursPerWeek >= midTime) return "#f59e0b"; // Yellow - Consider
+    if (automationPotential >= 50 && hoursPerWeek >= midTime) return "#22c55e"; // Green - Priority
+    if (automationPotential >= 50 && hoursPerWeek < midTime) return "#3b82f6"; // Blue - Easy wins
+    if (automationPotential < 50 && hoursPerWeek >= midTime) return "#f59e0b"; // Yellow - Consider
     return "#ef4444"; // Red - Skip
   };
 
   const getQuadrantLabel = (automationPotential: number, hoursPerWeek: number, maxHours: number) => {
     const midTime = maxHours * 0.5;
-    if (automationPotential >= 70 && hoursPerWeek >= midTime) return "Priority";
-    if (automationPotential >= 70 && hoursPerWeek < midTime) return "Easy Win";
-    if (automationPotential < 70 && hoursPerWeek >= midTime) return "Consider";
+    if (automationPotential >= 50 && hoursPerWeek >= midTime) return "Priority";
+    if (automationPotential >= 50 && hoursPerWeek < midTime) return "Easy Win";
+    if (automationPotential < 50 && hoursPerWeek >= midTime) return "Consider";
     return "Skip";
+  };
+
+  const toggleTaskExpand = (taskId: string) => {
+    const newExpanded = new Set(expandedTasks);
+    if (newExpanded.has(taskId)) {
+      newExpanded.delete(taskId);
+    } else {
+      newExpanded.add(taskId);
+    }
+    setExpandedTasks(newExpanded);
+  };
+
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
+  const [newTaskDesc, setNewTaskDesc] = useState("");
+  const [newTaskHours, setNewTaskHours] = useState("");
+
+  const addTaskFromResults = () => {
+    if (!newTaskDesc.trim() || !newTaskHours.trim()) return;
+    const hours = parseFloat(newTaskHours);
+    if (isNaN(hours) || hours <= 0) return;
+
+    const newTask: Task = {
+      id: Date.now().toString(),
+      description: newTaskDesc.trim(),
+      hoursPerWeek: hours,
+    };
+
+    setTasks([...tasks, newTask]);
+    setNewTaskDesc("");
+    setNewTaskHours("");
+    setShowAddTaskForm(false);
+
+    // Re-run analysis with new task
+    handleAnalyzeWithTasks([...tasks, newTask]);
+  };
+
+  const handleAnalyzeWithTasks = async (taskList: Task[]) => {
+    if (taskList.length === 0) return;
+
+    setIsAnalyzing(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/analyze-tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tasks: taskList }),
+      });
+
+      if (!response.ok) throw new Error("Analysis failed");
+
+      const data = await response.json();
+      setResult(data);
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      console.error(err);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -300,7 +360,9 @@ export default function AssessmentPage() {
                       const maxHours = Math.max(...result.chartData.map(d => d.y));
                       const color = getDotColor(task.automationPotential, task.hoursPerWeek, maxHours);
                       const label = getQuadrantLabel(task.automationPotential, task.hoursPerWeek, maxHours);
-                      
+                      const isExpanded = expandedTasks.has(task.id);
+                      const shouldTruncate = task.description.length > 50;
+
                       return (
                         <motion.div
                           key={task.id}
@@ -310,18 +372,33 @@ export default function AssessmentPage() {
                           className="bg-[#12121a] rounded-xl p-4 border border-[#27272a]"
                         >
                           <div className="flex items-start gap-3 sm:gap-4">
-                            <div 
+                            <div
                               className="w-3 h-3 rounded-full mt-2 flex-shrink-0"
                               style={{ backgroundColor: color }}
                             />
                             <div className="flex-1 min-w-0">
-                              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
-                                <h3 className="text-white font-medium truncate">{task.description}</h3>
-                                <span 
-                                  className="text-xs px-2 py-0.5 rounded-full font-medium w-fit"
-                                  style={{ 
+                              <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 mb-1">
+                                <div className="flex-1">
+                                  <h3
+                                    className={`text-white font-medium cursor-pointer ${isExpanded ? '' : 'line-clamp-2'}`}
+                                    onClick={() => shouldTruncate && toggleTaskExpand(task.id)}
+                                  >
+                                    {task.description}
+                                  </h3>
+                                  {shouldTruncate && (
+                                    <button
+                                      onClick={() => toggleTaskExpand(task.id)}
+                                      className="text-xs text-[#00d4ff] hover:text-[#00d4ff]/80 mt-1"
+                                    >
+                                      {isExpanded ? 'Show less' : 'Show more'}
+                                    </button>
+                                  )}
+                                </div>
+                                <span
+                                  className="text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap flex-shrink-0"
+                                  style={{
                                     backgroundColor: `${color}20`,
-                                    color: color 
+                                    color: color
                                   }}
                                 >
                                   {label}
@@ -336,6 +413,63 @@ export default function AssessmentPage() {
                         </motion.div>
                       );
                     })}
+                  </div>
+
+                  {/* Add More Tasks */}
+                  <div className="pt-4 border-t border-[#27272a]">
+                    {!showAddTaskForm ? (
+                      <button
+                        onClick={() => setShowAddTaskForm(true)}
+                        disabled={isAnalyzing}
+                        className="flex items-center gap-2 text-sm text-[#00d4ff] hover:text-[#00d4ff]/80 transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Add another task
+                      </button>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-[#0a0a0f] rounded-xl p-4 border border-[#27272a]"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-medium text-white">Add New Task</span>
+                          <button
+                            onClick={() => setShowAddTaskForm(false)}
+                            className="text-[#9ca3af] hover:text-white"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <div className="space-y-3">
+                          <input
+                            type="text"
+                            value={newTaskDesc}
+                            onChange={(e) => setNewTaskDesc(e.target.value)}
+                            placeholder="Task description"
+                            className="w-full px-3 py-2 rounded-lg bg-[#12121a] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none text-sm"
+                          />
+                          <div className="flex gap-3">
+                            <input
+                              type="number"
+                              value={newTaskHours}
+                              onChange={(e) => setNewTaskHours(e.target.value)}
+                              placeholder="Hours/week"
+                              min="0.5"
+                              step="0.5"
+                              className="flex-1 px-3 py-2 rounded-lg bg-[#12121a] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none text-sm"
+                            />
+                            <button
+                              onClick={addTaskFromResults}
+                              disabled={!newTaskDesc.trim() || !newTaskHours.trim() || isAnalyzing}
+                              className="px-4 py-2 bg-[#00d4ff] text-black font-medium rounded-lg hover:bg-[#00d4ff]/90 transition-colors disabled:opacity-50 text-sm"
+                            >
+                              {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add'}
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
                 </div>
 
@@ -376,11 +510,11 @@ export default function AssessmentPage() {
                             tickCount={6}
                             tickFormatter={(value) => `${value}%`}
                           />
-                          <YAxis 
-                            type="number" 
-                            dataKey="y" 
+                          <YAxis
+                            type="number"
+                            dataKey="y"
                             name="Hours/Week"
-                            domain={[0, 'auto']}
+                            domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.2)]}
                             stroke="#27272a"
                             tick={{ fill: '#9ca3af', fontSize: 11 }}
                             width={40}
@@ -404,9 +538,9 @@ export default function AssessmentPage() {
                               return null;
                             }}
                           />
-                          {/* Quadrant lines - always at 70% for automation potential, 50% of max time */}
-                          <ReferenceLine x={70} stroke="#3f3f46" strokeDasharray="5 5" />
-                          <ReferenceLine y={result.chartData.reduce((max, d) => Math.max(max, d.y), 0) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
+                          {/* Quadrant lines - equal quadrants at 50% for automation potential, 50% of max time */}
+                          <ReferenceLine x={50} stroke="#3f3f46" strokeDasharray="5 5" />
+                          <ReferenceLine y={Math.max(...result.chartData.map(d => d.y)) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
                           
                           <Scatter data={result.chartData}>
                             {result.chartData.map((entry, index) => {
@@ -430,29 +564,25 @@ export default function AssessmentPage() {
                       </ResponsiveContainer>
                     </div>
 
-                    {/* Quadrant Labels - Responsive positioning */}
+                    {/* Quadrant Labels - Just the label, no subtext */}
                     {/* Top Right - Priority */}
                     <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-right pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
                       <div className="text-[10px] sm:text-xs font-bold text-green-400">Priority</div>
-                      <div className="hidden sm:block text-[9px] sm:text-[10px] text-[#9ca3af]">High time • High potential</div>
                     </div>
-                    
+
                     {/* Top Left - Consider */}
                     <div className="absolute top-1 left-8 sm:top-2 sm:left-12 pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
                       <div className="text-[10px] sm:text-xs font-bold text-yellow-400">Consider</div>
-                      <div className="hidden sm:block text-[9px] sm:text-[10px] text-[#9ca3af]">High time • Lower potential</div>
                     </div>
-                    
+
                     {/* Bottom Right - Easy Win */}
                     <div className="absolute bottom-6 right-1 sm:bottom-8 sm:right-2 text-right pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
-                      <div className="text-[10px] sm:text-xs font-bold text-blue-400">Easy Win</div>
-                      <div className="hidden sm:block text-[9px] sm:text-[10px] text-[#9ca3af]">Less time • High potential</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-blue-400 whitespace-nowrap">Easy Win</div>
                     </div>
-                    
+
                     {/* Bottom Left - Skip */}
                     <div className="absolute bottom-6 left-8 sm:bottom-8 sm:left-12 pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
                       <div className="text-[10px] sm:text-xs font-bold text-red-400">Skip</div>
-                      <div className="hidden sm:block text-[9px] sm:text-[10px] text-[#9ca3af]">Lower on both</div>
                     </div>
                   </div>
 

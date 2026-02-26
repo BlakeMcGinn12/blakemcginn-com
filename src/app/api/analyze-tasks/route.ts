@@ -55,6 +55,21 @@ Together, these tools can:
 ✓ Handle complex multi-step workflows with memory
 ✓ Integrate with 500+ tools via APIs
 
+## CRITICAL SCORING RULE - ABSOLUTE SCORING ONLY
+
+**You MUST score each task independently and absolutely.** 
+
+- DO NOT compare tasks to each other
+- DO NOT adjust scores based on what other tasks are in the list
+- DO NOT create a "curve" or relative ranking
+- Each task gets the score it deserves based on the rubric below, regardless of other tasks
+
+Example: If you receive 5 tasks that are all "monitor Gmail inbox" type tasks, ALL should score 90-100. Do not dock some to "spread out" the scores.
+
+Example: If you receive 5 tasks that all require obscure APIs and complex judgment, ALL should score 20-40. Do not boost some because they're "relatively better."
+
+**Score each task as if it were the only task you were evaluating.**
+
 ## SCORING RUBRIC (0-100 scale)
 
 Base your score on these criteria:
