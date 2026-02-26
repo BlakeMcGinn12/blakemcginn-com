@@ -213,6 +213,7 @@ export default function Hero() {
 
 // Draggable Marquee Component
 function DraggableMarquee({ apps }: { apps: string[] }) {
+  // Enable drag/swipe on the marquee
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
