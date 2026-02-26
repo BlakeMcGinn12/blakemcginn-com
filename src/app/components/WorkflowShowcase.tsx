@@ -86,22 +86,13 @@ const complexWorkflowExamples = [
   {
     title: "CEO Command Center",
     description: "Multi-agent system that acts as your executive brain—delegating research, scheduling, and communications while autonomously monitoring markets and competitors 24/7.",
-    hierarchy: `┌─────────────────────────────────────────┐
-│         🎯 CEO Agent (Orchestrator)      │
-│    "Handle my day, keep me informed"    │
-└─────────────┬───────────────────────────┘
-              │
-    ┌─────────┼─────────┬──────────┐
-    ▼         ▼         ▼          ▼
-┌───────┐ ┌────────┐ ┌──────────┐ ┌──────────┐
-│Research│ │Scheduling│ │Communication│ │Monitoring│
-│ Agent  │ │  Agent   │ │   Agent     │ │  Skills  │
-└───┬───┘ └────┬─────┘ └─────┬─────┘ └────┬─────┘
-    │          │             │            │
-    ▼          ▼             ▼            ▼
-• Market intel  • Calendar mgmt  • Slack/Email  • Market alerts
-• Competitor    • Meeting prep   • DM routing   • News digests  
-• News synthesis • Travel coord  • Summaries    • Trend detect`,
+    agents: [
+      { name: "CEO Agent", role: "Orchestrator", icon: "🎯", level: 0 },
+      { name: "Research Agent", role: "Market intel, competitor tracking", icon: "🔍", level: 1 },
+      { name: "Scheduling Agent", role: "Calendar, meeting prep, travel", icon: "📅", level: 1 },
+      { name: "Communication Agent", role: "Slack/Email, DM routing", icon: "💬", level: 1 },
+      { name: "Monitoring Skills", role: "Market alerts, news, trends", icon: "📊", level: 1 },
+    ],
     integrations: ["Slack", "Gmail", "Google Calendar", "News APIs", "CRM", "Notion", "Alpha Vantage"],
     timeSaved: "25 hours/week",
     features: ["Autonomous market monitoring", "Competitor tracking alerts", "Daily executive briefings", "Smart delegation routing"]
@@ -109,24 +100,13 @@ const complexWorkflowExamples = [
   {
     title: "Autonomous Sales System",
     description: "Self-improving sales engine with specialized sub-agents for lead scoring, qualification, and personalized outreach that learns from every interaction.",
-    hierarchy: `┌─────────────────────────────────────────────┐
-│      🚀 Sales Director Agent                 │
-│  "Find, score, and convert our ICPs"        │
-└──────────────┬────────────────────────────────┘
-               │
-    ┌──────────┼──────────┬──────────────┐
-    ▼          ▼          ▼              ▼
-┌─────────┐ ┌──────────┐ ┌──────────┐ ┌────────────┐
-│  Lead   │ │Qualification│ │ Outreach │ │Performance │
-│ Scoring │ │   Agent     │ │  Agent   │ │  Tracker   │
-│  Agent  │ │             │ │          │ │  (Learning)│
-└────┬────┘ └─────┬──────┘ └────┬─────┘ └─────┬──────┘
-     │            │             │             │
-     ▼            ▼             ▼             ▼
-• LinkedIn data  • Enrichment   • Personalized • Response tracking
-• Firmographic   • ICP matching  • Sequences   • A/B testing
-• Behavioral     • Intent scoring • Follow-ups  • Auto-optimization
-• Intent signals • Qual scoring   • Calendly    • Strategy adjust`,
+    agents: [
+      { name: "Sales Director", role: "Find, score, convert ICPs", icon: "🚀", level: 0 },
+      { name: "Lead Scoring Agent", role: "LinkedIn data, behavioral signals", icon: "⭐", level: 1 },
+      { name: "Qualification Agent", role: "Enrichment, ICP matching", icon: "✓", level: 1 },
+      { name: "Outreach Agent", role: "Personalized sequences", icon: "📧", level: 1 },
+      { name: "Performance Tracker", role: "Learning & optimization", icon: "📈", level: 1 },
+    ],
     integrations: ["HubSpot", "LinkedIn Sales Navigator", "Gmail", "Calendly", "Apollo", "Clearbit", "OpenAI"],
     timeSaved: "30 hours/week",
     features: ["AI-powered lead scoring", "Industry-specific personas", "Self-optimizing outreach", "Automated follow-up sequences"]
@@ -134,24 +114,13 @@ const complexWorkflowExamples = [
   {
     title: "24/7 Operations Monitor",
     description: "Always-on monitoring suite that watches your financial health, customer sentiment, and competitive landscape—delivering daily intelligence briefings.",
-    hierarchy: `┌──────────────────────────────────────────────────┐
-│        📊 Operations Command Center               │
-│     "Watch everything, alert on anomalies"       │
-└────────────────┬─────────────────────────────────┘
-                 │
-        ┌────────┼────────┬──────────┐
-        ▼        ▼        ▼          ▼
-┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐
-│  Financial │ │  Customer  │ │ Competitor │ │   Daily    │
-│  Monitor   │ │  Sentiment │ │   Watch    │ │   Digest   │
-│   Skill    │ │   Skill    │ │   Skill    │ │  Generator │
-└─────┬──────┘ └─────┬──────┘ └─────┬──────┘ └─────┬──────┘
-      │              │              │              │
-      ▼              ▼              ▼              ▼
-• Stripe/PayPal   • Review sites   • Price tracking • Morning briefing
-• Anomaly alerts  • Support tickets • Product changes • Slack digest  
-• Cash flow       • Social mentions • News alerts    • Action items
-• Forecasting     • NPS tracking    • Hiring signals • Trend summary`,
+    agents: [
+      { name: "Operations Center", role: "Watch everything, alert anomalies", icon: "📊", level: 0 },
+      { name: "Financial Monitor", role: "Stripe/PayPal, anomaly alerts", icon: "💰", level: 1 },
+      { name: "Sentiment Tracker", role: "Reviews, tickets, social", icon: "😊", level: 1 },
+      { name: "Competitor Watch", role: "Price tracking, news, hiring", icon: "👁", level: 1 },
+      { name: "Digest Generator", role: "Morning briefings, Slack digest", icon: "📰", level: 1 },
+    ],
     integrations: ["Stripe", "QuickBooks", "Twitter/X", "Google Alerts", "Zendesk", "Trustpilot", "Slack", "Notion"],
     timeSaved: "20 hours/week",
     features: ["Financial anomaly detection", "Real-time sentiment tracking", "Competitor price monitoring", "Automated daily digests"]
@@ -159,23 +128,13 @@ const complexWorkflowExamples = [
   {
     title: "Content Intelligence Engine",
     description: "End-to-end content creation pipeline that researches trending topics, writes SEO-optimized drafts, and distributes across channels—learning what resonates.",
-    hierarchy: `┌───────────────────────────────────────────────┐
-│      📝 Content Director Agent                 │
-│   "Create, optimize, and distribute content"  │
-└───────────────┬─────────────────────────────────┘
-                │
-    ┌───────────┼───────────┬──────────────┐
-    ▼           ▼           ▼              ▼
-┌─────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐
-│ Research│ │ Writing  │ │   SEO    │ │Distribution  │
-│  Agent  │ │  Agent   │ │  Agent   │ │   Agent      │
-└────┬────┘ └────┬─────┘ └────┬─────┘ └──────┬───────┘
-     │           │            │              │
-     ▼           ▼            ▼              ▼
-• Trend analysis  • Draft creation  • Keyword opt  • Social scheduling
-• Topic discovery • Tone matching   • Meta tags    • Email campaigns  
-• Competitor gaps • Multi-format    • Readability  • Cross-posting
-• Audience intel  • Voice training  • SERP analysis • Analytics sync`,
+    agents: [
+      { name: "Content Director", role: "Create, optimize, distribute", icon: "📝", level: 0 },
+      { name: "Research Agent", role: "Trend analysis, topic discovery", icon: "🔎", level: 1 },
+      { name: "Writing Agent", role: "Draft creation, tone matching", icon: "✍️", level: 1 },
+      { name: "SEO Agent", role: "Keywords, meta tags, SERP", icon: "🔍", level: 1 },
+      { name: "Distribution Agent", role: "Social, email, cross-posting", icon: "📢", level: 1 },
+    ],
     integrations: ["Notion", "Twitter/X", "LinkedIn", "Mailchimp", "SEMrush", "Ahrefs", "Google Analytics", "Buffer"],
     timeSaved: "35 hours/week",
     features: ["AI trend research", "Multi-channel distribution", "SEO auto-optimization", "Performance learning loop"]
@@ -394,10 +353,10 @@ export default function WorkflowShowcase() {
                   <h5 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
                     Agent Architecture
                   </h5>
-                  <div className="bg-slate-900 rounded-xl p-4 overflow-x-auto">
-                    <pre className="text-xs text-green-400 font-mono whitespace-pre">
-                      {complexWorkflowExamples[selectedComplexExample].hierarchy}
-                    </pre>
+                  <div className="bg-slate-900 rounded-xl p-4 sm:p-6">
+                    <AgentHierarchyDiagram 
+                      agents={complexWorkflowExamples[selectedComplexExample].agents} 
+                    />
                   </div>
                 </div>
 
@@ -474,5 +433,56 @@ export default function WorkflowShowcase() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+// Agent Hierarchy Diagram Component
+function AgentHierarchyDiagram({ 
+  agents 
+}: { 
+  agents: { name: string; role: string; icon: string; level: number }[] 
+}) {
+  const orchestrator = agents.find(a => a.level === 0);
+  const subAgents = agents.filter(a => a.level === 1);
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Orchestrator */}
+      {orchestrator && (
+        <div className="w-full mb-4">
+          <div className="bg-purple-600 rounded-xl p-3 sm:p-4 text-center shadow-lg">
+            <div className="text-2xl sm:text-3xl mb-1">{orchestrator.icon}</div>
+            <div className="text-white font-bold text-sm sm:text-base">{orchestrator.name}</div>
+            <div className="text-purple-200 text-xs mt-1">{orchestrator.role}</div>
+          </div>
+          {/* Connector Line */}
+          <div className="flex justify-center">
+            <div className="w-0.5 h-4 sm:h-6 bg-purple-400"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Horizontal Connector */}
+      <div className="relative w-full mb-4">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-0.5 bg-purple-400"></div>
+        {/* Vertical lines to sub-agents */}
+        <div className="flex justify-around pt-0">
+          {subAgents.map((_, i) => (
+            <div key={i} className="w-0.5 h-4 sm:h-6 bg-purple-400"></div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sub-Agents Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 w-full">
+        {subAgents.map((agent, i) => (
+          <div key={i} className="bg-slate-800 rounded-lg p-2 sm:p-3 text-center border border-slate-700">
+            <div className="text-lg sm:text-xl mb-1">{agent.icon}</div>
+            <div className="text-slate-200 font-semibold text-xs sm:text-sm">{agent.name}</div>
+            <div className="text-slate-400 text-xs mt-1 leading-tight">{agent.role}</div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

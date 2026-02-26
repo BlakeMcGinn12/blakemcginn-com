@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { ArrowRight, CheckCircle, Users, Zap, Shield, Briefcase, FileText } from "lucide-react";
 import InteractiveBackground from "./InteractiveBackground";
 
@@ -164,18 +165,7 @@ export default function Hero() {
             Works with the tools you already use
           </p>
           
-          <div className="relative overflow-hidden">
-            <div className="flex gap-8 animate-marquee">
-              {[...recognizedApps, ...recognizedApps].map((app, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-4 py-2 shadow-sm"
-                >
-                  <span className="text-sm font-medium text-slate-700">{app}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <DraggableMarquee apps={recognizedApps} />
         </motion.div>
 
         {/* Trust Indicators */}
@@ -209,7 +199,102 @@ export default function Hero() {
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
       `}</style>
     </section>
+  );
+}
+
+// Draggable Marquee Component
+function DraggableMarquee({ apps }: { apps: string[] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      setIsDragging(true);
+      setStartX(e.pageX - container.offsetLeft);
+      setScrollLeft(container.scrollLeft);
+      container.style.cursor = 'grabbing';
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      container.style.cursor = 'grab';
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      setIsDragging(true);
+      setStartX(e.touches[0].pageX - container.offsetLeft);
+      setScrollLeft(container.scrollLeft);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      const x = e.touches[0].pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleTouchEnd = () => {
+      setIsDragging(false);
+    };
+
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mouseleave', handleMouseUp);
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
+    container.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      container.removeEventListener('mousedown', handleMouseDown);
+      container.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('mouseleave', handleMouseUp);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isDragging, startX, scrollLeft]);
+
+  const duplicatedApps = [...apps, ...apps, ...apps, ...apps];
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative overflow-x-auto scrollbar-hide cursor-grab select-none"
+      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+    >
+      <div 
+        className={`flex gap-4 ${!isDragging ? 'animate-marquee' : ''}`}
+        style={{ width: 'max-content' }}
+      >
+        {duplicatedApps.map((app, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-4 py-2 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <span className="text-sm font-medium text-slate-700 whitespace-nowrap">{app}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
