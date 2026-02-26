@@ -15,81 +15,70 @@ function getOpenAI() {
   return openai;
 }
 
+interface Task {
+  id: string;
+  description: string;
+  hoursPerWeek: number;
+}
+
+interface AnalyzedTask extends Task {
+  automationPotential: number;
+  canBeAutomated: boolean;
+  reasoning: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { tasks } = await request.json();
+    const body = await request.json();
+    const { tasks } = body;
 
-    if (!tasks || typeof tasks !== "string") {
+    if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
       return NextResponse.json(
-        { error: "Tasks input is required" },
+        { error: "Tasks array is required" },
         { status: 400 }
       );
     }
 
     const prompt = `You are an expert AI automation consultant. Analyze the following business tasks and rate each on:
-1. TIME_COST (hours per week)
-2. BUILD_EASE (1-10 scale: 1-3 easy, 4-6 medium, 7-10 hard)
-3. REPETITION_FREQUENCY (daily=5, multiple/week=4, weekly=3, monthly=2, quarterly=1)
-4. API_COST (low/medium/high)
 
-Then calculate:
-- Monthly time value = hours/week × 4.3 weeks × $50/hr
-- Implementation cost = based on build ease ($300-800 easy, $800-1500 medium, $1500-3000 hard)
-- Monthly API cost = runs/month × cost per run
-- Monthly savings = Time value - API cost
-- ROI % = (Monthly savings × 12 - Implementation cost) / Implementation cost × 100
+1. AUTOMATION POTENTIAL (0-10 scale) - Consider:
+   - Technical feasibility (can current AI tools do this?)
+   - Data availability (is the necessary data accessible via APIs?)
+   - Complexity (simple rule-based vs complex decision-making)
+   - Reliability (will AI handle this consistently well?)
+   - 8-10: Highly automatable with current tools
+   - 5-7: Moderately automatable, some complexity
+   - 0-4: Difficult to automate or better done by humans
 
-Assign quadrant:
-- QUICK_WIN: High time (4+ hrs/week), Easy build (1-5), High repetition
-- STRATEGIC: High time (4+ hrs/week), Hard build (6-10), High repetition  
-- FILLER: Low time (<4 hrs/week), Easy build (1-5)
-- SKIP: Low time (<4 hrs/week), Hard build (6-10)
+2. CAN_BE_AUTOMATED (boolean) - Should this be automated?
 
-Recommend package:
-- Starter ($300): Easy builds, single workflows
-- Growth ($1,000): Medium builds, multiple integrations
-- Scale ($5,000): Hard builds, custom development
+For each task, provide a brief reasoning (1-2 sentences) explaining WHY it has that automation potential.
 
 Tasks to analyze:
-${tasks}
+${tasks.map((t: Task, i: number) => `${i + 1}. "${t.description}" (${t.hoursPerWeek} hours/week)`).join('\n')}
 
 Return ONLY valid JSON in this exact format:
 {
   "tasks": [
     {
-      "task_name": "string",
-      "time_cost_hours_per_week": number,
-      "build_ease": number,
-      "repetition": "string",
-      "repetition_score": number,
-      "api_cost_per_run": "low" | "medium" | "high",
-      "quadrant": "QUICK_WIN" | "STRATEGIC" | "FILLER" | "SKIP",
-      "implementation_cost_estimate": number,
-      "monthly_time_value": number,
-      "monthly_api_cost": number,
-      "monthly_savings": number,
-      "roi_percent": number,
-      "recommended_package": "Starter" | "Growth" | "Scale",
-      "why": "explanation"
+      "id": "string (same as input)",
+      "description": "string (same as input)",
+      "hoursPerWeek": number (same as input),
+      "automationPotential": number (0-10),
+      "canBeAutomated": boolean,
+      "reasoning": "explanation of automation potential"
     }
-  ],
-  "summary": {
-    "total_hours_per_week": number,
-    "total_monthly_savings_potential": number,
-    "quick_wins_count": number,
-    "recommended_first_task": "string",
-    "estimated_total_implementation_cost": number
-  }
+  ]
 }
 
-Sort tasks by ROI (highest first). Be realistic with time estimates. Return only the JSON, no markdown or explanation.`;
+Be realistic. Some tasks are better left to humans. Focus on whether AI can do it WELL, not just whether it's technically possible. Return only the JSON, no markdown or explanation.`;
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: "You are an expert AI automation consultant specializing in ROI analysis and task automation prioritization.",
+          content: "You are an expert AI automation consultant. Be honest about what AI can and cannot do well. Focus on practical automation potential.",
         },
         {
           role: "user",
@@ -97,7 +86,7 @@ Sort tasks by ROI (highest first). Be realistic with time estimates. Return only
         },
       ],
       temperature: 0.3,
-      max_tokens: 4000,
+      max_tokens: 2000,
     });
 
     const content = completion.choices[0].message.content;
@@ -110,7 +99,22 @@ Sort tasks by ROI (highest first). Be realistic with time estimates. Return only
     const cleanedContent = content.replace(/```json\n?|\n?```/g, "").trim();
     const analysis = JSON.parse(cleanedContent);
 
-    return NextResponse.json(analysis);
+    // Build chart data
+    const chartData = analysis.tasks.map((task: AnalyzedTask) => ({
+      x: task.automationPotential,
+      y: task.hoursPerWeek,
+      name: task.description.length > 30 
+        ? task.description.substring(0, 30) + "..." 
+        : task.description,
+      fullName: task.description,
+      reasoning: task.reasoning,
+      canBeAutomated: task.canBeAutomated,
+    }));
+
+    return NextResponse.json({
+      tasks: analysis.tasks,
+      chartData,
+    });
   } catch (error) {
     console.error("Task analysis error:", error);
     return NextResponse.json(
