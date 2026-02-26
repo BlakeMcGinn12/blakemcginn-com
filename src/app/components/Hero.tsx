@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { ArrowRight, CheckCircle, Users, Zap, Shield, Briefcase, FileText } from "lucide-react";
 import InteractiveBackground from "./InteractiveBackground";
-import AIReadinessChecklist from "./AIReadinessChecklist";
+import dynamic from "next/dynamic";
+
+const AIReadinessChecklist = dynamic(() => import("./AIReadinessChecklist"), { ssr: false });;
 
 const recognizedApps = [
   // Communication
@@ -77,8 +79,8 @@ export default function Hero() {
           </h1>
           
           <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            You don't need to become an AI expert—that's my job. I handle the complexity of 
-            OpenClaw, Claude Code, and Perplexity so you can focus on what you do best.
+            You don't need to become an AI expert—that's my job. I handle the complexity of
+            AI agents like Claude Code and Perplexity so you can focus on what you do best.
             <span className="text-slate-900 font-medium"> Practical AI, real results, zero overwhelm.</span>
           </p>
         </motion.div>
@@ -91,7 +93,7 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-4 mb-10"
         >
           {[
-            { icon: Users, text: "OpenClaw/AI Agent Setup" },
+            { icon: Users, text: "AI Agent Setup" },
             { icon: Briefcase, text: "Claude Code Development" },
             { icon: Shield, text: "Perplexity Computer Workflows" },
             { icon: Zap, text: "API Integrations" },

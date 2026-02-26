@@ -39,10 +39,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const prompt = `You are an expert AI automation consultant specializing in CLI-based AI agents like OpenClaw, Claude Code, and Perplexity Computer. Your job is to score tasks on their PRACTICAL automation potential using these modern AI tools.
+    const prompt = `You are an expert AI automation consultant specializing in CLI-based AI agents like Claude Code and Perplexity Computer. Your job is to score tasks on their PRACTICAL automation potential using these modern AI tools.
 
 IMPORTANT CONTEXT - What These CLI Agents Can Do:
-- OpenClaw: Multi-agent orchestration, skill execution, tool integrations, background task management
+- AI agents: Multi-agent orchestration, skill execution, tool integrations, background task management
 - Claude Code: Direct codebase manipulation, file operations, terminal commands, API integrations
 - Perplexity Computer: Live web research, data gathering, competitive analysis, fact-checking
 
@@ -127,7 +127,7 @@ Final score must be 0-100. Be realistic about current capabilities.
 ## SCORING EXAMPLES
 
 - "Monitor Gmail and flag urgent emails from VIP clients" → 95/100
-  (OpenClaw + Claude Code handle this natively, clear rules, Gmail API is standard)
+  (Claude Code and AI agents handle this natively, clear rules, Gmail API is standard)
 
 - "Research competitors weekly and summarize findings" → 85/100
   (Perplexity Computer excels at live web research, Claude Code can compile reports)
@@ -171,7 +171,7 @@ Return ONLY valid JSON in this exact format:
   ]
 }
 
-Remember: Be conservative. Score based on what OpenClaw + Claude Code + Perplexity can do TODAY, not theoretical future capabilities. Return only the JSON, no markdown or explanation.`;
+Remember: Be conservative. Score based on what CLI AI agents can do TODAY, not theoretical future capabilities. Return only the JSON, no markdown or explanation.`;
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",

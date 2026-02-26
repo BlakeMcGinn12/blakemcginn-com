@@ -9,7 +9,7 @@ const tiers = [
     price: "$300",
     description: "Perfect for solopreneurs testing AI automation",
     features: [
-      "Personal assistant (OpenClaw) setup",
+      "Personal AI assistant setup",
       "5-10 essential skills installed",
       "2 custom workflows built",
       "30-minute training session",
@@ -55,7 +55,7 @@ const tiers = [
 const faqs = [
   {
     q: "What's included in the setup?",
-    a: "I handle everything: initial consultation, design of your automation architecture, configuration of your personal AI assistant (OpenClaw), integration with your existing tools, custom workflow building, testing, and team training."
+    a: "I handle everything: initial consultation, design of your automation architecture, configuration of your personal AI assistant, integration with your existing tools, custom workflow building, testing, and team training."
   },
   {
     q: "How long does implementation take?",

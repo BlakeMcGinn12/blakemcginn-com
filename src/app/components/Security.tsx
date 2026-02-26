@@ -7,7 +7,7 @@ const securityFeatures = [
   {
     icon: Server,
     title: "Local-First Architecture",
-    description: "OpenClaw runs on your local machine, keeping your data on your device. However, AI processing requires sending data to external APIs (Claude, OpenAI) which have their own security practices.",
+    description: "AI agents run on your local machine, keeping your configuration and credentials on your device. However, AI processing requires sending data to external APIs (Claude, OpenAI) which have their own security practices.",
     benefits: [
       "Configuration and credentials stored locally",
       "You control the deployment environment",
@@ -69,7 +69,7 @@ export default function Security() {
             You Control Your Data
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            OpenClaw runs locally on your machine, giving you transparency and control over your data. 
+            AI agents run locally on your machine, giving you transparency and control over your data. 
             However, AI features require sending data to external APIs — here's what that means for your security.
           </p>
         </motion.div>
@@ -87,7 +87,7 @@ export default function Security() {
             <div>
               <h3 className="font-semibold text-amber-200 mb-2">Important: AI Processing Happens Externally</h3>
               <p className="text-amber-100/80 text-sm">
-                OpenClaw runs locally, but AI features (Claude, GPT) send data to external APIs for processing. 
+                AI agents run locally, but AI features (Claude, GPT) send data to external APIs for processing. 
                 These providers (Anthropic, OpenAI) have their own security and data handling policies. 
                 For sensitive data, consider using local models or reviewing provider terms.
               </p>
@@ -108,7 +108,7 @@ export default function Security() {
               <div className="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Server className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">OpenClaw Setup</h3>
+              <h3 className="font-semibold text-lg mb-2">Custom AI Setup</h3>
               <ul className="text-sm text-slate-400 space-y-2">
                 <li className="flex items-center gap-2 justify-center">
                   <CheckCircle className="w-4 h-4 text-green-400" />
@@ -216,7 +216,7 @@ export default function Security() {
             <div>
               <h4 className="font-medium text-green-400 mb-2">Stays Local</h4>
               <ul className="text-sm text-slate-400 space-y-1">
-                <li>• Your OpenClaw configuration</li>
+                <li>• Your AI agent configuration</li>
                 <li>• API credentials and tokens</li>
                 <li>• Workflow definitions</li>
                 <li>• Local file system access</li>

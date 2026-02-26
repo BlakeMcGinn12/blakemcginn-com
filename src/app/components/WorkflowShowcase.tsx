@@ -33,7 +33,7 @@ const processSteps = [
     id: "build",
     title: "Build & Test",
     icon: Rocket,
-    description: "Your personal assistant (OpenClaw) is configured with the exact skills and integrations needed for your business.",
+    description: "Your personal AI assistant is configured with the exact skills and integrations needed for your business.",
     details: [
       "Configure your personal AI assistant",
       "Set up API integrations with your tools",
