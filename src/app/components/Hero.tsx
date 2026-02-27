@@ -93,7 +93,7 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-4 mb-10"
         >
           {[
-            { icon: Users, text: "AI Agent Setup" },
+            { icon: Users, text: "OpenClaw Setup" },
             { icon: Briefcase, text: "Claude Code Development" },
             { icon: Shield, text: "Perplexity Computer Workflows" },
             { icon: Zap, text: "API Integrations" },
@@ -170,29 +170,47 @@ export default function Hero() {
       </div>
       </div>
 
-      <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        .animate-marquee:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 }
 
 // Draggable Marquee Component
 function DraggableMarquee({ apps }: { apps: string[] }) {
-  // Enable drag/swipe on the marquee
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const animationRef = useRef<number | null>(null);
+
+  // Auto-scroll animation
+  useEffect(() => {
+    if (isDragging) return;
+    
+    const animate = () => {
+      setTranslateX((prev) => {
+        const contentWidth = contentRef.current?.scrollWidth || 0;
+        const containerWidth = containerRef.current?.offsetWidth || 0;
+        const resetPoint = -(contentWidth / 2); // Reset at half since we duplicate
+        
+        let newX = prev - 0.5; // Scroll speed
+        if (newX <= resetPoint) {
+          newX = 0;
+        }
+        return newX;
+      });
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isDragging]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -200,8 +218,8 @@ function DraggableMarquee({ apps }: { apps: string[] }) {
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsDragging(true);
-      setStartX(e.pageX - container.offsetLeft);
-      setScrollLeft(container.scrollLeft);
+      setStartX(e.pageX);
+      setScrollLeft(translateX);
       container.style.cursor = 'grabbing';
     };
 
@@ -213,22 +231,22 @@ function DraggableMarquee({ apps }: { apps: string[] }) {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
+      const x = e.pageX;
+      const walk = (x - startX);
+      setTranslateX(scrollLeft + walk);
     };
 
     const handleTouchStart = (e: TouchEvent) => {
       setIsDragging(true);
-      setStartX(e.touches[0].pageX - container.offsetLeft);
-      setScrollLeft(container.scrollLeft);
+      setStartX(e.touches[0].pageX);
+      setScrollLeft(translateX);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
-      const x = e.touches[0].pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
+      const x = e.touches[0].pageX;
+      const walk = (x - startX);
+      setTranslateX(scrollLeft + walk);
     };
 
     const handleTouchEnd = () => {
@@ -252,19 +270,25 @@ function DraggableMarquee({ apps }: { apps: string[] }) {
       container.removeEventListener('touchend', handleTouchEnd);
       container.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [isDragging, startX, scrollLeft]);
+  }, [isDragging, startX, scrollLeft, translateX]);
 
-  const duplicatedApps = [...apps, ...apps, ...apps, ...apps];
+  // Duplicate apps 3 times for seamless loop
+  const duplicatedApps = [...apps, ...apps, ...apps];
 
   return (
     <div 
       ref={containerRef}
-      className="relative overflow-x-auto scrollbar-hide cursor-grab select-none"
-      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      className="relative overflow-hidden cursor-grab select-none"
+      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
     >
       <div 
-        className={`flex gap-4 ${!isDragging ? 'animate-marquee' : ''}`}
-        style={{ width: 'max-content' }}
+        ref={contentRef}
+        className="flex gap-4"
+        style={{ 
+          width: 'max-content',
+          transform: `translateX(${translateX}px)`,
+          transition: isDragging ? 'none' : 'transform 0.1s linear'
+        }}
       >
         {duplicatedApps.map((app, i) => (
           <div
