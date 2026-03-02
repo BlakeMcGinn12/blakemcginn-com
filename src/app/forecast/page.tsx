@@ -46,7 +46,7 @@ interface AnalysisResult {
     three_years: number;
     five_years: number;
   };
-  economics: {
+  economics?: {
     salary_median: number;
     current_roi: number;
     payback_months: number;
