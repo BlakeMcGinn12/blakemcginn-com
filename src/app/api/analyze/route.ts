@@ -70,36 +70,27 @@ export async function POST(request: NextRequest) {
       five_years: fiveYearRisk
     };
 
-    // Generate SNARKY descriptions based on the actual role
+    // Generate professional descriptions
     const getOneYearDescription = (risk: number, role: string) => {
-      if (risk >= 75) return "Your job is basically a ChatGPT prompt waiting to happen.";
-      if (risk >= 60) return "Start learning to code, or start learning to serve coffee.";
-      if (risk >= 45) return "You'll survive... but your resume won't look the same.";
-      return "You're safe... for now. Don't get comfortable.";
+      if (risk >= 75) return "High near-term automation risk. Immediate action recommended.";
+      if (risk >= 60) return "Significant automation expected within 12 months.";
+      if (risk >= 45) return "Moderate automation risk. Plan for workflow changes.";
+      return "Lower near-term risk, but monitor industry trends.";
     };
 
     const getFiveYearDescription = (risk: number, role: string) => {
-      if (risk >= 90) return "In 5 years, you'll be explaining what you used to do to your grandkids.";
-      if (risk >= 75) return "Your job title will be 'AI Whisperer' or 'Unemployed.' Choose wisely.";
-      if (risk >= 60) return "You'll still have a job, but the AI will be your boss.";
-      return "Congrats, you're in the 5% that might survive the robot uprising.";
+      if (risk >= 90) return "Role likely to be redefined or automated within 5 years.";
+      if (risk >= 75) return "Major transformation expected. Consider upskilling now.";
+      if (risk >= 60) return "Role will evolve significantly. Prepare for changes.";
+      return "Role relatively stable, but stay adaptable.";
     };
 
     const getConfidenceDescription = (role: string) => {
-      const roasts = [
-        `We've analyzed 10,000+ ${role}s. You're all equally doomed.`,
-        `Our AI is more confident about replacing you than you are about your career.`,
-        `The data doesn't lie. Your job security, however...`,
-        `Trust us, we're robots. We know what other robots can do.`
-      ];
-      return roasts[Math.floor(Math.random() * roasts.length)];
+      return `Based on analysis of ${role} roles across multiple industries and current AI capabilities.`;
     };
 
     const getTasksDescription = (high: number, total: number, role: string) => {
-      const ratio = high / total;
-      if (ratio >= 0.7) return `${high} out of ${total} tasks? Might as well train your replacement now.`;
-      if (ratio >= 0.5) return `${high}/${total} tasks are toast. Time to get creative.`;
-      return `Only ${high}/${total} tasks at risk. You're basically unfireable... for 6 months.`;
+      return `${high} of ${total} identified tasks are at high risk of automation.`;
     };
 
     // Generate tasks based on keywords found

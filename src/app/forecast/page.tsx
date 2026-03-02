@@ -1,4 +1,4 @@
-// src/app/forecast/page.tsx - Automation Forecast Tool (Balanced Edition)
+// src/app/forecast/page.tsx - Automation Forecast Tool (Professional Edition)
 "use client";
 
 import { useState } from "react";
@@ -14,7 +14,6 @@ import {
   Brain,
   Share2,
   CheckCircle,
-  Skull,
   Info,
   X
 } from "lucide-react";
@@ -22,11 +21,11 @@ import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 
 const AGENTS = [
-  { id: "decomposer", name: "Decomposer Agent", icon: "🔍", description: "Breaking down your role into automatable chunks" },
-  { id: "researcher", name: "Researcher Agent", icon: "🔬", description: "Finding all the ways AI can replace you" },
-  { id: "forecaster", name: "Forecaster Agent", icon: "📈", description: "Predicting your unemployment timeline" },
-  { id: "economist", name: "Economist Agent", icon: "💰", description: "Calculating how much your boss will save firing you" },
-  { id: "strategist", name: "Strategist Agent", icon: "🎯", description: "Planning your career's funeral" },
+  { id: "decomposer", name: "Decomposer Agent", icon: "🔍", description: "Breaking down your role into tasks" },
+  { id: "researcher", name: "Researcher Agent", icon: "🔬", description: "Checking AI capabilities" },
+  { id: "forecaster", name: "Forecaster Agent", icon: "📈", description: "Projecting automation timelines" },
+  { id: "economist", name: "Economist Agent", icon: "💰", description: "Calculating ROI and costs" },
+  { id: "strategist", name: "Strategist Agent", icon: "🎯", description: "Building survival strategy" },
 ];
 
 interface AnalysisResult {
@@ -157,7 +156,7 @@ export default function ForecastPage() {
       setResult(data);
       setStep("results");
     } catch (err) {
-      setError("Even our AI couldn't figure out what you do. Try being clearer.");
+      setError("Analysis failed. Please try again.");
       setStep("input");
     }
   };
@@ -177,26 +176,26 @@ export default function ForecastPage() {
       
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto">
-          {/* Header - Mixed tone */}
+          {/* Header - Professional */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 mb-6">
-              <Skull className="w-4 h-4 text-red-400" />
-              <span className="text-red-400 text-sm font-medium">Career Obsolescence Calculator</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6">
+              <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+              <span className="text-cyan-400 text-sm font-medium">Powered by 5 AI Agents</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
-                Will AI End Your Career?
+              <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Automation Forecast
               </span>
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Our team of 5 AI agents will analyze how screwed you are. 
-              Spoiler: It's probably worse than you think.
+              Our team of 5 specialized AI agents analyzes your role 
+              and predicts your automation risk over 1, 3, and 5 years.
             </p>
           </div>
 
           <AnimatePresence mode="wait">
-            {/* Input Step - Keep the snarky tone */}
+            {/* Input Step - Professional */}
             {step === "input" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -207,14 +206,14 @@ export default function ForecastPage() {
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-gray-300">
-                      Describe your job (before it's gone)
+                      Job Description
                     </label>
                     <textarea
                       value={jobDescription}
                       onChange={(e) => setJobDescription(e.target.value)}
                       rows={6}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 focus:border-red-500 focus:outline-none text-white resize-none"
-                      placeholder="Paste your job description. Be honest—we'll know if you're padding it with buzzwords to look more important."
+                      className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 focus:border-cyan-500 focus:outline-none text-white resize-none"
+                      placeholder="Paste your job description or describe your typical responsibilities, tasks, and tools you use."
                     />
                   </div>
 
@@ -224,12 +223,12 @@ export default function ForecastPage() {
                       <select
                         value={experience}
                         onChange={(e) => setExperience(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-red-500 focus:outline-none text-white"
+                        className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-cyan-500 focus:outline-none text-white"
                       >
-                        <option>0-2 years (Basically an intern)</option>
-                        <option>3-5 years (Peak delusion)</option>
-                        <option>6-10 years (Too expensive to keep)</option>
-                        <option>10+ years (Ageism incoming)</option>
+                        <option>0-2 years</option>
+                        <option>3-5 years</option>
+                        <option>6-10 years</option>
+                        <option>10+ years</option>
                       </select>
                     </div>
                     <div>
@@ -237,22 +236,22 @@ export default function ForecastPage() {
                       <select
                         value={industry}
                         onChange={(e) => setIndustry(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-red-500 focus:outline-none text-white"
+                        className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-cyan-500 focus:outline-none text-white"
                       >
-                        <option>Technology (Self-aware irony)</option>
-                        <option>Finance (AI loves money)</option>
-                        <option>Healthcare (Robot doctors)</option>
-                        <option>Marketing (Already half bots)</option>
-                        <option>Other (No one is safe)</option>
+                        <option>Technology</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>Marketing</option>
+                        <option>Other</option>
                       </select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2 text-gray-300">Company Size</label>
-                      <select className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-red-500 focus:outline-none text-white">
-                        <option>1-50 (Can't afford AI yet)</option>
-                        <option>51-200 (Getting ideas)</option>
-                        <option>201-1000 (Definitely automating)</option>
-                        <option>1000+ (You're a headcount reduction away)</option>
+                      <select className="w-full px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-700 focus:border-cyan-500 focus:outline-none text-white">
+                        <option>1-50</option>
+                        <option>51-200</option>
+                        <option>201-1000</option>
+                        <option>1000+</option>
                       </select>
                     </div>
                   </div>
@@ -260,9 +259,9 @@ export default function ForecastPage() {
                   <button
                     onClick={startAnalysis}
                     disabled={!jobDescription.trim()}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-bold text-lg flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-bold text-lg flex items-center justify-center gap-2"
                   >
-                    Calculate My Demise
+                    Start Analysis
                     <ArrowRight className="w-5 h-5" />
                   </button>
 
@@ -273,7 +272,7 @@ export default function ForecastPage() {
               </motion.div>
             )}
 
-            {/* Analyzing Step - Snarky */}
+            {/* Analyzing Step - Professional */}
             {step === "analyzing" && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -282,8 +281,8 @@ export default function ForecastPage() {
                 className="space-y-6"
               >
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold mb-2">Calculating Your Obsolescence...</h2>
-                  <p className="text-gray-400">Our AI agents are determining exactly how replaceable you are.</p>
+                  <h2 className="text-2xl font-bold mb-2">Analyzing Your Role</h2>
+                  <p className="text-gray-400">Our 5 AI agents are working together to forecast your automation risk...</p>
                 </div>
 
                 <div className="space-y-4">
@@ -300,7 +299,7 @@ export default function ForecastPage() {
                         transition={{ delay: idx * 0.1 }}
                         className={`p-6 rounded-xl border transition-all ${
                           isActive 
-                            ? "border-red-500 bg-red-950/20" 
+                            ? "border-cyan-500 bg-cyan-950/20" 
                             : isComplete 
                               ? "border-green-500/50 bg-green-950/10"
                               : "border-gray-800 bg-gray-900/30"
@@ -308,19 +307,19 @@ export default function ForecastPage() {
                       >
                         <div className="flex items-center gap-4">
                           <div className={`text-2xl p-3 rounded-xl ${
-                            isActive ? "bg-red-500/20" : isComplete ? "bg-green-500/20" : "bg-gray-800"
+                            isActive ? "bg-cyan-500/20" : isComplete ? "bg-green-500/20" : "bg-gray-800"
                           }`}>
                             {isComplete ? "✓" : agent.icon}
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className={`font-bold ${isActive ? "text-red-400" : "text-white"}`}>
+                              <h3 className={`font-bold ${isActive ? "text-cyan-400" : "text-white"}`}>
                                 {agent.name}
                               </h3>
                               <span className={`text-sm font-mono ${
-                                isComplete ? "text-green-400" : isActive ? "text-red-400" : "text-gray-500"
+                                isComplete ? "text-green-400" : isActive ? "text-cyan-400" : "text-gray-500"
                               }`}>
-                                {isComplete ? "DONE" : isActive ? `${status.progress}%` : "WAITING"}
+                                {isComplete ? "COMPLETE" : isActive ? `${status.progress}%` : "WAITING"}
                               </span>
                             </div>
                             <p className="text-gray-400 text-sm">{agent.description}</p>
@@ -328,7 +327,7 @@ export default function ForecastPage() {
                               <div className="mt-3 h-2 bg-gray-800 rounded-full overflow-hidden">
                                 <motion.div
                                   className={`h-full rounded-full ${
-                                    isComplete ? "bg-green-500" : "bg-gradient-to-r from-red-500 to-orange-500"
+                                    isComplete ? "bg-green-500" : "bg-gradient-to-r from-cyan-500 to-blue-500"
                                   }`}
                                   initial={{ width: 0 }}
                                   animate={{ width: `${status?.progress || 0}%` }}
@@ -345,7 +344,7 @@ export default function ForecastPage() {
               </motion.div>
             )}
 
-            {/* Results Step - Mixed serious and snarky */}
+            {/* Results Step - Professional with slight personality */}
             {step === "results" && result && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -357,17 +356,17 @@ export default function ForecastPage() {
                   <div>
                     <h2 className="text-3xl font-bold text-white">{result.role_title}</h2>
                     <span className={`inline-flex items-center gap-2 px-3 py-1 mt-2 rounded-full text-sm font-medium border ${getRiskColor(result.overall_risk_level)}`}>
-                      {result.overall_risk_level === "high" ? "☠️ DOOMED" : result.overall_risk_level === "medium" ? "⚠️ WORRYING" : "😐 SAFEISH"}
+                      {result.overall_risk_level === "high" ? "HIGH RISK" : result.overall_risk_level === "medium" ? "MEDIUM RISK" : "LOW RISK"}
                     </span>
                   </div>
                   <div className="mt-4 md:mt-0 text-right">
-                    <div className="text-sm text-gray-400">More doomed than</div>
-                    <div className="text-3xl font-bold text-red-400">{result.benchmark.percentile}%</div>
-                    <div className="text-sm text-gray-400">of your peers</div>
+                    <div className="text-sm text-gray-400">More automatable than</div>
+                    <div className="text-3xl font-bold text-cyan-400">{result.benchmark.percentile}%</div>
+                    <div className="text-sm text-gray-400">of similar roles</div>
                   </div>
                 </div>
 
-                {/* Primary Metrics - SERIOUS with info buttons */}
+                {/* Primary Metrics - Professional */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
                     <div className="flex items-center justify-between mb-2">
@@ -459,18 +458,18 @@ export default function ForecastPage() {
                   <p className="text-gray-400">High-risk tasks are those automatable within 0-24 months. Low-risk tasks resist automation beyond 5 years. A ratio of 8/15 means 8 out of 15 identified tasks are at high risk of automation.</p>
                 </InfoModal>
 
-                {/* Timeline - Mixed title */}
+                {/* Timeline - Professional */}
                 <div className="p-6 rounded-xl bg-gray-900/50 border border-gray-800">
                   <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-gray-200">
-                    <Clock className="w-5 h-5 text-red-400" />
-                    Your Career's Expiration Date
+                    <Clock className="w-5 h-5 text-cyan-400" />
+                    Automation Timeline
                   </h3>
                   <div className="space-y-4 mt-4">
                     {[
-                      { label: "6 Months", value: result.timeline.six_months, color: "bg-yellow-500" },
-                      { label: "1 Year", value: result.timeline.one_year, color: "bg-orange-500" },
-                      { label: "3 Years", value: result.timeline.three_years, color: "bg-red-500" },
-                      { label: "5 Years", value: result.timeline.five_years, color: "bg-purple-500" },
+                      { label: "6 Months", value: result.timeline.six_months, color: "bg-blue-500" },
+                      { label: "1 Year", value: result.timeline.one_year, color: "bg-cyan-500" },
+                      { label: "3 Years", value: result.timeline.three_years, color: "bg-purple-500" },
+                      { label: "5 Years", value: result.timeline.five_years, color: "bg-pink-500" },
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-center gap-4">
                         <div className="w-20 text-sm text-gray-400">{item.label}</div>
@@ -488,11 +487,11 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* High Risk Tasks - Mixed title */}
+                {/* High Risk Tasks - Professional */}
                 <div>
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-200">
                     <AlertTriangle className="w-5 h-5 text-red-400" />
-                    Tasks AI Wants to Steal
+                    High Risk Tasks
                   </h3>
                   <div className="space-y-3">
                     {result.high_risk_tasks.map((task, idx) => (
@@ -507,11 +506,11 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* Low Risk Tasks - Mixed title */}
+                {/* Low Risk Tasks - Professional */}
                 <div>
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-200">
                     <Shield className="w-5 h-5 text-green-400" />
-                    The Few Things Keeping You Employed
+                    Human Advantage
                   </h3>
                   <div className="space-y-3">
                     {result.low_risk_tasks.map((task, idx) => (
@@ -526,25 +525,24 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* CTA - Snarky */}
-                <div className="p-8 rounded-2xl bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-500/30 text-center">
-                  <h3 className="text-2xl font-bold mb-4">Scared yet? Good.</h3>
+                {/* CTA - Professional */}
+                <div className="p-8 rounded-2xl bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border border-cyan-500/30 text-center">
+                  <h3 className="text-2xl font-bold mb-4">Future-proof your career</h3>
                   <p className="text-gray-400 mb-6">
-                    I help professionals pivot before the robots take over. 
-                    Book a call before your calendar is managed by an AI assistant.
+                    I help professionals navigate AI disruption and build automation-resistant skills.
                   </p>
                   <a
                     href="https://calendly.com/blakemcginn/discovery"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 transition-colors font-semibold"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 transition-colors font-semibold"
                   >
-                    Book an Emergency Career Consultation
+                    Book a Discovery Call
                     <ArrowRight className="w-5 h-5" />
                   </a>
                 </div>
 
-                {/* Reset - Snarky */}
+                {/* Reset - Professional */}
                 <button
                   onClick={() => {
                     setStep("input");
@@ -554,7 +552,7 @@ export default function ForecastPage() {
                   }}
                   className="w-full py-3 rounded-xl border border-gray-700 hover:bg-gray-800 transition-colors text-gray-400"
                 >
-                  Check Another Dying Career
+                  Analyze Another Role
                 </button>
               </motion.div>
             )}
