@@ -68,6 +68,8 @@ export default function AssessmentPage() {
     setCurrentHours("");
   };
 
+  const canAnalyze = tasks.length > 0 && email.trim().length > 0 && email.includes('@');
+
   const removeTask = (id: string) => {
     setTasks(tasks.filter(t => t.id !== id));
   };
@@ -253,6 +255,24 @@ export default function AssessmentPage() {
                 exit={{ opacity: 0 }}
                 className="max-w-3xl mx-auto"
               >
+                {/* Email Input - Required */}
+                <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <p className="text-xs text-slate-500 mb-3">
+                    Required to save your results and receive automation tips
+                  </p>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
+                    required
+                  />
+                </div>
+
                 {/* Task Input Form */}
                 <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
                   <div className="grid grid-cols-1 sm:grid-cols-[1fr,auto,auto] gap-4 items-end">
@@ -336,27 +356,10 @@ export default function AssessmentPage() {
                   <p className="text-red-500 text-sm text-center mb-4">{error}</p>
                 )}
 
-                {/* Email Input */}
-                <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm mb-6">
-                  <label className="block text-sm font-medium text-slate-900 mb-2">
-                    Email (optional)
-                  </label>
-                  <p className="text-xs text-slate-500 mb-3">
-                    Get your results sent to your inbox and receive automation tips
-                  </p>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
-                  />
-                </div>
-
                 {/* Analyze Button */}
                 <button
                   onClick={handleAnalyze}
-                  disabled={tasks.length === 0 || isAnalyzing}
+                  disabled={!canAnalyze || isAnalyzing}
                   className="w-full py-4 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-700/20"
                 >
                   {isAnalyzing ? (
@@ -371,6 +374,12 @@ export default function AssessmentPage() {
                     </>
                   )}
                 </button>
+
+                {!email.includes('@') && tasks.length > 0 && (
+                  <p className="text-amber-600 text-sm text-center mt-3">
+                    Please enter a valid email to continue
+                  </p>
+                )}
 
                 {/* Tips */}
                 <div className="mt-6 text-center">

@@ -129,8 +129,10 @@ export default function ForecastPage() {
     }
   };
 
+  const canStartAnalysis = jobDescription.trim().length > 0 && email.trim().length > 0 && email.includes('@');
+
   const startAnalysis = async () => {
-    if (!jobDescription.trim()) return;
+    if (!canStartAnalysis) return;
     
     setStep("analyzing");
     setActiveAgents({});
@@ -308,10 +310,10 @@ export default function ForecastPage() {
 
                   <div>
                     <label className="block text-sm font-medium mb-2 text-slate-900">
-                      Email (optional)
+                      Email <span className="text-red-500">*</span>
                     </label>
                     <p className="text-xs text-slate-500 mb-2">
-                      Get your forecast sent to your inbox and receive AI automation alerts
+                      Required to save your forecast and receive AI automation alerts
                     </p>
                     <input
                       type="email"
@@ -319,17 +321,24 @@ export default function ForecastPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-700 focus:outline-none text-slate-900"
+                      required
                     />
                   </div>
 
                   <button
                     onClick={startAnalysis}
-                    disabled={!jobDescription.trim()}
+                    disabled={!canStartAnalysis}
                     className="w-full py-4 rounded-xl bg-blue-700 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-bold text-lg flex items-center justify-center gap-2 text-white shadow-lg shadow-blue-700/20"
                   >
                     Start Analysis
                     <ArrowRight className="w-5 h-5" />
                   </button>
+
+                  {jobDescription.trim() && !email.includes('@') && (
+                    <p className="text-amber-600 text-sm text-center">
+                      Please enter a valid email to continue
+                    </p>
+                  )}
 
                   {error && (
                     <p className="text-red-500 text-center">{error}</p>
@@ -605,32 +614,6 @@ export default function ForecastPage() {
                     ))}
                   </div>
                 </div>
-
-                {/* Email Capture for Results */}
-                {!email && (
-                  <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
-                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Save Your Forecast</h3>
-                    <p className="text-slate-600 mb-4 text-sm">
-                      Enter your email to receive a copy of your analysis and get notified when your automation risk changes.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@example.com"
-                        className="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
-                      />
-                      <button
-                        onClick={() => email && saveEmail(email, 'automation-forecast')}
-                        disabled={!email || emailSaved}
-                        className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {emailSaved ? 'Saved!' : 'Save Results'}
-                      </button>
-                    </div>
-                  </div>
-                )}
 
                 {/* CTA */}
                 <div className="p-8 rounded-2xl bg-blue-50 border border-blue-200 text-center">
