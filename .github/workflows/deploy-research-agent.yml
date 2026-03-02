@@ -177,6 +177,16 @@ jobs:
         echo "=== EventBridge Rules ==="
         aws events list-rules --region us-east-1
     
+    - name: Output Oracle Secret
+      run: |
+        echo ""
+        echo "========================================"
+        echo "ORACLE SECRET FOR RENDER:"
+        echo "${{ secrets.ORACLE_SECRET }}"
+        echo "========================================"
+        echo "Add this to your Render environment variables!"
+        echo ""
+    
     - name: Cleanup
       if: always()
       working-directory: apps/research-agent
