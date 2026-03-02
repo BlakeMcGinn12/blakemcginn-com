@@ -1,11 +1,9 @@
 name: Deploy AI Research Agent
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:  # Manual trigger
   push:
     branches: [ main ]
-    paths:
-      - 'apps/research-agent/**'
 
 jobs:
   deploy-infrastructure:
