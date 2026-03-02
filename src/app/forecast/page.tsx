@@ -10,14 +10,9 @@ import {
   Shield, 
   Target,
   Clock,
-  DollarSign,
-  Brain,
-  Share2,
-  CheckCircle,
   Info,
   X,
   Bot,
-  Sparkles,
   ChevronRight,
   RefreshCcw
 } from "lucide-react";
@@ -29,16 +24,6 @@ const AGENTS = [
   { id: "forecaster", name: "Forecaster Agent", icon: "📈", description: "Projecting automation timelines" },
   { id: "economist", name: "Economist Agent", icon: "💰", description: "Calculating ROI and costs" },
   { id: "strategist", name: "Strategist Agent", icon: "🎯", description: "Building survival strategy" },
-];
-
-const CREATIVE_NAMES = [
-  { name: "The Jobocalypse Forecast", emoji: "🤖" },
-  { name: "Robot Risk-o-Meter", emoji: "📊" },
-  { name: "Skynet Scanner", emoji: "🦾" },
-  { name: "Bot Replacement Index", emoji: "🔄" },
-  { name: "The Automation Crystal Ball", emoji: "🔮" },
-  { name: "Will Robots Take My Job?", emoji: "🤔" },
-  { name: "AI Job Threat Detector", emoji: "⚠️" },
 ];
 
 interface AnalysisResult {
@@ -208,24 +193,6 @@ export default function ForecastPage() {
               and predicts your automation risk over 1, 3, and 5 years.
             </p>
           </div>
-
-          {/* Name Ideas - Show before analysis */}
-          {step === "input" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8 bg-blue-50 rounded-2xl p-6 border border-blue-100">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-5 h-5 text-blue-700" />
-                <h3 className="font-semibold text-slate-900">Also known as:</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {CREATIVE_NAMES.map((option, i) => (
-                  <span key={i} className="bg-white rounded-full px-3 py-1 border border-slate-200 text-sm">
-                    <span className="mr-1">{option.emoji}</span>
-                    <span className="text-slate-700">{option.name}</span>
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          )}
 
           <AnimatePresence mode="wait">
             {/* Input Step */}
@@ -487,13 +454,6 @@ export default function ForecastPage() {
                       </button>
                     </div>
                     <div className="text-4xl font-bold text-slate-900">{result.primary_metrics.tasks_at_risk}</div>
-                  </div>
-
-                  <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-slate-600 font-medium">Annual Savings Potential</span>
-                    </div>
-                    <div className="text-4xl font-bold text-green-600">${result.economics.annual_savings.toLocaleString()}</div>
                   </div>
                 </div>
 
