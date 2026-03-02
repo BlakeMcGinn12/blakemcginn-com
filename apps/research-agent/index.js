@@ -34,8 +34,51 @@ const JOB_ROLES = [
 
 exports.handler = async (event) => {
   console.log('Starting daily AI research at:', new Date().toISOString());
-  console.log('Environment check - OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
-  console.log('Environment check - ORACLE_WEBHOOK_URL:', process.env.ORACLE_WEBHOOK_URL);
+  
+  // Validate environment
+  const envCheck = {
+    hasOpenAIKey: !!process.env.OPENAI_API_KEY,
+    openAIKeyLength: process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.length : 0,
+    hasOracleWebhook: !!process.env.ORACLE_WEBHOOK_URL,
+    hasOracleSecret: !!process.env.ORACLE_SECRET
+  };
+  console.log('Environment validation:', envCheck);
+  
+  if (!process.env.OPENAI_API_KEY) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+        error: 'OPENAI_API_KEY not set in environment variables',
+        envCheck
+      })
+    };
+  }
+  
+  // Test DynamoDB connection
+  try {
+    console.log('Testing DynamoDB connection...');
+    await docClient.send(new PutCommand({
+      TableName: 'ai_findings',
+      Item: {
+        source: 'test',
+        created_at: new Date().toISOString(),
+        title: 'Connection test',
+        test: true
+      }
+    }));
+    console.log('DynamoDB connection: OK');
+  } catch (err) {
+    console.error('DynamoDB connection failed:', err.message);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+        error: 'DynamoDB connection failed: ' + err.message,
+        envCheck
+      })
+    };
+  }
   
   const findings = [];
   const majorFindings = [];
