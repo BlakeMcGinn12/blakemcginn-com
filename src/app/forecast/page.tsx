@@ -109,10 +109,25 @@ export default function ForecastPage() {
   const [jobDescription, setJobDescription] = useState("");
   const [experience, setExperience] = useState("3-5 years");
   const [industry, setIndustry] = useState("Technology");
+  const [email, setEmail] = useState("");
+  const [emailSaved, setEmailSaved] = useState(false);
   const [activeAgents, setActiveAgents] = useState<{[key: string]: {progress: number; complete: boolean}}>({});
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
   const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  const saveEmail = async (emailAddress: string, source: string) => {
+    try {
+      await fetch("/api/save-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailAddress, source }),
+      });
+      setEmailSaved(true);
+    } catch (err) {
+      console.error("Failed to save email:", err);
+    }
+  };
 
   const startAnalysis = async () => {
     if (!jobDescription.trim()) return;
@@ -156,6 +171,11 @@ export default function ForecastPage() {
       
       if (!data.success) {
         throw new Error(data.error || 'Analysis failed');
+      }
+      
+      // Save email if provided
+      if (email && !emailSaved) {
+        await saveEmail(email, 'automation-forecast');
       }
       
       // Transform the response to match the expected format
@@ -284,6 +304,22 @@ export default function ForecastPage() {
                         <option>1000+</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-slate-900">
+                      Email (optional)
+                    </label>
+                    <p className="text-xs text-slate-500 mb-2">
+                      Get your forecast sent to your inbox and receive AI automation alerts
+                    </p>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-700 focus:outline-none text-slate-900"
+                    />
                   </div>
 
                   <button
@@ -569,6 +605,32 @@ export default function ForecastPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Email Capture for Results */}
+                {!email && (
+                  <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Save Your Forecast</h3>
+                    <p className="text-slate-600 mb-4 text-sm">
+                      Enter your email to receive a copy of your analysis and get notified when your automation risk changes.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
+                      />
+                      <button
+                        onClick={() => email && saveEmail(email, 'automation-forecast')}
+                        disabled={!email || emailSaved}
+                        className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {emailSaved ? 'Saved!' : 'Save Results'}
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* CTA */}
                 <div className="p-8 rounded-2xl bg-blue-50 border border-blue-200 text-center">

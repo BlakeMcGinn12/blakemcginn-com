@@ -44,10 +44,12 @@ export default function AssessmentPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentTask, setCurrentTask] = useState("");
   const [currentHours, setCurrentHours] = useState("");
+  const [email, setEmail] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
   const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
+  const [emailSaved, setEmailSaved] = useState(false);
 
   const addTask = () => {
     if (!currentTask.trim() || !currentHours.trim()) return;
@@ -80,18 +82,36 @@ export default function AssessmentPage() {
       const response = await fetch("/api/analyze-tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tasks }),
+        body: JSON.stringify({ tasks, email }),
       });
       
       if (!response.ok) throw new Error("Analysis failed");
       
       const data = await response.json();
       setResult(data);
+      
+      // Save email if provided
+      if (email && !emailSaved) {
+        await saveEmail(email, 'task-assessment');
+      }
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
     } finally {
       setIsAnalyzing(false);
+    }
+  };
+
+  const saveEmail = async (emailAddress: string, source: string) => {
+    try {
+      await fetch("/api/save-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailAddress, source }),
+      });
+      setEmailSaved(true);
+    } catch (err) {
+      console.error("Failed to save email:", err);
     }
   };
 
@@ -164,13 +184,18 @@ export default function AssessmentPage() {
       const response = await fetch("/api/analyze-tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tasks: taskList }),
+        body: JSON.stringify({ tasks: taskList, email }),
       });
 
       if (!response.ok) throw new Error("Analysis failed");
 
       const data = await response.json();
       setResult(data);
+      
+      // Save email if provided
+      if (email && !emailSaved) {
+        await saveEmail(email, 'task-assessment');
+      }
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
@@ -310,6 +335,23 @@ export default function AssessmentPage() {
                 {error && (
                   <p className="text-red-500 text-sm text-center mb-4">{error}</p>
                 )}
+
+                {/* Email Input */}
+                <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm mb-6">
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Email (optional)
+                  </label>
+                  <p className="text-xs text-slate-500 mb-3">
+                    Get your results sent to your inbox and receive automation tips
+                  </p>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
+                  />
+                </div>
 
                 {/* Analyze Button */}
                 <button
@@ -612,8 +654,34 @@ export default function AssessmentPage() {
                   </div>
                 </div>
 
+                {/* Email Capture for Results */}
+                {!email && (
+                  <div className="lg:col-span-2 bg-blue-50 rounded-2xl p-6 border border-blue-200 order-3">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Save Your Results</h3>
+                    <p className="text-slate-600 mb-4 text-sm">
+                      Enter your email to receive a copy of your analysis and get weekly automation tips.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
+                      />
+                      <button
+                        onClick={() => email && saveEmail(email, 'task-assessment')}
+                        disabled={!email || emailSaved}
+                        className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {emailSaved ? 'Saved!' : 'Save Results'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* CTA */}
-                <div className="lg:col-span-2 text-center pt-6 sm:pt-8 border-t border-slate-200 order-3">
+                <div className="lg:col-span-2 text-center pt-6 sm:pt-8 border-t border-slate-200 order-4">
                   <p className="text-slate-600 mb-4 text-sm sm:text-base">
                     Want help implementing these automations?
                   </p>

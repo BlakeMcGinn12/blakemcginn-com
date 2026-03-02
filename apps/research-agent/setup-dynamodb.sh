@@ -57,6 +57,17 @@ aws dynamodb create-table \
   --region us-east-1 \
   --no-cli-pager || echo "Table capability_updates may already exist"
 
+# Table 5: email_subscribers - Stores email list
+aws dynamodb create-table \
+  --table-name email_subscribers \
+  --attribute-definitions \
+    AttributeName=email,AttributeType=S \
+  --key-schema \
+    AttributeName=email,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region us-east-1 \
+  --no-cli-pager || echo "Table email_subscribers may already exist"
+
 echo ""
 echo "Tables created successfully (or already exist)!"
 echo ""
