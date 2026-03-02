@@ -1,4 +1,4 @@
-// src/app/forecast/page.tsx - Automation Forecast Tool (Snarky Edition)
+// src/app/forecast/page.tsx - Automation Forecast Tool (Balanced Edition)
 "use client";
 
 import { useState } from "react";
@@ -14,7 +14,9 @@ import {
   Brain,
   Share2,
   CheckCircle,
-  Skull
+  Skull,
+  Info,
+  X
 } from "lucide-react";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
@@ -72,6 +74,41 @@ interface AnalysisResult {
   };
 }
 
+// Info Modal Component
+function InfoModal({ title, children, isOpen, onClose }: { title: string; children: React.ReactNode; isOpen: boolean; onClose: () => void }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-6 bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl z-50"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-white">{title}</h3>
+              <button onClick={onClose} className="text-gray-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="text-gray-300 text-sm leading-relaxed">
+              {children}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function ForecastPage() {
   const [step, setStep] = useState<"input" | "analyzing" | "results">("input");
   const [jobDescription, setJobDescription] = useState("");
@@ -80,6 +117,7 @@ export default function ForecastPage() {
   const [activeAgents, setActiveAgents] = useState<{[key: string]: {progress: number; complete: boolean}}>({});
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
+  const [activeModal, setActiveModal] = useState<string | null>(null);
 
   const startAnalysis = async () => {
     if (!jobDescription.trim()) return;
@@ -87,7 +125,6 @@ export default function ForecastPage() {
     setStep("analyzing");
     setActiveAgents({});
     
-    // Simulate agent progress with snark
     for (let i = 0; i < AGENTS.length; i++) {
       const agent = AGENTS[i];
       
@@ -140,7 +177,7 @@ export default function ForecastPage() {
       
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
+          {/* Header - Mixed tone */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 mb-6">
               <Skull className="w-4 h-4 text-red-400" />
@@ -159,7 +196,7 @@ export default function ForecastPage() {
           </div>
 
           <AnimatePresence mode="wait">
-            {/* Input Step */}
+            {/* Input Step - Keep the snarky tone */}
             {step === "input" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -236,7 +273,7 @@ export default function ForecastPage() {
               </motion.div>
             )}
 
-            {/* Analyzing Step */}
+            {/* Analyzing Step - Snarky */}
             {step === "analyzing" && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -308,17 +345,17 @@ export default function ForecastPage() {
               </motion.div>
             )}
 
-            {/* Results Step */}
+            {/* Results Step - Mixed serious and snarky */}
             {step === "results" && result && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-8"
               >
-                {/* Results Header */}
+                {/* Results Header - Mixed */}
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-gray-800">
                   <div>
-                    <h2 className="text-3xl font-bold">{result.role_title}</h2>
+                    <h2 className="text-3xl font-bold text-white">{result.role_title}</h2>
                     <span className={`inline-flex items-center gap-2 px-3 py-1 mt-2 rounded-full text-sm font-medium border ${getRiskColor(result.overall_risk_level)}`}>
                       {result.overall_risk_level === "high" ? "☠️ DOOMED" : result.overall_risk_level === "medium" ? "⚠️ WORRYING" : "😐 SAFEISH"}
                     </span>
@@ -330,34 +367,99 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* Primary Metrics - With Generated Descriptions */}
+                {/* Primary Metrics - SERIOUS with info buttons */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
-                    <div className="text-4xl font-bold text-red-400 mb-2">{result.primary_metrics.one_year_risk}%</div>
-                    <div className="text-sm text-gray-300 font-medium mb-2">1-Year Automation Risk</div>
-                    <p className="text-sm text-gray-400 italic">"{result.descriptions?.one_year || "AI is coming for you."}"</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-300 font-medium">1-Year Automation Risk</span>
+                      <button 
+                        onClick={() => setActiveModal('one_year')}
+                        className="text-gray-500 hover:text-cyan-400 transition-colors"
+                      >
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="text-4xl font-bold text-white">{result.primary_metrics.one_year_risk}%</div>
                   </div>
                   
                   <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
-                    <div className="text-4xl font-bold text-orange-400 mb-2">{result.primary_metrics.five_year_risk}%</div>
-                    <div className="text-sm text-gray-300 font-medium mb-2">5-Year Extinction Event</div>
-                    <p className="text-sm text-gray-400 italic">"{result.descriptions?.five_year || "Your job won't exist."}"</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-300 font-medium">5-Year Replacement Probability</span>
+                      <button 
+                        onClick={() => setActiveModal('five_year')}
+                        className="text-gray-500 hover:text-cyan-400 transition-colors"
+                      >
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="text-4xl font-bold text-white">{result.primary_metrics.five_year_risk}%</div>
                   </div>
                   
                   <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
-                    <div className="text-4xl font-bold text-green-400 mb-2">{result.primary_metrics.confidence}%</div>
-                    <div className="text-sm text-gray-300 font-medium mb-2">Confidence Score</div>
-                    <p className="text-sm text-gray-400 italic">"{result.descriptions?.confidence || "We're pretty sure about this."}"</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-300 font-medium">Confidence Score</span>
+                      <button 
+                        onClick={() => setActiveModal('confidence')}
+                        className="text-gray-500 hover:text-cyan-400 transition-colors"
+                      >
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="text-4xl font-bold text-white">{result.primary_metrics.confidence}%</div>
                   </div>
                   
                   <div className="p-6 rounded-xl bg-gray-900 border border-gray-800">
-                    <div className="text-4xl font-bold text-yellow-400 mb-2">{result.primary_metrics.tasks_at_risk}</div>
-                    <div className="text-sm text-gray-300 font-medium mb-2">Tasks at Risk</div>
-                    <p className="text-sm text-gray-400 italic">"{result.descriptions?.tasks_at_risk || "Most of your job."}"</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-300 font-medium">Tasks at Risk</span>
+                      <button 
+                        onClick={() => setActiveModal('tasks')}
+                        className="text-gray-500 hover:text-cyan-400 transition-colors"
+                      >
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="text-4xl font-bold text-white">{result.primary_metrics.tasks_at_risk}</div>
                   </div>
                 </div>
 
-                {/* Timeline */}
+                {/* Info Modals - SERIOUS explanations */}
+                <InfoModal 
+                  title="1-Year Automation Risk" 
+                  isOpen={activeModal === 'one_year'} 
+                  onClose={() => setActiveModal(null)}
+                >
+                  <p className="mb-3">The percentage of your current job responsibilities that could be automated using AI tools available today or launching within the next 12 months.</p>
+                  <p className="text-gray-400">This considers current AI capabilities, enterprise tool maturity, and integration complexity. A 60% score means 60% of your tasks could be automated—you'd transition to oversight and exception-handling.</p>
+                </InfoModal>
+
+                <InfoModal 
+                  title="5-Year Replacement Probability" 
+                  isOpen={activeModal === 'five_year'} 
+                  onClose={() => setActiveModal(null)}
+                >
+                  <p className="mb-3">The likelihood your role changes significantly or becomes redundant within 5 years, accounting for AI advancement curves and industry adoption.</p>
+                  <p className="text-gray-400">AI capabilities improve 20-30% annually. Tasks that are hard to automate today become easier as models improve and tools mature. This projection factors in projected breakthroughs in reasoning, multi-modal understanding, and agent capabilities.</p>
+                </InfoModal>
+
+                <InfoModal 
+                  title="Confidence Score" 
+                  isOpen={activeModal === 'confidence'} 
+                  onClose={() => setActiveModal(null)}
+                >
+                  <p className="mb-3">How reliable this forecast is based on data quality and market information.</p>
+                  <p className="text-gray-400">Scores above 80% indicate high confidence based on clear job descriptions, abundant benchmark data for similar roles, and well-understood AI capabilities. Lower scores suggest the role may be unique, emerging, or the description lacks detail.</p>
+                </InfoModal>
+
+                <InfoModal 
+                  title="Tasks at Risk" 
+                  isOpen={activeModal === 'tasks'} 
+                  onClose={() => setActiveModal(null)}
+                >
+                  <p className="mb-3">The ratio of high-risk tasks to total tasks identified in your role.</p>
+                  <p className="text-gray-400">High-risk tasks are those automatable within 0-24 months. Low-risk tasks resist automation beyond 5 years. A ratio of 8/15 means 8 out of 15 identified tasks are at high risk of automation.</p>
+                </InfoModal>
+
+                {/* Timeline - Mixed title */}
                 <div className="p-6 rounded-xl bg-gray-900/50 border border-gray-800">
                   <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-gray-200">
                     <Clock className="w-5 h-5 text-red-400" />
@@ -386,7 +488,7 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* High Risk Tasks */}
+                {/* High Risk Tasks - Mixed title */}
                 <div>
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-200">
                     <AlertTriangle className="w-5 h-5 text-red-400" />
@@ -405,7 +507,7 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* Low Risk Tasks */}
+                {/* Low Risk Tasks - Mixed title */}
                 <div>
                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-200">
                     <Shield className="w-5 h-5 text-green-400" />
@@ -424,7 +526,7 @@ export default function ForecastPage() {
                   </div>
                 </div>
 
-                {/* CTA */}
+                {/* CTA - Snarky */}
                 <div className="p-8 rounded-2xl bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-500/30 text-center">
                   <h3 className="text-2xl font-bold mb-4">Scared yet? Good.</h3>
                   <p className="text-gray-400 mb-6">
@@ -442,12 +544,13 @@ export default function ForecastPage() {
                   </a>
                 </div>
 
-                {/* Reset */}
+                {/* Reset - Snarky */}
                 <button
                   onClick={() => {
                     setStep("input");
                     setJobDescription("");
                     setResult(null);
+                    setActiveModal(null);
                   }}
                   className="w-full py-3 rounded-xl border border-gray-700 hover:bg-gray-800 transition-colors text-gray-400"
                 >
