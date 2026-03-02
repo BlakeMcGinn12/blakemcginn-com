@@ -63,11 +63,13 @@ A score of 73% doesn't mean you'll lose your job—it means 73% of your tasks co
     short: "Likelihood the role changes significantly or becomes redundant",
     full: `This longer-term projection accounts for AI advancement curves, industry adoption patterns, and economic incentives.
 
-Key factors:
-• Projected AI capability improvements (historically 20-30% annually)
-• Industry automation pressure and competitive dynamics
-• Regulatory constraints that may slow adoption
-• Emergence of new human skills that become valuable
+Why it's higher than 1-year risk:
+• AI capabilities improve 20-30% annually—what's hard to automate today becomes easier
+• Tools mature and integrate better with existing systems over time
+• Economic pressure to automate increases as competitors adopt AI
+• New AI models (GPT-5, Claude 4, etc.) will handle more complex tasks
+
+Example: In 2024, AI could draft emails but struggled with strategic analysis. By 2029, it may handle both competently.
 
 Note: This is probability, not certainty. Roles often evolve rather than disappear—think "AI-enhanced" rather than "AI-replaced."`
   },

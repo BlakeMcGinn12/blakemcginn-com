@@ -51,20 +51,23 @@ export async function POST(request: NextRequest) {
     };
     baseRisk *= (expMultipliers[years_experience] || 1.0);
     
-    // Clamp to reasonable ranges
-    const oneYearRisk = Math.min(95, Math.max(15, Math.round(baseRisk)));
-    const fiveYearRisk = Math.min(85, Math.max(20, Math.round(baseRisk * 0.6)));
+    // Calculate risks - 5-year should be higher than 1-year as more becomes automatable
+    const oneYearRisk = Math.min(75, Math.max(15, Math.round(baseRisk)));
     
-    // Determine risk level
+    // 5-year risk factors in AI advancement curve (historically 20-30% annual improvement)
+    // More tasks become automatable over time as tools mature and integrate better
+    const fiveYearRisk = Math.min(95, Math.max(oneYearRisk + 10, Math.round(baseRisk * 1.35)));
+    
+    // Determine risk level based on 1-year risk (immediate concern)
     let overall_risk_level = "medium";
-    if (oneYearRisk >= 70) overall_risk_level = "high";
-    else if (oneYearRisk <= 40) overall_risk_level = "low";
+    if (oneYearRisk >= 60) overall_risk_level = "high";
+    else if (oneYearRisk <= 35) overall_risk_level = "low";
 
-    // Generate timeline
+    // Generate timeline - automation percentage increases over time
     const timeline = {
-      six_months: Math.round(oneYearRisk * 0.6),
+      six_months: Math.round(oneYearRisk * 0.5),  // Half of 1-year capability now
       one_year: oneYearRisk,
-      three_years: Math.round(oneYearRisk * 1.05),
+      three_years: Math.round(oneYearRisk + (fiveYearRisk - oneYearRisk) * 0.6),  // Interpolated
       five_years: fiveYearRisk
     };
 
