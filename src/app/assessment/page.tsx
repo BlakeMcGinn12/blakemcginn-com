@@ -260,9 +260,6 @@ export default function AssessmentPage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Email <span className="text-red-500">*</span>
                   </label>
-                  <p className="text-xs text-slate-500 mb-3">
-                    Required to save your results and receive automation tips
-                  </p>
                   <input
                     type="email"
                     value={email}

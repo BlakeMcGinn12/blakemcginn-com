@@ -312,9 +312,6 @@ export default function ForecastPage() {
                     <label className="block text-sm font-medium mb-2 text-slate-900">
                       Email <span className="text-red-500">*</span>
                     </label>
-                    <p className="text-xs text-slate-500 mb-2">
-                      Required to save your forecast and receive AI automation alerts
-                    </p>
                     <input
                       type="email"
                       value={email}
