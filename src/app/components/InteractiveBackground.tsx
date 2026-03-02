@@ -181,30 +181,6 @@ export default function InteractiveBackground() {
           border: isWorking ? 'none' : '2px solid red', // Red border if not working
         }}
       />
-      {/* Debug overlay - remove in production */}
-      <div style={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 100,
-        background: 'rgba(0,0,0,0.8)',
-        color: '#0f0',
-        padding: '10px',
-        fontSize: '11px',
-        fontFamily: 'monospace',
-        maxWidth: '300px',
-        borderRadius: '4px',
-      }}>
-        <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>
-          Interactive BG Debug
-        </div>
-        {debug.map((msg, i) => (
-          <div key={i} style={{ marginBottom: '2px' }}>{msg}</div>
-        ))}
-        <div style={{ marginTop: '5px', color: isWorking ? '#0f0' : '#f00' }}>
-          Status: {isWorking ? '✓ Working' : '✗ Not working'}
-        </div>
-      </div>
     </>
   );
 }

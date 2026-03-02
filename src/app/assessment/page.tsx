@@ -180,16 +180,16 @@ export default function AssessmentPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f]">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-[#27272a]">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="text-lg font-semibold text-white">
+          <Link href="/" className="text-lg font-semibold text-slate-900">
             Blake McGinn
           </Link>
           <Link 
             href="/" 
-            className="flex items-center gap-2 text-sm text-[#9ca3af] hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
@@ -207,13 +207,13 @@ export default function AssessmentPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <p className="text-sm font-medium text-[#00d4ff] tracking-wider uppercase mb-4">
+            <p className="text-sm font-medium text-blue-700 tracking-wider uppercase mb-4">
               AI Task Assessment
             </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
               What Should You Automate?
             </h1>
-            <p className="text-base sm:text-lg text-[#9ca3af] max-w-2xl mx-auto px-2 sm:px-0">
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-2 sm:px-0">
               Add your repetitive tasks and we&apos;ll show you which ones are worth automating 
               and which can be done easily with AI.
             </p>
@@ -229,10 +229,10 @@ export default function AssessmentPage() {
                 className="max-w-3xl mx-auto"
               >
                 {/* Task Input Form */}
-                <div className="bg-[#12121a] rounded-2xl p-4 sm:p-6 md:p-8 border border-[#27272a] mb-6">
+                <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-200 shadow-sm mb-6">
                   <div className="grid grid-cols-1 sm:grid-cols-[1fr,auto,auto] gap-4 items-end">
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-slate-900 mb-2">
                         Task Description
                       </label>
                       <input
@@ -241,11 +241,11 @@ export default function AssessmentPage() {
                         onChange={(e) => setCurrentTask(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && addTask()}
                         placeholder="e.g., Check and respond to emails"
-                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0f] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
                       />
                     </div>
                     <div className="w-full sm:w-32">
-                      <label className="block text-sm font-medium text-white mb-2">
+                      <label className="block text-sm font-medium text-slate-900 mb-2">
                         Hours/Week
                       </label>
                       <input
@@ -256,13 +256,13 @@ export default function AssessmentPage() {
                         placeholder="5"
                         min="0.5"
                         step="0.5"
-                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0f] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none transition-colors"
                       />
                     </div>
                     <button
                       onClick={addTask}
                       disabled={!currentTask.trim() || !currentHours.trim()}
-                      className="px-6 py-3 bg-[#27272a] text-white rounded-xl hover:bg-[#3f3f46] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="px-6 py-3 bg-slate-100 text-slate-900 rounded-xl hover:bg-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
                     >
                       <Plus className="w-4 h-4" />
                       Add
@@ -275,28 +275,28 @@ export default function AssessmentPage() {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-[#12121a] rounded-2xl p-4 sm:p-6 border border-[#27272a] mb-6"
+                    className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm mb-6"
                   >
-                    <h3 className="text-sm font-medium text-[#9ca3af] mb-4 uppercase tracking-wider">
+                    <h3 className="text-sm font-medium text-slate-500 mb-4 uppercase tracking-wider">
                       Your Tasks ({tasks.length})
                     </h3>
                     <div className="space-y-3">
-                      {tasks.map((task) => (
+                      {tasks.map((task, index) => (
                         <motion.div
                           key={task.id}
                           layout
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 20 }}
-                          className="flex items-center justify-between bg-[#0a0a0f] rounded-xl p-4 border border-[#27272a]"
+                          className="flex items-center justify-between bg-slate-50 rounded-xl p-4 border border-slate-200"
                         >
                           <div className="flex-1 min-w-0 pr-2">
-                            <p className="text-white font-medium truncate">{task.description}</p>
-                            <p className="text-sm text-[#9ca3af]">{task.hoursPerWeek} hours/week</p>
+                            <p className="text-slate-900 font-medium truncate"><span className="text-blue-700 font-bold mr-2">{index + 1}.</span>{task.description}</p>
+                            <p className="text-sm text-slate-500">{task.hoursPerWeek} hours/week</p>
                           </div>
                           <button
                             onClick={() => removeTask(task.id)}
-                            className="p-2 text-[#9ca3af] hover:text-red-400 transition-colors flex-shrink-0"
+                            className="p-2 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -308,14 +308,14 @@ export default function AssessmentPage() {
 
                 {/* Error */}
                 {error && (
-                  <p className="text-red-400 text-sm text-center mb-4">{error}</p>
+                  <p className="text-red-500 text-sm text-center mb-4">{error}</p>
                 )}
 
                 {/* Analyze Button */}
                 <button
                   onClick={handleAnalyze}
                   disabled={tasks.length === 0 || isAnalyzing}
-                  className="w-full py-4 bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-700/20"
                 >
                   {isAnalyzing ? (
                     <>
@@ -332,7 +332,7 @@ export default function AssessmentPage() {
 
                 {/* Tips */}
                 <div className="mt-6 text-center">
-                  <p className="text-sm text-[#9ca3af]">
+                  <p className="text-sm text-slate-500">
                     Tip: Add 3-8 tasks for the best analysis
                   </p>
                 </div>
@@ -347,10 +347,10 @@ export default function AssessmentPage() {
                 {/* Left: Task List with Results */}
                 <div className="space-y-6 order-2 lg:order-1">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg sm:text-xl font-semibold text-white">Your Tasks</h2>
+                    <h2 className="text-lg sm:text-xl font-semibold text-slate-900">Your Tasks</h2>
                     <button
                       onClick={resetAssessment}
-                      className="text-sm text-[#9ca3af] hover:text-white transition-colors flex items-center gap-2"
+                      className="text-sm text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-2"
                     >
                       <RefreshCcw className="w-4 h-4" />
                       Start Over
@@ -371,7 +371,7 @@ export default function AssessmentPage() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.1 }}
-                          className="bg-[#12121a] rounded-xl p-4 border border-[#27272a]"
+                          className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
                         >
                           <div className="flex items-start gap-3 sm:gap-4">
                             <div
@@ -382,15 +382,15 @@ export default function AssessmentPage() {
                               <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 mb-1">
                                 <div className="flex-1">
                                   <h3
-                                    className={`text-white font-medium cursor-pointer ${isExpanded ? '' : 'line-clamp-2'}`}
+                                    className={`text-slate-900 font-medium cursor-pointer ${isExpanded ? '' : 'line-clamp-2'}`}
                                     onClick={() => shouldTruncate && toggleTaskExpand(task.id)}
                                   >
-                                    {task.description}
+                                    <span className="text-blue-700 font-bold mr-2">{index + 1}.</span>{task.description}
                                   </h3>
                                   {shouldTruncate && (
                                     <button
                                       onClick={() => toggleTaskExpand(task.id)}
-                                      className="text-xs text-[#00d4ff] hover:text-[#00d4ff]/80 mt-1"
+                                      className="text-xs text-blue-700 hover:text-blue-800 mt-1"
                                     >
                                       {isExpanded ? 'Show less' : 'Show more'}
                                     </button>
@@ -406,10 +406,10 @@ export default function AssessmentPage() {
                                   {label}
                                 </span>
                               </div>
-                              <p className="text-sm text-[#9ca3af] mb-2">
+                              <p className="text-sm text-slate-500 mb-2">
                                 {task.hoursPerWeek} hours/week
                               </p>
-                              <p className="text-sm text-white/80">{task.reasoning}</p>
+                              <p className="text-sm text-slate-700">{task.reasoning}</p>
                             </div>
                           </div>
                         </motion.div>
@@ -418,12 +418,12 @@ export default function AssessmentPage() {
                   </div>
 
                   {/* Add More Tasks */}
-                  <div className="pt-4 border-t border-[#27272a]">
+                  <div className="pt-4 border-t border-slate-200">
                     {!showAddTaskForm ? (
                       <button
                         onClick={() => setShowAddTaskForm(true)}
                         disabled={isAnalyzing}
-                        className="flex items-center gap-2 text-sm text-[#00d4ff] hover:text-[#00d4ff]/80 transition-colors"
+                        className="flex items-center gap-2 text-sm text-blue-700 hover:text-blue-800 transition-colors font-medium"
                       >
                         <Plus className="w-4 h-4" />
                         Add another task
@@ -432,13 +432,13 @@ export default function AssessmentPage() {
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-[#0a0a0f] rounded-xl p-4 border border-[#27272a]"
+                        className="bg-slate-50 rounded-xl p-4 border border-slate-200"
                       >
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-sm font-medium text-white">Add New Task</span>
+                          <span className="text-sm font-medium text-slate-900">Add New Task</span>
                           <button
                             onClick={() => setShowAddTaskForm(false)}
-                            className="text-[#9ca3af] hover:text-white"
+                            className="text-slate-400 hover:text-slate-900"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -449,7 +449,7 @@ export default function AssessmentPage() {
                             value={newTaskDesc}
                             onChange={(e) => setNewTaskDesc(e.target.value)}
                             placeholder="Task description"
-                            className="w-full px-3 py-2 rounded-lg bg-[#12121a] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none text-sm"
+                            className="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none text-sm"
                           />
                           <div className="flex gap-3">
                             <input
@@ -459,12 +459,12 @@ export default function AssessmentPage() {
                               placeholder="Hours/week"
                               min="0.5"
                               step="0.5"
-                              className="flex-1 px-3 py-2 rounded-lg bg-[#12121a] border border-[#27272a] text-white placeholder:text-[#9ca3af] focus:border-[#00d4ff] focus:outline-none text-sm"
+                              className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none text-sm"
                             />
                             <button
                               onClick={addTaskFromResults}
                               disabled={!newTaskDesc.trim() || !newTaskHours.trim() || isAnalyzing}
-                              className="px-4 py-2 bg-[#00d4ff] text-black font-medium rounded-lg hover:bg-[#00d4ff]/90 transition-colors disabled:opacity-50 text-sm"
+                              className="px-4 py-2 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors disabled:opacity-50 text-sm"
                             >
                               {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add'}
                             </button>
@@ -476,9 +476,9 @@ export default function AssessmentPage() {
                 </div>
 
                 {/* Right: The Chart */}
-                <div className="bg-[#12121a] rounded-2xl p-4 sm:p-6 border border-[#27272a] order-1 lg:order-2">
-                  <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">Automation Map</h2>
-                  <p className="text-sm text-[#9ca3af] mb-4 sm:mb-6">
+                <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm order-1 lg:order-2">
+                  <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">Automation Map</h2>
+                  <p className="text-sm text-slate-500 mb-4 sm:mb-6">
                     Tasks plotted by time cost vs. automation potential
                   </p>
 
@@ -486,7 +486,7 @@ export default function AssessmentPage() {
                   <div className="relative">
                     {/* Y-axis label - positioned outside chart on desktop, hidden on mobile */}
                     <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6">
-                      <span className="text-xs text-[#9ca3af] whitespace-nowrap -rotate-90 block origin-center">
+                      <span className="text-xs text-slate-500 whitespace-nowrap -rotate-90 block origin-center">
                         Time Cost (hours/week) →
                       </span>
                     </div>
@@ -501,14 +501,14 @@ export default function AssessmentPage() {
                             left: 0 
                           }}
                         >
-                          <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                           <XAxis 
                             type="number" 
                             dataKey="x" 
                             name="Automation Potential" 
                             domain={[0, 100]}
-                            tick={{ fill: '#9ca3af', fontSize: 11 }}
-                            stroke="#27272a"
+                            tick={{ fill: '#64748b', fontSize: 11 }}
+                            stroke="#e2e8f0"
                             tickCount={6}
                             tickFormatter={(value) => `${value}%`}
                           />
@@ -520,8 +520,8 @@ export default function AssessmentPage() {
                               const scaleMax = Math.ceil(dataMax * 1.2);
                               return scaleMax;
                             }]}
-                            stroke="#27272a"
-                            tick={{ fill: '#9ca3af', fontSize: 11 }}
+                            stroke="#e2e8f0"
+                            tick={{ fill: '#64748b', fontSize: 11 }}
                             width={40}
                             allowDecimals={false}
                           />
@@ -531,12 +531,12 @@ export default function AssessmentPage() {
                               if (active && payload && payload.length) {
                                 const data = payload[0].payload;
                                 return (
-                                  <div className="bg-[#1a1a24] border border-[#27272a] rounded-lg p-3 shadow-xl max-w-[200px] sm:max-w-xs">
-                                    <p className="font-semibold text-white mb-1 text-sm">{data.name}</p>
-                                    <p className="text-xs text-[#9ca3af] mb-2 line-clamp-3">{data.reasoning}</p>
+                                  <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-xl max-w-[200px] sm:max-w-xs">
+                                    <p className="font-semibold text-slate-900 mb-1 text-sm">{data.name}</p>
+                                    <p className="text-xs text-slate-500 mb-2 line-clamp-3">{data.reasoning}</p>
                                     <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs">
-                                      <span className="text-[#00d4ff]">Time: {data.y}h/week</span>
-                                      <span className="text-purple-400">Potential: {data.x}%</span>
+                                      <span className="text-blue-700">Time: {data.y}h/week</span>
+                                      <span className="text-purple-600">Potential: {data.x}%</span>
                                     </div>
                                   </div>
                                 );
@@ -545,8 +545,8 @@ export default function AssessmentPage() {
                             }}
                           />
                           {/* Quadrant lines - equal quadrants at 50% for automation potential, 50% of scale max */}
-                          <ReferenceLine x={50} stroke="#3f3f46" strokeDasharray="5 5" />
-                          <ReferenceLine y={Math.ceil(Math.max(...result.chartData.map(d => d.y)) * 1.2) * 0.5} stroke="#3f3f46" strokeDasharray="5 5" />
+                          <ReferenceLine x={50} stroke="#cbd5e1" strokeDasharray="5 5" />
+                          <ReferenceLine y={Math.ceil(Math.max(...result.chartData.map(d => d.y)) * 1.2) * 0.5} stroke="#cbd5e1" strokeDasharray="5 5" />
                           
                           <Scatter data={result.chartData}>
                             {result.chartData.map((entry, index) => {
@@ -566,7 +566,7 @@ export default function AssessmentPage() {
                             <LabelList 
                               dataKey="name" 
                               position="top" 
-                              fill="#9ca3af" 
+                              fill="#64748b" 
                               fontSize={10}
                               className="hidden sm:block"
                             />
@@ -577,51 +577,51 @@ export default function AssessmentPage() {
 
                     {/* Quadrant Labels - Just the label, no subtext */}
                     {/* Top Right - Priority */}
-                    <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-right pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
-                      <div className="text-[10px] sm:text-xs font-bold text-green-400">Priority</div>
+                    <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-right pointer-events-none bg-white/90 px-1.5 py-0.5 rounded border border-slate-100">
+                      <div className="text-[10px] sm:text-xs font-bold text-green-600">Priority</div>
                     </div>
 
                     {/* Top Left - Consider */}
-                    <div className="absolute top-1 left-8 sm:top-2 sm:left-12 pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
-                      <div className="text-[10px] sm:text-xs font-bold text-yellow-400">Consider</div>
+                    <div className="absolute top-1 left-8 sm:top-2 sm:left-12 pointer-events-none bg-white/90 px-1.5 py-0.5 rounded border border-slate-100">
+                      <div className="text-[10px] sm:text-xs font-bold text-amber-500">Consider</div>
                     </div>
 
                     {/* Bottom Right - Easy Win */}
-                    <div className="absolute bottom-6 right-1 sm:bottom-8 sm:right-2 text-right pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
-                      <div className="text-[10px] sm:text-xs font-bold text-blue-400 whitespace-nowrap">Easy Win</div>
+                    <div className="absolute bottom-6 right-1 sm:bottom-8 sm:right-2 text-right pointer-events-none bg-white/90 px-1.5 py-0.5 rounded border border-slate-100">
+                      <div className="text-[10px] sm:text-xs font-bold text-blue-600 whitespace-nowrap">Easy Win</div>
                     </div>
 
                     {/* Bottom Left - Skip */}
-                    <div className="absolute bottom-6 left-8 sm:bottom-8 sm:left-12 pointer-events-none bg-[#12121a]/80 px-1.5 py-0.5 rounded">
-                      <div className="text-[10px] sm:text-xs font-bold text-red-400">Skip</div>
+                    <div className="absolute bottom-6 left-8 sm:bottom-8 sm:left-12 pointer-events-none bg-white/90 px-1.5 py-0.5 rounded border border-slate-100">
+                      <div className="text-[10px] sm:text-xs font-bold text-red-500">Skip</div>
                     </div>
                   </div>
 
                   {/* X-axis label */}
                   <div className="flex justify-center mt-2">
-                    <span className="text-xs text-[#9ca3af] text-center">
+                    <span className="text-xs text-slate-500 text-center">
                       ← Automation Potential (ease + efficiency) →
                     </span>
                   </div>
                   
                   {/* Y-axis label for mobile - below chart */}
                   <div className="flex lg:hidden justify-center mt-1">
-                    <span className="text-xs text-[#9ca3af]">
+                    <span className="text-xs text-slate-500">
                       ↑ Time Cost (hours/week)
                     </span>
                   </div>
                 </div>
 
                 {/* CTA */}
-                <div className="lg:col-span-2 text-center pt-6 sm:pt-8 border-t border-[#27272a] order-3">
-                  <p className="text-[#9ca3af] mb-4 text-sm sm:text-base">
+                <div className="lg:col-span-2 text-center pt-6 sm:pt-8 border-t border-slate-200 order-3">
+                  <p className="text-slate-600 mb-4 text-sm sm:text-base">
                     Want help implementing these automations?
                   </p>
                   <a
                     href="https://calendly.com/blakemcginn/consultation"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#00d4ff] to-[#7b2cbf] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity text-sm sm:text-base"
+                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors text-sm sm:text-base shadow-lg shadow-blue-700/20"
                   >
                     Book a Free Strategy Call
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
