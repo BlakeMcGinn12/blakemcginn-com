@@ -22,7 +22,6 @@ const AGENTS = [
   { id: "decomposer", name: "Decomposer Agent", icon: "🔍", description: "Breaking down your role into tasks" },
   { id: "researcher", name: "Researcher Agent", icon: "🔬", description: "Checking AI capabilities" },
   { id: "forecaster", name: "Forecaster Agent", icon: "📈", description: "Projecting automation timelines" },
-  { id: "economist", name: "Economist Agent", icon: "💰", description: "Calculating ROI and costs" },
   { id: "strategist", name: "Strategist Agent", icon: "🎯", description: "Building survival strategy" },
 ];
 
@@ -139,20 +138,51 @@ export default function ForecastPage() {
     }
     
     try {
-      const response = await fetch("/api/analyze", {
+      const response = await fetch("/api/oracle/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           job_description: jobDescription,
-          years_experience: experience,
+          experience,
           industry
         })
       });
       
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+      
       const data = await response.json();
-      setResult(data);
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Analysis failed');
+      }
+      
+      // Transform the response to match the expected format
+      setResult({
+        role_title: data.analysis.role_title,
+        overall_risk_level: data.analysis.overall_risk_level,
+        primary_metrics: {
+          one_year_risk: data.analysis.one_year_risk,
+          five_year_risk: data.analysis.five_year_risk,
+          confidence: data.analysis.confidence,
+          tasks_at_risk: data.analysis.tasks_at_risk
+        },
+        descriptions: {
+          one_year: data.analysis.explanation,
+          five_year: data.analysis.explanation,
+          confidence: `Based on ${data.context?.previous_analyses || 0} previous analyses`,
+          tasks_at_risk: data.analysis.tasks_at_risk
+        },
+        timeline: data.analysis.timeline,
+        high_risk_tasks: data.analysis.high_risk_tasks,
+        low_risk_tasks: data.analysis.low_risk_tasks,
+        benchmark: data.analysis.benchmark
+      });
+      
       setStep("results");
     } catch (err) {
+      console.error('Analysis error:', err);
       setError("Analysis failed. Please try again.");
       setStep("input");
     }
