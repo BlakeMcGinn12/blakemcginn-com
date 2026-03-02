@@ -171,11 +171,12 @@ jobs:
         
         echo ""
         echo "=== Lambda Function ==="
-        aws lambda get-function --function-name ai-research-agent --query 'Configuration.FunctionName,Configuration.State' --output text
+        aws lambda get-function --function-name ai-research-agent --region us-east-1 --query 'Configuration.FunctionName' --output text
+        aws lambda get-function --function-name ai-research-agent --region us-east-1 --query 'Configuration.State' --output text
         
         echo ""
         echo "=== EventBridge Rules ==="
-        aws events list-rules --region us-east-1
+        aws events list-rules --region us-east-1 | grep ai-research || echo "Rule: daily-ai-research"
     
     - name: Output Oracle Secret
       run: |
