@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Calendar, ClipboardCheck, Download } from "lucide-react";
+import { Menu, X, ChevronDown, Calendar, ClipboardCheck, Download, TrendingUp } from "lucide-react";
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,23 +42,29 @@ export default function Navigation() {
   ];
 
   const getStartedOptions = [
-    {
-      name: "Task Assessment",
-      href: "/assessment",
-      icon: ClipboardCheck,
-      description: "Find your automation opportunities"
-    },
-    {
-      name: "Book Free Consultation",
+    { 
+      name: "Book Free Consultation", 
       href: "https://calendly.com/blakemcginn/30min",
       icon: Calendar,
       description: "30-min call to discuss your needs"
     },
-    {
-      name: "AI Readiness Checklist",
-      href: "/checklist",
+    { 
+      name: "Automation Forecast", 
+      href: "/forecast",
+      icon: TrendingUp,
+      description: "Will AI take your job? Find out in 60 seconds"
+    },
+    { 
+      name: "Take 2-Min Assessment", 
+      href: "/assessment",
       icon: ClipboardCheck,
-      description: "Interactive checklist"
+      description: "Find your automation opportunities"
+    },
+    { 
+      name: "Download AI Checklist", 
+      href: "/checklist",
+      icon: Download,
+      description: "Free implementation guide"
     },
   ];
 
@@ -66,6 +72,7 @@ export default function Navigation() {
     { name: "Blog", href: "#blog" },
     { name: "AI Checklist", href: "/checklist" },
     { name: "Case Studies", href: "#case-studies" },
+    { name: "Automation Forecast", href: "/forecast" },
   ];
 
   return (
