@@ -34,6 +34,8 @@ const JOB_ROLES = [
 
 exports.handler = async (event) => {
   console.log('Starting daily AI research at:', new Date().toISOString());
+  console.log('Environment check - OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
+  console.log('Environment check - ORACLE_WEBHOOK_URL:', process.env.ORACLE_WEBHOOK_URL);
   
   const findings = [];
   const majorFindings = [];
@@ -42,33 +44,43 @@ exports.handler = async (event) => {
     // 1. Scrape RSS feeds
     console.log('Scraping RSS feeds...');
     const rssFindings = await scrapeRSSFeeds();
+    console.log(`RSS findings: ${rssFindings.length}`);
     findings.push(...rssFindings);
     
     // 2. Scrape GitHub trending AI repos
     console.log('Fetching GitHub trending...');
     const githubFindings = await scrapeGitHubTrending();
+    console.log(`GitHub findings: ${githubFindings.length}`);
     findings.push(...githubFindings);
     
     // 3. Scrape Twitter via Nitter (if available)
     if (process.env.ENABLE_NITTER === 'true') {
       console.log('Scraping Twitter via Nitter...');
       const nitterFindings = await scrapeNitter();
+      console.log(`Nitter findings: ${nitterFindings.length}`);
       findings.push(...nitterFindings);
     }
     
     // 4. Classify and filter findings
     console.log(`Classifying ${findings.length} items...`);
     const classifiedFindings = await classifyFindings(findings);
+    console.log(`Classified as significant: ${classifiedFindings.length}`);
     
     // 5. Store in DynamoDB
-    console.log('Storing findings...');
+    console.log('Storing findings to DynamoDB...');
+    let storedCount = 0;
     for (const finding of classifiedFindings) {
-      await storeFinding(finding);
-      
-      if (finding.risk_impact >= 7) {
-        majorFindings.push(finding);
+      try {
+        await storeFinding(finding);
+        storedCount++;
+        if (finding.risk_impact >= 7) {
+          majorFindings.push(finding);
+        }
+      } catch (err) {
+        console.error('Failed to store finding:', err.message);
       }
     }
+    console.log(`Successfully stored: ${storedCount}/${classifiedFindings.length}`);
     
     // 6. If major findings, notify Oracle
     if (majorFindings.length > 0) {
@@ -110,18 +122,18 @@ exports.handler = async (event) => {
 
 async function scrapeRSSFeeds() {
   const findings = [];
-  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   
   for (const feed of RSS_FEEDS) {
     try {
       console.log(`Fetching ${feed.source}...`);
       const feedData = await parser.parseURL(feed.url);
       
-      // Only get items from last 24 hours
+      // Get items from last 7 days (extended for testing)
       const recentItems = feedData.items.filter(item => {
         const pubDate = new Date(item.pubDate || item.isoDate);
-        return pubDate > oneDayAgo;
-      }).slice(0, 3); // Max 3 per source
+        return pubDate > sevenDaysAgo;
+      }).slice(0, 5); // Max 5 per source
       
       for (const item of recentItems) {
         findings.push({
