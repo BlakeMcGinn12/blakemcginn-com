@@ -139,8 +139,24 @@ jobs:
             --function-name $FUNCTION_NAME \
             --zip-file fileb://function.zip
           
+          echo "Waiting for Lambda code update to complete..."
+          for i in {1..30}; do
+            STATUS=$(aws lambda get-function --function-name $FUNCTION_NAME --region us-east-1 --query 'Configuration.LastUpdateStatus' --output text 2>/dev/null || echo "InProgress")
+            if [ "$STATUS" = "Successful" ]; then
+              echo "Lambda code update complete."
+              break
+            fi
+            echo "Status: $STATUS (attempt $i/30)"
+            sleep 5
+          done
+          if [ "$STATUS" != "Successful" ]; then
+            echo "Timeout waiting for Lambda update"
+            exit 1
+          fi
+          
           aws lambda update-function-configuration \
             --function-name $FUNCTION_NAME \
+            --region us-east-1 \
             --environment "Variables={OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},ORACLE_WEBHOOK_URL=${{ secrets.ORACLE_WEBHOOK_URL }},ORACLE_SECRET=${{ secrets.ORACLE_SECRET }},ENABLE_NITTER=false}"
         fi
     
