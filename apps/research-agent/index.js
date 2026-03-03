@@ -12,13 +12,14 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const parser = new Parser();
 
 // RSS feeds to monitor (FREE - no API keys needed)
+// Updated URLs for feeds that had moved or returned 404
 const RSS_FEEDS = [
   { url: 'https://openai.com/blog/rss.xml', source: 'openai' },
-  { url: 'https://www.anthropic.com/blog/rss.xml', source: 'anthropic' },
+  { url: 'https://anthropic.com/news/feed_anthropic.xml', source: 'anthropic' },
   { url: 'https://blog.google/technology/ai/rss/', source: 'google' },
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/', source: 'techcrunch' },
-  { url: 'https://www.theverge.com/ai-artificial-intelligence/rss/index.xml', source: 'verge' },
-  { url: 'https://simonwillison.net/tags/ai/rss/', source: 'simonwillison' },
+  { url: 'https://www.theverge.com/rss/ai-artificial-intelligence/index.xml', source: 'verge' },
+  { url: 'https://simonwillison.net/tags/rss.atom', source: 'simonwillison' },
   { url: 'https://buttondown.email/ainews/rss', source: 'ainews' },
   { url: 'https://news.ycombinator.com/rss', source: 'hackernews' }
 ];
@@ -203,7 +204,7 @@ async function scrapeGitHubTrending() {
       .toISOString()
       .split('T')[0];
     
-    const query = `ai+autelligence+created:>${oneWeekAgo}`;
+    const query = `ai+created:>${oneWeekAgo}`;
     const response = await fetch(
       `https://api.github.com/search/repositories?q=${query}&sort=stars&order=desc&per_page=5`
     );
@@ -289,13 +290,13 @@ async function classifyFindings(findings) {
         messages: [
           {
             role: 'system',
-            content: `You analyze AI news for job automation impact.
-            
+            content: `You analyze AI news for job automation impact. Be inclusive: if the item is about AI tools, research, capabilities, or industry adoption, mark it as significant so we keep a useful feed of AI news.
+
 Available job roles: ${JOB_ROLES.join(', ')}
 
 Classify this content and return JSON:
 {
-  "significant": boolean (is this about AI capabilities/tools that could automate jobs?),
+  "significant": boolean (true if about AI capabilities, tools, research, or adoption that could affect work—when in doubt, true for AI-related content),
   "category": "tool_launch" | "capability_breakthrough" | "adoption_trend" | "research" | "not_relevant",
   "affected_roles": string[] (which job roles from the list above could be affected),
   "impact": number 1-10 (10 = massive disruption, immediate job replacement potential),
@@ -312,15 +313,18 @@ Classify this content and return JSON:
       });
       
       const classification = JSON.parse(response.choices[0].message.content);
-      
-      // Only include significant findings
-      if (classification.significant) {
+      const impact = typeof classification.impact === 'number' ? classification.impact : 3;
+      const category = classification.category || 'unknown';
+      const isRelevant = category !== 'not_relevant' && impact >= 2;
+
+      // Include if model says significant, OR if clearly relevant (so we get updated AI news)
+      if (classification.significant || isRelevant) {
         classified.push({
           ...finding,
-          category: classification.category,
+          category,
           affected_roles: classification.affected_roles || [],
-          risk_impact: classification.impact,
-          summary: classification.summary,
+          risk_impact: impact,
+          summary: classification.summary || 'AI-related content.',
           processed: false,
           created_at: new Date().toISOString()
         });

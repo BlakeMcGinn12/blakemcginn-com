@@ -120,7 +120,10 @@ async function getRecentResearch() {
     for (const source of sources) {
       const { Items } = await docClient.send(new QueryCommand({
         TableName: 'ai_findings',
-        KeyConditionExpression: 'source = :src AND created_at > :date',
+        KeyConditionExpression: '#src = :src AND created_at > :date',
+        ExpressionAttributeNames: {
+          '#src': 'source'
+        },
         ExpressionAttributeValues: {
           ':src': source,
           ':date': thirtyDaysAgo
@@ -178,6 +181,8 @@ async function performAnalysis({
       {
         role: 'system',
         content: `You are an expert AI job automation forecaster. Analyze job roles and predict automation risk.
+
+You MUST respond as a single valid JSON object only. Do not include any prose, markdown, or explanation outside of the JSON. The JSON must strictly follow this schema:
 
 Available job roles for classification: ${JOB_ROLES.join(', ')}
 

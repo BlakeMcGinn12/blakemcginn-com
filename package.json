@@ -9,13 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.450.0",
-    "@aws-sdk/client-ses": "^3.450.0",
-    "@aws-sdk/lib-dynamodb": "^3.450.0",
+    "@aws-sdk/client-dynamodb": "^3.1000.0",
+    "@aws-sdk/client-ses": "^3.1000.0",
+    "@aws-sdk/lib-dynamodb": "^3.1000.0",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",
-    "openai": "^6.22.0",
+    "openai": "^6.25.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "recharts": "^3.7.0"
