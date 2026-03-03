@@ -1,0 +1,14 @@
+{
+  "name": "ai-research-daily-report",
+  "version": "1.0.0",
+  "description": "Daily email report summarizing ai_findings from ai-research-agent",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "bash deploy-lambda.sh"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.450.0",
+    "@aws-sdk/lib-dynamodb": "^3.450.0",
+    "openai": "^4.20.0"
+  }
+}
