@@ -32,11 +32,11 @@ const tiers = [
       "60-day warranty",
     ],
     cta: "Most Popular",
-    popular: true,
+    popular: false,
   },
   {
     name: "Enterprise",
-    price: "$5,000",
+    price: "Custom",
     description: "Unlimited automation for established businesses",
     features: [
       "Unlimited AI agents",
@@ -48,7 +48,7 @@ const tiers = [
       "Dedicated implementation",
     ],
     cta: "Contact Us",
-    popular: false,
+    popular: true,
   },
 ];
 
