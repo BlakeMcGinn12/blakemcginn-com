@@ -31,7 +31,7 @@ const tiers = [
       "Priority support (24hr response)",
       "60-day warranty",
     ],
-    cta: "Most Popular",
+    cta: "Get Started",
     popular: false,
   },
   {

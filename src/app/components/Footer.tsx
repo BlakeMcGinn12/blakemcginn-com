@@ -28,13 +28,6 @@ export default function Footer() {
     { name: "Finance & Operations", href: "#workflows" },
   ];
 
-  const resourceLinks = [
-    { name: "Blog", href: "#blog" },
-    { name: "AI Checklist", href: "/checklist" },
-    { name: "Case Studies", href: "#case-studies" },
-    { name: "Assessment Tool", href: "/assessment" },
-  ];
-
   const socialLinks = [
     { name: "LinkedIn", href: "https://linkedin.com/in/blakemcginn", icon: Linkedin },
     { name: "Twitter/X", href: "https://twitter.com/blakemcginn", icon: Twitter },
@@ -44,8 +37,8 @@ export default function Footer() {
   return (
     <footer className="bg-[#050508] py-16 px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Main 4-Column Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        {/* Main 3-Column Layout (Brand, Services, Contact) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -118,40 +111,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Resources */}
-          <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Resources</h4>
-            <ul className="space-y-2">
-              {resourceLinks.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href} 
-                    className="text-[#9ca3af] hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            
-            <h4 className="text-white font-semibold mb-3 mt-6 text-sm uppercase tracking-wider">Solutions</h4>
-            <ul className="space-y-2">
-              <li>
-                <span className="text-[#9ca3af] text-sm">Workflow Automation</span>
-              </li>
-              <li>
-                <span className="text-[#9ca3af] text-sm">Content Generation</span>
-              </li>
-              <li>
-                <span className="text-[#9ca3af] text-sm">AI Assistants</span>
-              </li>
-              <li>
-                <span className="text-[#9ca3af] text-sm">Custom AI Models</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact */}
+          {/* Column 3: Contact */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3">
